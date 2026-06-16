@@ -20,8 +20,8 @@ public class StaffDAO {
                    + "password_hash) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, staff.getFirstName());
             pstmt.setString(2, staff.getLastName());
@@ -67,8 +67,8 @@ public class StaffDAO {
     public Staff getById(int id) throws DatabaseException {
         String sql = "SELECT * FROM staff WHERE staff_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -88,8 +88,8 @@ public class StaffDAO {
     public List<Staff> getAll() throws DatabaseException {
         String sql = "SELECT * FROM staff ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Staff> staffList = new ArrayList<>();
@@ -108,8 +108,8 @@ public class StaffDAO {
                    + "position = ?, department = ?, salary = ?, joining_date = ?, "
                    + "status = ?, password_hash = ? WHERE staff_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, staff.getFirstName());
             pstmt.setString(2, staff.getLastName());
@@ -132,8 +132,8 @@ public class StaffDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM staff WHERE staff_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -146,8 +146,8 @@ public class StaffDAO {
     public List<Staff> filterByDepartment(String department) throws DatabaseException {
         String sql = "SELECT * FROM staff WHERE department = ? ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, department);
 
@@ -168,8 +168,8 @@ public class StaffDAO {
     public List<Staff> filterByPosition(String position) throws DatabaseException {
         String sql = "SELECT * FROM staff WHERE position = ? ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, position);
 
@@ -190,8 +190,8 @@ public class StaffDAO {
     public List<Staff> filterByStatus(String status) throws DatabaseException {
         String sql = "SELECT * FROM staff WHERE status = ? ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
 
@@ -212,8 +212,8 @@ public class StaffDAO {
     public boolean existsByEmail(String email) throws DatabaseException {
         String sql = "SELECT COUNT(*) FROM staff WHERE email = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
 

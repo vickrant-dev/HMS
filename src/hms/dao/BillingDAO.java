@@ -44,8 +44,8 @@ public class BillingDAO {
                    + "payment_status, payment_date, notes) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, billing.getReservationId());
             pstmt.setDouble(2, billing.getRoomCharge());
@@ -90,8 +90,8 @@ public class BillingDAO {
     public Billing getById(int id) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE b.billing_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -111,8 +111,8 @@ public class BillingDAO {
     public Billing getByReservationId(int reservationId) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE b.reservation_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, reservationId);
 
@@ -133,8 +133,8 @@ public class BillingDAO {
     public List<Billing> getAll() throws DatabaseException {
         String sql = SELECT_JOIN + "ORDER BY b.billing_id DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Billing> billings = new ArrayList<>();
@@ -155,8 +155,8 @@ public class BillingDAO {
         String sql = "UPDATE billing SET payment_status = ?, payment_date = ? "
                    + "WHERE billing_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
             pstmt.setTimestamp(2, paymentDate != null
@@ -178,8 +178,8 @@ public class BillingDAO {
                    + "WHERE payment_status IN (?, ?) "
                    + "AND payment_date BETWEEN ? AND ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, Constants.PAYMENT_PAID);
             pstmt.setString(2, Constants.PAYMENT_PARTIAL);

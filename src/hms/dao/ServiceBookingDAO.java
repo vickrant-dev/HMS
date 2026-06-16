@@ -45,8 +45,8 @@ public class ServiceBookingDAO {
                    + "booking_date, quantity, total_price, status) "
                    + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, serviceBooking.getReservationId());
             pstmt.setInt(2, serviceBooking.getServiceId());
@@ -85,8 +85,8 @@ public class ServiceBookingDAO {
     public ServiceBooking getById(int id) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE sb.service_booking_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -107,8 +107,8 @@ public class ServiceBookingDAO {
     public List<ServiceBooking> getAll() throws DatabaseException {
         String sql = SELECT_JOIN + "ORDER BY sb.booking_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<ServiceBooking> bookings = new ArrayList<>();
@@ -127,8 +127,8 @@ public class ServiceBookingDAO {
         String sql = "UPDATE service_bookings SET quantity = ?, total_price = ?, "
                    + "status = ? WHERE service_booking_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, serviceBooking.getQuantity());
             pstmt.setObject(2, serviceBooking.getTotalPrice());
@@ -146,8 +146,8 @@ public class ServiceBookingDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM service_bookings WHERE service_booking_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -162,8 +162,8 @@ public class ServiceBookingDAO {
             throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE sb.reservation_id = ? ORDER BY sb.booking_date";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, reservationId);
 
@@ -186,8 +186,8 @@ public class ServiceBookingDAO {
         String sql = "SELECT COALESCE(SUM(total_price), 0) FROM service_bookings "
                    + "WHERE reservation_id = ? AND status != ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, reservationId);
             pstmt.setString(2, Constants.SVC_BOOKING_CANCELLED);

@@ -1,6 +1,6 @@
 # Hotel Management System - Code Rules & Standards
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Date:** June 2026  
 **IDE:** NetBeans (Only)  
 **Build Tool:** Apache Ant  
@@ -657,8 +657,8 @@ public Object getReservations(int guestId) {
 public Guest getGuestById(int guestId) throws DatabaseException {
     String sql = "SELECT * FROM guests WHERE guest_id = ?";
     
-    try (Connection conn = DatabaseConnection.getInstance().getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    Connection conn = DatabaseConnection.getInstance().getConnection();
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
         
         pstmt.setInt(1, guestId);
         ResultSet rs = pstmt.executeQuery();
@@ -710,12 +710,12 @@ String sql = "SELECT * FROM guests WHERE email=? and created_at>=?";
 ### 8.3 Connection Management
 
 ```java
-// ✓ CORRECT: Try-with-resources (auto-close)
+// ✓ CORRECT: Try-with-resources on Statement/ResultSet only
 public List<Room> getAllRooms() throws DatabaseException {
     String sql = "SELECT * FROM rooms ORDER BY room_number";
     
-    try (Connection conn = DatabaseConnection.getInstance().getConnection();
-         Statement stmt = conn.createStatement();
+    Connection conn = DatabaseConnection.getInstance().getConnection();
+    try (Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(sql)) {
         
         List<Room> rooms = new ArrayList<>();
@@ -727,10 +727,10 @@ public List<Room> getAllRooms() throws DatabaseException {
     } catch (SQLException e) {
         throw new DatabaseException("Failed to retrieve rooms: " + e.getMessage());
     }
-    // Connection auto-closed here
+    // Connection stays open — Singleton manages its lifecycle
 }
 
-// ✗ INCORRECT: Manual resource management
+// ✗ INCORRECT: No try-with-resources (resource leak)
 public List<Room> getAllRooms() throws DatabaseException {
     String sql = "SELECT * FROM rooms ORDER BY room_number";
     
@@ -743,7 +743,7 @@ public List<Room> getAllRooms() throws DatabaseException {
         rooms.add(mapResultSetToRoom(rs));
     }
     
-    // Resources may not be closed if exception occurs!
+    // Statement and ResultSet may not be closed if exception occurs!
     return rooms;
 }
 ```
@@ -768,26 +768,34 @@ CREATE INDEX idx_room_type_capacity ON rooms(room_type, capacity);
 ### 8.5 Transaction Management
 
 ```java
-// ✓ CORRECT: Transactional operations
+// ✓ CORRECT: Transactional operations (Connection lifecycle by Singleton)
 public void createReservation(Reservation reservation) throws DatabaseException {
-    try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+    Connection conn = DatabaseConnection.getInstance().getConnection();
+    try {
         conn.setAutoCommit(false);
         
+        // Save reservation
+        reservationDAO.save(reservation);
+        
+        // Update room status
+        roomDAO.updateStatus(reservation.getRoom().getId(), "reserved");
+        
+        conn.commit();
+    } catch (Exception e) {
         try {
-            // Save reservation
-            reservationDAO.save(reservation);
-            
-            // Update room status
-            roomDAO.updateStatus(reservation.getRoom().getId(), "reserved");
-            
-            conn.commit();
-        } catch (Exception e) {
             conn.rollback();
-            throw new DatabaseException("Reservation creation failed: " + e.getMessage());
+        } catch (SQLException sqle) {
+            throw new DatabaseException("Rollback failed: " + sqle.getMessage());
         }
-    } catch (SQLException e) {
-        throw new DatabaseException("Database error: " + e.getMessage());
+        throw new DatabaseException("Reservation creation failed: " + e.getMessage());
+    } finally {
+        try {
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            // Restore default — non-critical cleanup
+        }
     }
+    // Connection stays open — Singleton manages its lifecycle
 }
 ```
 
@@ -1299,14 +1307,14 @@ public class DatabaseConnection {
     }
 }
 
-// Usage throughout application
+// Usage throughout application — Connection outside try-with-resources
 public class GuestDAO {
     
     public Guest getGuestById(int id) throws DatabaseException {
         String sql = "SELECT * FROM guests WHERE guest_id = ?";
         
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -1335,8 +1343,8 @@ public class ReservationDAO {
     public Reservation getById(int id) throws DatabaseException {
         String sql = "SELECT * FROM reservations WHERE reservation_id = ?";
         
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -1354,14 +1362,14 @@ public class ReservationDAO {
     /**
      * Saves a new reservation.
      */
-    public void save(Reservation reservation) throws DatabaseException {
+    public Reservation save(Reservation reservation) throws DatabaseException {
         String sql = "INSERT INTO reservations (guest_id, room_id, check_in_date, "
                    + "check_out_date, booking_date, number_of_guests, status, total_amount) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, 
-                     Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, 
+                Statement.RETURN_GENERATED_KEYS)) {
             
             pstmt.setInt(1, reservation.getGuest().getGuestId());
             pstmt.setInt(2, reservation.getRoom().getRoomId());
@@ -1381,9 +1389,22 @@ public class ReservationDAO {
             // Get generated ID
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    reservation.setReservationId(generatedKeys.getInt(1));
+                    return new Reservation(
+                            generatedKeys.getInt(1),
+                            reservation.getGuest(),
+                            reservation.getRoom(),
+                            reservation.getCheckInDate(),
+                            reservation.getCheckOutDate(),
+                            reservation.getBookingDate(),
+                            reservation.getNumberOfGuests(),
+                            reservation.getStatus(),
+                            reservation.getTotalAmount(),
+                            reservation.getCreatedByStaffId(),
+                            reservation.getCreatedAt()
+                    );
                 }
             }
+            throw new DatabaseException("Failed to retrieve generated reservation ID");
             
         } catch (SQLException e) {
             throw new DatabaseException("Failed to save reservation: " + e.getMessage());
@@ -1397,8 +1418,8 @@ public class ReservationDAO {
         String sql = "UPDATE reservations SET check_out_date = ?, status = ?, total_amount = ? "
                    + "WHERE reservation_id = ?";
         
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setDate(1, new java.sql.Date(reservation.getCheckOutDate().getTime()));
             pstmt.setString(2, reservation.getStatus());
@@ -1418,8 +1439,8 @@ public class ReservationDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM reservations WHERE reservation_id = ?";
         
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, id);
             pstmt.executeUpdate();

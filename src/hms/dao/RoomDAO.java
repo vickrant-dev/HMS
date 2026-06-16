@@ -20,8 +20,8 @@ public class RoomDAO {
                    + "base_price, status, floor) "
                    + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, room.getRoomNumber());
             pstmt.setString(2, room.getRoomType());
@@ -59,8 +59,8 @@ public class RoomDAO {
     public Room getById(int id) throws DatabaseException {
         String sql = "SELECT * FROM rooms WHERE room_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -80,8 +80,8 @@ public class RoomDAO {
     public List<Room> getAll() throws DatabaseException {
         String sql = "SELECT * FROM rooms ORDER BY room_number";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Room> rooms = new ArrayList<>();
@@ -99,8 +99,8 @@ public class RoomDAO {
         String sql = "UPDATE rooms SET room_type = ?, capacity = ?, base_price = ?, "
                    + "status = ?, floor = ? WHERE room_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, room.getRoomType());
             pstmt.setInt(2, room.getCapacity());
@@ -119,8 +119,8 @@ public class RoomDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM rooms WHERE room_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -133,8 +133,8 @@ public class RoomDAO {
     public List<Room> filterByStatus(String status) throws DatabaseException {
         String sql = "SELECT * FROM rooms WHERE status = ? ORDER BY room_number";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
 
@@ -154,8 +154,8 @@ public class RoomDAO {
     public List<Room> filterByType(String roomType) throws DatabaseException {
         String sql = "SELECT * FROM rooms WHERE room_type = ? ORDER BY room_number";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, roomType);
 
@@ -175,8 +175,8 @@ public class RoomDAO {
     public List<Room> filterByPriceRange(double min, double max) throws DatabaseException {
         String sql = "SELECT * FROM rooms WHERE base_price BETWEEN ? AND ? ORDER BY room_number";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setDouble(1, min);
             pstmt.setDouble(2, max);
@@ -201,8 +201,8 @@ public class RoomDAO {
                    + "WHERE check_in_date < ? AND check_out_date > ? "
                    + "AND status NOT IN (?, ?)) ORDER BY room_number";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, Constants.ROOM_STATUS_AVAILABLE);
             pstmt.setDate(2, java.sql.Date.valueOf(checkOut));
@@ -226,8 +226,8 @@ public class RoomDAO {
     public boolean existsByRoomNumber(String roomNumber) throws DatabaseException {
         String sql = "SELECT COUNT(*) FROM rooms WHERE room_number = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, roomNumber);
 

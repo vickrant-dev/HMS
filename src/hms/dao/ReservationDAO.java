@@ -38,8 +38,8 @@ public class ReservationDAO {
                    + "total_amount, created_by_staff_id) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, reservation.getGuestId());
             pstmt.setInt(2, reservation.getRoomId());
@@ -83,8 +83,8 @@ public class ReservationDAO {
     public Reservation getById(int id) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE r.reservation_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -104,8 +104,8 @@ public class ReservationDAO {
     public List<Reservation> getAll() throws DatabaseException {
         String sql = SELECT_JOIN + "ORDER BY r.booking_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Reservation> reservations = new ArrayList<>();
@@ -126,8 +126,8 @@ public class ReservationDAO {
                    + "total_amount = ?, created_by_staff_id = ? "
                    + "WHERE reservation_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, reservation.getRoomId());
             pstmt.setDate(2, java.sql.Date.valueOf(reservation.getCheckInDate()));
@@ -149,8 +149,8 @@ public class ReservationDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM reservations WHERE reservation_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -164,8 +164,8 @@ public class ReservationDAO {
     public List<Reservation> getByGuestId(int guestId) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE r.guest_id = ? ORDER BY r.check_in_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, guestId);
 
@@ -186,8 +186,8 @@ public class ReservationDAO {
     public List<Reservation> getByRoomId(int roomId) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE r.room_id = ? ORDER BY r.check_in_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, roomId);
 
@@ -212,8 +212,8 @@ public class ReservationDAO {
                    + "OR r.check_out_date BETWEEN ? AND ?) "
                    + "ORDER BY r.check_in_date";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setDate(1, java.sql.Date.valueOf(start));
             pstmt.setDate(2, java.sql.Date.valueOf(end));
@@ -237,8 +237,8 @@ public class ReservationDAO {
     public List<Reservation> getByStatus(String status) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE r.status = ? ORDER BY r.booking_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
 
@@ -259,8 +259,8 @@ public class ReservationDAO {
     public void updateStatus(int reservationId, String status) throws DatabaseException {
         String sql = "UPDATE reservations SET status = ? WHERE reservation_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
             pstmt.setInt(2, reservationId);
@@ -278,8 +278,8 @@ public class ReservationDAO {
                    + "AND r.status IN (?, ?) "
                    + "ORDER BY r.check_in_date";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, Constants.RES_STATUS_CONFIRMED);
             pstmt.setString(2, Constants.RES_STATUS_CHECKED_IN);
@@ -304,8 +304,8 @@ public class ReservationDAO {
                    + "AND r.status = ? "
                    + "ORDER BY r.check_out_date";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, Constants.RES_STATUS_CHECKED_IN);
 

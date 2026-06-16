@@ -36,8 +36,8 @@ public class RoomAssignmentDAO {
                    + "assignment_date, assignment_type, status, notes) "
                    + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, assignment.getRoomId());
             pstmt.setInt(2, assignment.getStaffId());
@@ -76,8 +76,8 @@ public class RoomAssignmentDAO {
     public RoomAssignment getById(int id) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE ra.assignment_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -98,8 +98,8 @@ public class RoomAssignmentDAO {
     public List<RoomAssignment> getAll() throws DatabaseException {
         String sql = SELECT_JOIN + "ORDER BY ra.assignment_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<RoomAssignment> assignments = new ArrayList<>();
@@ -118,8 +118,8 @@ public class RoomAssignmentDAO {
         String sql = "UPDATE room_assignments SET assignment_type = ?, "
                    + "status = ?, notes = ? WHERE assignment_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, assignment.getAssignmentType());
             pstmt.setString(2, assignment.getStatus());
@@ -137,8 +137,8 @@ public class RoomAssignmentDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM room_assignments WHERE assignment_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -153,8 +153,8 @@ public class RoomAssignmentDAO {
         String sql = SELECT_JOIN
                    + "WHERE ra.room_id = ? ORDER BY ra.assignment_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, roomId);
 
@@ -176,8 +176,8 @@ public class RoomAssignmentDAO {
         String sql = SELECT_JOIN
                    + "WHERE ra.staff_id = ? ORDER BY ra.assignment_date DESC";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, staffId);
 
@@ -198,8 +198,8 @@ public class RoomAssignmentDAO {
     public void updateStatus(int assignmentId, String status) throws DatabaseException {
         String sql = "UPDATE room_assignments SET status = ? WHERE assignment_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
             pstmt.setInt(2, assignmentId);
@@ -215,8 +215,8 @@ public class RoomAssignmentDAO {
         String sql = SELECT_JOIN
                    + "WHERE ra.assignment_date = ? ORDER BY ra.assignment_date";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setDate(1, java.sql.Date.valueOf(date));
 
