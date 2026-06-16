@@ -9,7 +9,7 @@ public final class Constants {
     // Database Configuration
     public static final String DB_HOST = "localhost";
     public static final int DB_PORT = 3306;
-    public static final String DB_NAME = "hms";
+    public static final String DB_NAME = "hotel_management_system";
     public static final String DB_USER = "root";
     public static final String DB_PASSWORD = "";
 
