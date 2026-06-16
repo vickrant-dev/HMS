@@ -33,5 +33,5 @@ Thumbs.db
 # Other
 .opencode/
 .specstory/
-/plan
-/CONTEXT
+#/plan
+#/CONTEXT
