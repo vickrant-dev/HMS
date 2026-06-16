@@ -1,0 +1,98 @@
+================================================================================
+SOFTWARE PROPRIETARY LICENSE
+================================================================================
+
+Product: Hotel Management System (HMS)[cite: 1]
+Version: 1.0[cite: 1]
+Date: June 2026[cite: 1]
+Development Framework: Java 21, Apache Ant, NetBeans IDE[cite: 2]
+
+--------------------------------------------------------------------------------
+IMPORTANT - READ CAREFULLY:
+--------------------------------------------------------------------------------
+This Software Proprietary License ("License") is a strict, legally binding 
+agreement between you as an individual ("Licensor") and any party executing, 
+reviewing, or interacting with this application ("Licensee"). This agreement 
+governs the use, evaluation, and review of the Hotel Management System desktop 
+application ("Software")[cite: 1].
+
+By installing, copying, compiling, running, or otherwise using the Software, 
+you agree to be bound by the terms of this License. If you do not agree to 
+these terms, do not access or use the Software.
+
+--------------------------------------------------------------------------------
+1. OWNERSHIP & INTELLECTUAL PROPERTY
+--------------------------------------------------------------------------------
+The Software, including but not limited to its source code, compiled binaries 
+(HotelManagementSystem.jar)[cite: 1], Apache Ant build configurations (build.xml)[cite: 2], 
+database architecture assets (schema.sql, seed.sql)[cite: 1, 2], custom Jasper Reports 
+templates[cite: 1], user interface designs utilizing the FlatLaf look-and-feel[cite: 1, 2], 
+and all accompanying documentation—specifically including the PRD.md[cite: 1, 2] 
+and code_rules.md[cite: 1, 2] files—contains proprietary material and is the 
+exclusive intellectual property of the individual Licensor. All rights not 
+expressly granted to you are strictly reserved by the Licensor.
+
+--------------------------------------------------------------------------------
+2. GRANT OF LIMITED USE LICENSE
+--------------------------------------------------------------------------------
+Subject to the absolute compliance with the terms of this License, the Licensor 
+grants a non-exclusive, non-transferable, revocable, limited license to:
+  a) Execute the compiled Software executable inside a local Java 21 Runtime 
+     Environment[cite: 1, 2].
+  b) Inspect and review the structural package layers (including config, database, 
+     model, dao, service, controller, view, exception, and util)[cite: 2] via the 
+     NetBeans IDE[cite: 1, 2] for testing, inspection, or peer review purposes.
+  c) Execute the provided manual database scripts (schema.sql and seed.sql)[cite: 1, 2] 
+     on a localized XAMPP MySQL environment[cite: 1] for functional verification.
+
+--------------------------------------------------------------------------------
+3. STRICT RESTRICTIONS ON USE
+--------------------------------------------------------------------------------
+Any unauthorized use of this Software instantly voids this License. The Licensee 
+is strictly prohibited from doing any of the following:
+  a) Commercial Exploitation: You may not sell, rent, lease, sublicense, 
+     distribute, or commercially exploit the Software, or any corporate operational 
+     modules contained within (including Guest, Room, Reservation, Billing, Staff, 
+     Service, and Reporting modules)[cite: 1, 2] in any commercial market.
+  b) Production Deployment: You may not deploy this Software as a live system to 
+     manage real-world operations for any actual hospitality business[cite: 1].
+  c) Public Redistribution: You may not host, publish, or redistribute the source 
+     code or project dependencies in public repositories or forums without explicit 
+     written consent from the Licensor. The codebase must adhere strictly to the 
+     private boundaries specified in the project's .gitignore file[cite: 2].
+  d) Modifications: You may not alter the database structural model away from its 
+     normalized 3NF alignment[cite: 1, 2], alter the hardcoded core configuration properties 
+     defined in the centralized Constants class[cite: 1, 2], or remove any copyright 
+     notices embedded within public method JavaDocs[cite: 1, 2] or user interfaces[cite: 1].
+
+--------------------------------------------------------------------------------
+4. TERM AND TERMINATION
+--------------------------------------------------------------------------------
+This License is effective upon your initial receipt, access, or execution of the 
+Software. This License terminates automatically without notice if you fail to 
+comply with any of the strict terms outlined in this document. Upon termination, 
+you must immediately cease all use of the Software, tear down the local MySQL 
+database schemas[cite: 1], and delete all local copies of the repository source code[cite: 1], 
+PRD.md[cite: 1, 2], code_rules.md[cite: 1, 2], and associated documentation[cite: 1].
+
+--------------------------------------------------------------------------------
+5. DISCLAIMER OF WARRANTY & LIMITATION OF LIABILITY
+--------------------------------------------------------------------------------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+INDIVIDUAL AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR 
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING 
+FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE, ITS USE, OR ITS DIRECT JDBC 
+DATABASE CONNECTIONS VIA LOCALHOST[cite: 1].
+
+--------------------------------------------------------------------------------
+6. GOVERNING LAW
+--------------------------------------------------------------------------------
+This License shall be governed by and construed in accordance with the laws 
+protecting independent software copyright and individual intellectual property 
+ownership.
+
+================================================================================
+Copyright © 2026. All Rights Reserved.
+================================================================================
