@@ -20,8 +20,8 @@ public class GuestDAO {
                    + "address, id_proof_type, id_proof_number, date_of_birth) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, guest.getFirstName());
             pstmt.setString(2, guest.getLastName());
@@ -65,8 +65,8 @@ public class GuestDAO {
     public Guest getById(int id) throws DatabaseException {
         String sql = "SELECT * FROM guests WHERE guest_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -86,8 +86,8 @@ public class GuestDAO {
     public List<Guest> getAll() throws DatabaseException {
         String sql = "SELECT * FROM guests ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Guest> guests = new ArrayList<>();
@@ -106,8 +106,8 @@ public class GuestDAO {
                    + "address = ?, id_proof_type = ?, id_proof_number = ?, "
                    + "date_of_birth = ? WHERE guest_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, guest.getFirstName());
             pstmt.setString(2, guest.getLastName());
@@ -130,8 +130,8 @@ public class GuestDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM guests WHERE guest_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -145,8 +145,8 @@ public class GuestDAO {
         String sql = "SELECT * FROM guests WHERE first_name LIKE ? OR last_name LIKE ? "
                    + "ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             String pattern = "%" + name + "%";
             pstmt.setString(1, pattern);
@@ -168,8 +168,8 @@ public class GuestDAO {
     public Guest searchByEmail(String email) throws DatabaseException {
         String sql = "SELECT * FROM guests WHERE email = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
 
@@ -189,8 +189,8 @@ public class GuestDAO {
     public List<Guest> searchByPhone(String phone) throws DatabaseException {
         String sql = "SELECT * FROM guests WHERE phone LIKE ? ORDER BY first_name, last_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, "%" + phone + "%");
 
@@ -210,8 +210,8 @@ public class GuestDAO {
     public boolean existsByEmail(String email) throws DatabaseException {
         String sql = "SELECT COUNT(*) FROM guests WHERE email = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
 

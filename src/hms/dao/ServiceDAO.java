@@ -18,8 +18,8 @@ public class ServiceDAO {
                    + "description, is_available) "
                    + "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, service.getServiceName());
             pstmt.setString(2, service.getServiceType());
@@ -55,8 +55,8 @@ public class ServiceDAO {
     public Service getById(int id) throws DatabaseException {
         String sql = "SELECT * FROM services WHERE service_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
 
@@ -76,8 +76,8 @@ public class ServiceDAO {
     public List<Service> getAll() throws DatabaseException {
         String sql = "SELECT * FROM services ORDER BY service_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Service> services = new ArrayList<>();
@@ -96,8 +96,8 @@ public class ServiceDAO {
                    + "price = ?, description = ?, is_available = ? "
                    + "WHERE service_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, service.getServiceName());
             pstmt.setString(2, service.getServiceType());
@@ -116,8 +116,8 @@ public class ServiceDAO {
     public void delete(int id) throws DatabaseException {
         String sql = "DELETE FROM services WHERE service_id = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -130,8 +130,8 @@ public class ServiceDAO {
     public List<Service> filterByType(String serviceType) throws DatabaseException {
         String sql = "SELECT * FROM services WHERE service_type = ? ORDER BY service_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, serviceType);
 
@@ -152,8 +152,8 @@ public class ServiceDAO {
     public List<Service> filterByAvailability(boolean available) throws DatabaseException {
         String sql = "SELECT * FROM services WHERE is_available = ? ORDER BY service_name";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setBoolean(1, available);
 
@@ -174,8 +174,8 @@ public class ServiceDAO {
     public boolean existsByServiceName(String serviceName) throws DatabaseException {
         String sql = "SELECT COUNT(*) FROM services WHERE service_name = ?";
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, serviceName);
 
