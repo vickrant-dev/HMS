@@ -6,41 +6,47 @@ public final class Billing {
 
     private final int billingId;
     private final Reservation reservation;
-    private final Guest guest;
-    private final double totalAmount;
-    private final double amountPaid;
+    private final double roomCharge;
+    private final double serviceCharge;
+    private final double otherCharges;
+    private final double taxAmount;
+    private final double totalBill;
     private final String paymentStatus;
     private final LocalDateTime paymentDate;
-    private final String paymentMethod;
-    private final LocalDateTime createdAt;
+    private final String notes;
 
-    public Billing(Reservation reservation, Guest guest, double totalAmount,
-                   double amountPaid, String paymentStatus,
-                   LocalDateTime paymentDate, String paymentMethod) {
+    public Billing(Reservation reservation, double roomCharge,
+                   double serviceCharge, double otherCharges,
+                   double taxAmount, double totalBill,
+                   String paymentStatus, LocalDateTime paymentDate,
+                   String notes) {
         this.billingId = 0;
         this.reservation = reservation;
-        this.guest = guest;
-        this.totalAmount = totalAmount;
-        this.amountPaid = amountPaid;
+        this.roomCharge = roomCharge;
+        this.serviceCharge = serviceCharge;
+        this.otherCharges = otherCharges;
+        this.taxAmount = taxAmount;
+        this.totalBill = totalBill;
         this.paymentStatus = paymentStatus;
         this.paymentDate = paymentDate;
-        this.paymentMethod = paymentMethod;
-        this.createdAt = LocalDateTime.now();
+        this.notes = notes;
     }
 
-    public Billing(int billingId, Reservation reservation, Guest guest,
-                   double totalAmount, double amountPaid,
+    public Billing(int billingId, Reservation reservation, double roomCharge,
+                   double serviceCharge, double otherCharges,
+                   double taxAmount, double totalBill,
                    String paymentStatus, LocalDateTime paymentDate,
-                   String paymentMethod, LocalDateTime createdAt) {
+                   String notes) {
         this.billingId = billingId;
         this.reservation = reservation;
-        this.guest = guest;
-        this.totalAmount = totalAmount;
-        this.amountPaid = amountPaid;
+        this.roomCharge = roomCharge;
+        this.serviceCharge = serviceCharge;
+        this.otherCharges = otherCharges;
+        this.taxAmount = taxAmount;
+        this.totalBill = totalBill;
         this.paymentStatus = paymentStatus;
         this.paymentDate = paymentDate;
-        this.paymentMethod = paymentMethod;
-        this.createdAt = createdAt;
+        this.notes = notes;
     }
 
     public int getBillingId() {
@@ -51,16 +57,24 @@ public final class Billing {
         return reservation;
     }
 
-    public Guest getGuest() {
-        return guest;
+    public double getRoomCharge() {
+        return roomCharge;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public double getServiceCharge() {
+        return serviceCharge;
     }
 
-    public double getAmountPaid() {
-        return amountPaid;
+    public double getOtherCharges() {
+        return otherCharges;
+    }
+
+    public double getTaxAmount() {
+        return taxAmount;
+    }
+
+    public double getTotalBill() {
+        return totalBill;
     }
 
     public String getPaymentStatus() {
@@ -71,19 +85,11 @@ public final class Billing {
         return paymentDate;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getNotes() {
+        return notes;
     }
 
     public int getReservationId() {
         return reservation.getReservationId();
-    }
-
-    public int getGuestId() {
-        return guest.getGuestId();
     }
 }
