@@ -10,8 +10,8 @@
 | # | Task | Description | Dependencies |
 |---|------|-------------|--------------|
 | 0.1 | Restructure package hierarchy | Create sub-packages under `ead_cw`: `.model`, `.dao`, `.controller`, `.view`, `.view.panels`, `.view.dialogs`, `.util`, `.config`, `.database`, `.exception`, `.service` | — |
-| 0.2 | Set up `lib/` folder | Place JARs: FlatLaf 3.5.1, MySQL Connector 9.7.0, JasperReports 7.0.6, jBCrypt | — |
-| 0.3 | Configure build.xml & project.properties | Add all JARs to classpath, set main class `ead_cw.HotelManagementApp`, configure dist JAR | 0.2 |
+| 0.2 | Set up `lib/` folder | Place JARs: FlatLaf 3.5.1, MySQL Connector 9.7.0, jBCrypt, JasperReports 7.0.6 | — |
+| 0.3 | Configure build.xml & project.properties | Add all JARs to classpath, set main class `hms.HotelManagementApp`, configure dist JAR | 0.2 |
 | 0.4 | Create `database/` folder | Placeholder for `schema.sql` and `seed.sql` | — |
 | 0.5 | Create `Constants.java` | Centralized constants: DB credentials, UI dimensions, validation limits, status enums, tax/pricing, error messages | — |
 | 0.6 | Create custom exceptions | `ApplicationException`, `DatabaseException`, `ValidationException`, `ReservationException`, `BillingException` (required — DAOs and controllers depend on these for typed error handling; without them, all layers would lose structured exception propagation) | — |
@@ -55,7 +55,7 @@
 
 | # | Task | Description | Dependencies |
 |---|------|-------------|--------------|
-| 3.1 | `GuestDAO.java` | CRUD: save, getById, getAll, update, delete (soft), searchByName/Email/Phone | 2.1, 0.7 |
+| 3.1 | `GuestDAO.java` | CRUD: save, getById, getAll, update, delete (hard), searchByName/Email/Phone | 2.1, 0.7 |
 | 3.2 | `RoomDAO.java` | CRUD: save, getById, getAll, update, delete, filterByStatus/Type/PriceRange, checkAvailability(dates) | 2.2, 0.7 |
 | 3.3 | `ReservationDAO.java` | CRUD + getByGuestId, getByRoomId, getByDateRange, getByStatus, updateStatus, getTodayCheckIns/CheckOuts | 2.3, 0.7 |
 | 3.4 | `BillingDAO.java` | CRUD: save, getByReservationId, updatePaymentStatus, getAll, getRevenueByDateRange | 2.4, 0.7 |
@@ -201,7 +201,7 @@ Phase 0 ────────────────────────
 
 | Aspect | Decision |
 |--------|----------|
-| **Root package** | `ead_cw` with sub-packages per layer |
+| **Root package** | `hms` with sub-packages per layer |
 | **UI construction** | NetBeans Form Editor (`.java` + `.form` pairs) for all panels; hand-coded Swing only for MainWindow |
 | **UI theme** | FlatMacDarkLaf (`com.formdev.flatlaf.themes.FlatMacDarkLaf`) |
 | **DB connection** | Singleton pattern with retry (3 attempts, 2s delay) |
