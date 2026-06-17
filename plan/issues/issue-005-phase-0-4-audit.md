@@ -1,13 +1,13 @@
 # Issue 005: Phase 0–4 Completion Audit — Gaps vs Plan & CONTEXT
 
-**Status:** Open  
+**Status:** Resolved (all 8 findings fixed)
 **Date:** 2026-06-17  
 **Found in:** Cross-phase audit (Phase 0–4 completion review)  
 **Root Cause:** Plan drift — the `plan/README.md` and `code_rules.md` were not kept synchronized with implementation decisions made during development, and some deliverables were deferred or partially completed.
 
 ---
 
-## Files Audited (43)
+## Files Audited (45)
 
 | Phase | Files | Scope |
 |-------|-------|-------|
@@ -15,7 +15,8 @@
 | 1 | 2 | schema.sql, seed.sql |
 | 2 | 8 | Guest, Room, Reservation, Billing, Staff, Service, ServiceBooking, RoomAssignment |
 | 3 | 8 | GuestDAO, RoomDAO, ReservationDAO, BillingDAO, StaffDAO, ServiceDAO, ServiceBookingDAO, RoomAssignmentDAO |
-| 4 | 10 | ValidationUtil, DateUtil, StringUtil, PasswordUtil, IconUtil (5) + PricingStrategy, NormalPricingStrategy, SeasonalPricingStrategy, CorporatePricingStrategy, ReportUtil (missing) (5) |
+| 4 | 10 | ValidationUtil, DateUtil, StringUtil, PasswordUtil, IconUtil (5) + PricingStrategy, NormalPricingStrategy, SeasonalPricingStrategy, CorporatePricingStrategy, ReportUtil (pending) (5) |
+| Follow-up | 3 | code_rules.md, PRD.md, plan/README.md |
 
 ---
 
@@ -29,24 +30,21 @@
 **Current state:**
 ```
 lib/
-├── flatlaf-3.5.1.jar        ✅ Present
+├── flatlaf-3.5.1.jar            ✅ Present
 ├── mysql-connector-j-9.7.0.jar  ✅ Present
-├── jbcrypt-0.4.jar          ✅ Present
-└── jasperreports-7.0.6.jar  ❌ MISSING
+├── jbcrypt-0.4.jar              ✅ Present
+├── jasperreports-7.0.6.jar      ✅ Present (from JasperStudio)
+├── jasperreports-pdf-7.0.6.jar  ✅ Present
+├── jasperreports-fonts-7.0.6.jar ✅ Present
+├── commons-collections4-4.5.0.jar ✅ Present
+├── commons-logging-1.3.5.jar    ✅ Present
+├── commons-beanutils-1.11.0.jar ✅ Present
+└── commons-digester-2.1.jar     ✅ Present
 ```
 
-**Impact:**
+**Impact (resolved):** Phase 4.7 (ReportUtil.java) can now be implemented. Phase 14 reports are unblocked.
 
-| Blocked Task | Reason |
-|-------------|--------|
-| **Phase 4.7** `ReportUtil.java` | Uses `net.sf.jasperreports.engine.*` — won't compile without JAR |
-| **Phase 14.2** Guest Invoice Report | Requires JasperReports to fill `.jasper` templates |
-| **Phase 14.3** Occupancy & Revenue Report | Same as above |
-| **Phase 14.4** `ReportsPanel.java` | Depends on 14.2 and 14.3 |
-
-**Fix:** Download `jasperreports-7.0.6.jar` (and its transitive deps: `commons-logging`, `commons-beanutils`, `commons-collections4`, `iText` for PDF export) into `lib/` and add to `build.xml` classpath. However, the PRD defers JasperReports setup to Phase 14. This is a **planning inconsistency** — Task 0.2 says to place it in `lib/` in Phase 0, but the PRD implies it's configured in Phase 14.
-
-**Related:** Missing `ReportUtil.java` (Phase 4.7) — cannot be created without the JAR.
+**Fix:** Copied `jasperreports-7.0.6.jar` (and transitive deps: `commons-collections4`, `commons-logging`, `commons-beanutils`, `commons-digester`) from JasperStudio installation at `%USERPROFILE%\Downloads\js-studiocomm_7.0.6_windows_x86_64`. Note: iText is NOT required — JasperReports 7.0.6 uses `jasperreports-pdf-7.0.6.jar` for PDF export instead.
 
 ---
 
@@ -156,14 +154,16 @@ The JAR cannot be in `lib/` at Phase 0 if it hasn't been downloaded yet. The pla
 
 ## 4. Summary
 
-| # | Severity | Item | Affects |
-|---|----------|------|---------|
-| 1.1 | **CRITICAL** | JasperReports 7.0.6 JAR missing | Blocks Phase 4.7, 14.2, 14.3, 14.4 |
-| 2.1 | **MODERATE** | Zero JavaDoc on 16 constructors + 79 getters across 8 models | Phase 2 deliverable; code_rules §10.1 |
-| 3.1 | **MINOR** | Plan says root package `ead_cw`, actual is `hms` | plan/README.md line 204 |
-| 3.2 | **MINOR** | Plan says `GuestDAO.delete` = soft delete, code has hard delete | plan/README.md line 58 |
-| 3.3 | **MINOR** | `code_rules.md` uses `com.hotelms.*` everywhere, codebase uses `hms.*` | All code_rules.md examples |
-| 3.4 | **MINOR** | JasperReports lib deferred but not documented in plan | plan/README.md line 13 |
+| # | Severity | Item | Status |
+|---|----------|------|--------|
+| 1.1 | **CRITICAL** | JasperReports 7.0.6 JAR missing | **Fixed** |
+| 2.1 | **MODERATE** | Zero JavaDoc on 16 constructors + 79 getters across 8 models | **Fixed** |
+| 3.1 | **MINOR** | Plan says root package `ead_cw`, actual is `hms` | **Fixed** |
+| 3.2 | **MINOR** | Plan says `GuestDAO.delete` = soft delete, code has hard delete | **Fixed** |
+| 3.3 | **MINOR** | `code_rules.md` uses `com.hotelms.*` everywhere, codebase uses `hms.*` | **Fixed** |
+| 3.4 | **MINOR** | JasperReports lib deferred but not documented in plan | **Fixed** |
+| 4.1 | **MINOR** | `code_rules.md` uses `com/hotelms/` (slash) in comments, directory tree, and JASPER_REPORT_PATH | **Fixed** |
+| 4.2 | **MINOR** | `PRD.md` references Java 21 instead of Java 24 | **Fixed** |
 
 ## 5. Recommended Fix Order
 
@@ -175,13 +175,48 @@ The JAR cannot be in `lib/` at Phase 0 if it hasn't been downloaded yet. The pla
 | 4 | 3.2 — Fix plan soft-delete claim | 1 word in plan/README.md | Plan accuracy |
 | 5 | 3.4 — Mark JasperReports deferred | 1 line in plan/README.md | Plan accuracy |
 | 6 | 1.1 — Download JasperReports | Download JAR + transitive deps | Unblock Phase 4.7, 14 |
+| 7 | 4.1 — Fix `com/hotelms/` (slash) in code_rules.md | 14 occurrences across comments and directory tree | Documentation accuracy |
+| 8 | 4.2 — Fix Java version in PRD.md | 2 occurrences in PRD.md | Documentation accuracy |
 
 ## 6. Verification
 
-- [ ] Fix 2.1 — JavaDoc on all 8 model classes (16 constructors + 79 getters)
-- [ ] Fix 3.3 — Replace `com.hotelms` with `hms` in `code_rules.md`
-- [ ] Fix 3.1 — Update `plan/README.md` line 204: `ead_cw` → `hms`
-- [ ] Fix 3.2 — Update `plan/README.md` line 58: `delete (soft)` → `delete (hard)`
-- [ ] Fix 3.4 — Mark JasperReports as deferred in Task 0.2
-- [ ] Fix 1.1 — Download JasperReports 7.0.6 + transitive deps into `lib/`
-- [ ] Clean & Build
+- [x] Fix 2.1 — JavaDoc on all 8 model classes (16 constructors + 79 getters)
+- [x] Fix 3.3 — Replace `com.hotelms` with `hms` in `code_rules.md`
+- [x] Fix 3.1 — Update `plan/README.md` line 204: `ead_cw` → `hms`
+- [x] Fix 3.2 — Update `plan/README.md` line 58: `delete (soft)` → `delete (hard)`
+- [x] Fix 3.4 — Mark JasperReports as deferred in Task 0.2
+- [x] Fix 1.1 — Download JasperReports 7.0.6 + transitive deps into `lib/`
+- [x] Fix 4.1 — Replace `com/hotelms/` (slash) with `hms/` in code_rules.md
+- [x] Fix 4.2 — Update Java 21 → Java 24 in PRD.md
+- [x] Clean & Build
+
+## 7. Follow-up Audit (2026-06-18)
+
+After resolving issues 1.1–3.4, a follow-up audit of CONTEXT (code_rules.md, PRD.md) and plan/README.md found additional stale references:
+
+### 7.1 `code_rules.md` — 14 stale `com/hotelms/` (slash-separated) references
+
+The original global replace `com.hotelms`→`hms` only caught DOT-separated Java package references. Slash-separated file path references in comments and the directory tree were missed:
+
+| Section | Line(s) | Before | After |
+|---------|---------|--------|-------|
+| §4.1 directory tree | 35-36 | `com/` → `hotelms/` (2 levels) | `hms/` (1 level) |
+| §4.1 Constants example | 549 | `// com/hotelms/config/Constants.java` | `// hms/config/Constants.java` |
+| §4.1 JASPER_REPORT_PATH | 549 | `"/com/hotelms/reports/"` | `"/hms/reports/"` |
+| §9.1 Exception examples | 811,822,829,840,847 | `// com/hotelms/exception/*.java` | `// hms/exception/*.java` |
+| §11.2 PasswordUtil | 1098 | `// com/hotelms/util/PasswordUtil.java` | `// hms/util/PasswordUtil.java` |
+| §11.3 ValidationUtil | 1155 | `// com/hotelms/util/ValidationUtil.java` | `// hms/util/ValidationUtil.java` |
+| §12.1 DatabaseConnection | 1228 | `// com/hotelms/database/DatabaseConnection.java` | `// hms/database/DatabaseConnection.java` |
+| §12.2 ReservationDAO | 1337 | `// com/hotelms/dao/ReservationDAO.java` | `// hms/dao/ReservationDAO.java` |
+| §13.1 HotelManagementApp | 1589 | `// com/hotelms/HotelManagementApp.java` | `// hms/HotelManagementApp.java` |
+| §13.3 ReservationDialog | 1698 | `// com/hotelms/view/dialogs/ReservationDialog.java` | `// hms/view/dialogs/ReservationDialog.java` |
+
+### 7.2 `PRD.md` — 2 stale Java version references
+
+| Line | Before | After |
+|------|--------|-------|
+| 165 (table) | `Java 21 (Latest)` | `Java 24 (Latest)` |
+| 618 (technical constraints) | `- Java 21 (latest version)` | `- Java 24 (latest version)` |
+| 701 (success criteria) | `Java 21 system` → already fixed in Issue 3.3 pass | Already correct |
+
+All 16 references were fixed in a single pass. Build confirmed: 34 source files, BUILD SUCCESSFUL.

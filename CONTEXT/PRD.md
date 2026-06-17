@@ -162,7 +162,7 @@ The Hotel Management System (HMS) is a comprehensive Java Swing-based enterprise
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| **Language** | Java | 21 (Latest) |
+| **Language** | Java | 24 (Latest) |
 | **Build Tool** | Apache Ant | Default |
 | **UI Framework** | Java Swing + FlatLaf | FlatLaf 3.5.1 |
 | **Database** | MySQL | XAMPP default |
@@ -615,7 +615,7 @@ INDEXES:
 ## 9. Constraints & Assumptions
 
 ### 9.1 Technical Constraints
-- Java 21 (latest version)
+- Java 24 (latest version)
 - NetBeans IDE only
 - Ant for build management
 - XAMPP MySQL (default configuration)
@@ -698,7 +698,7 @@ INDEXES:
 - ✓ Database normalization maintained
 
 ### 11.4 Deliverable Success
-- ✓ Executable JAR runs on any Java 21 system
+- ✓ Executable JAR runs on any Java 24 system
 - ✓ Database setup via manual SQL scripts
 - ✓ GitHub repository with clear commit history
 - ✓ Documentation complete and accurate

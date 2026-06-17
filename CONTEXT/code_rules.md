@@ -32,18 +32,17 @@
 ```
 hotel-management-system/
 ├── src/
-│   └── com/
-│       └── hotelms/
-│           ├── config/              # Configuration & Constants
-│           ├── database/            # Database connections
-│           ├── model/               # Data models (Entities)
-│           ├── dao/                 # Data Access Objects
-│           ├── service/             # Business logic (if needed)
-│           ├── controller/          # Controllers for UI coordination
-│           ├── view/                # UI panels and dialogs
-│           ├── util/                # Utility classes
-│           ├── exception/           # Custom exceptions
-│           └── HotelManagementApp.java  # Main entry point
+│   └── hms/
+│       ├── config/              # Configuration & Constants
+│       ├── database/            # Database connections
+│       ├── model/               # Data models (Entities)
+│       ├── dao/                 # Data Access Objects
+│       ├── service/             # Business logic (if needed)
+│       ├── controller/          # Controllers for UI coordination
+│       ├── view/                # UI panels and dialogs
+│       ├── util/                # Utility classes
+│       ├── exception/           # Custom exceptions
+│       └── HotelManagementApp.java  # Main entry point
 ├── database/
 │   ├── schema.sql                   # Database schema
 │   └── seed.sql                     # Sample test data
@@ -69,7 +68,7 @@ hotel-management-system/
 | **Method Names** | camelCase, verb-noun | `getGuestById()`, `createReservation()`, `validateEmail()` | Start with action verb |
 | **Variable Names** | camelCase | `guestId`, `roomNumber`, `checkInDate` | Meaningful, avoid single letters (except loops) |
 | **Constant Names** | UPPER_SNAKE_CASE | `MAX_GUESTS`, `DB_TIMEOUT_SECONDS`, `DEFAULT_THEME` | In Constants class |
-| **Package Names** | lowercase, dot-separated | `com.hotelms.dao`, `com.hotelms.util` | Reverse domain naming |
+| **Package Names** | lowercase, dot-separated | `hms.dao`, `hms.util` | Reverse domain naming |
 | **Boolean Variables** | Prefix with `is`, `has`, `can` | `isAvailable`, `hasBooking`, `canCheckOut` | Clear boolean intent |
 | **Collection Variables** | Plural names | `guestList`, `roomMap`, `serviceSet` | Clearly indicates multiple items |
 
@@ -194,15 +193,15 @@ public class ReservationManager {
 ### 4.1 Core Packages
 
 ```
-com.hotelms.config
+hms.config
 ├── Constants.java          # All application-wide constants
 └── AppConfig.java          # Configuration settings (if needed)
 
-com.hotelms.database
+hms.database
 ├── DatabaseConnection.java # Singleton connection manager
 └── ConnectionPool.java     # Connection pooling (if needed)
 
-com.hotelms.model
+hms.model
 ├── Guest.java
 ├── Room.java
 ├── Reservation.java
@@ -211,7 +210,7 @@ com.hotelms.model
 ├── Service.java
 └── RoomAssignment.java
 
-com.hotelms.dao
+hms.dao
 ├── GuestDAO.java
 ├── RoomDAO.java
 ├── ReservationDAO.java
@@ -220,7 +219,7 @@ com.hotelms.dao
 ├── ServiceDAO.java
 └── RoomAssignmentDAO.java
 
-com.hotelms.controller
+hms.controller
 ├── GuestController.java
 ├── RoomController.java
 ├── ReservationController.java
@@ -228,7 +227,7 @@ com.hotelms.controller
 ├── StaffController.java
 └── ServiceController.java
 
-com.hotelms.view
+hms.view
 ├── MainWindow.java
 ├── panels/
 │   ├── DashboardPanel.java
@@ -245,7 +244,7 @@ com.hotelms.view
     ├── CheckInDialog.java
     └── CheckOutDialog.java
 
-com.hotelms.util
+hms.util
 ├── ValidationUtil.java     # Input validation
 ├── DateUtil.java           # Date operations
 ├── ReportUtil.java         # Report generation
@@ -253,14 +252,14 @@ com.hotelms.util
 ├── StringUtil.java         # String operations
 └── PasswordUtil.java       # Password hashing
 
-com.hotelms.exception
+hms.exception
 ├── ApplicationException.java    # Base custom exception
 ├── DatabaseException.java
 ├── ValidationException.java
 ├── ReservationException.java
 └── BillingException.java
 
-com.hotelms
+hms
 └── HotelManagementApp.java     # Main entry point
 ```
 
@@ -379,7 +378,7 @@ public class ReservationDAO {
     
     // ✓ Package-private helper methods
     void updateRoomStatus(int roomId) {
-        // Accessible within com.hotelms.dao package
+        // Accessible within hms.dao package
     }
     
     // ✓ Private utility methods
@@ -506,7 +505,7 @@ public void updateReservation(Reservation reservation) {
 All constants must be in `Constants.java` following DRY principle:
 
 ```java
-// com/hotelms/config/Constants.java
+// hms/config/Constants.java
 public class Constants {
     
     // Database Configuration
@@ -546,7 +545,7 @@ public class Constants {
     public static final double LATE_CHECKOUT_CHARGE = 50.0;
     
     // Report Paths
-    public static final String JASPER_REPORT_PATH = "/com/hotelms/reports/";
+    public static final String JASPER_REPORT_PATH = "/hms/reports/";
     
     // Error Messages
     public static final String ERROR_DB_CONNECTION = "Failed to connect to database";
@@ -808,7 +807,7 @@ public void createReservation(Reservation reservation) throws DatabaseException 
 All custom exceptions extend `ApplicationException`:
 
 ```java
-// com/hotelms/exception/ApplicationException.java
+// hms/exception/ApplicationException.java
 public class ApplicationException extends Exception {
     public ApplicationException(String message) {
         super(message);
@@ -819,14 +818,14 @@ public class ApplicationException extends Exception {
     }
 }
 
-// com/hotelms/exception/ValidationException.java
+// hms/exception/ValidationException.java
 public class ValidationException extends ApplicationException {
     public ValidationException(String message) {
         super(message);
     }
 }
 
-// com/hotelms/exception/DatabaseException.java
+// hms/exception/DatabaseException.java
 public class DatabaseException extends ApplicationException {
     public DatabaseException(String message) {
         super(message);
@@ -837,14 +836,14 @@ public class DatabaseException extends ApplicationException {
     }
 }
 
-// com/hotelms/exception/ReservationException.java
+// hms/exception/ReservationException.java
 public class ReservationException extends ApplicationException {
     public ReservationException(String message) {
         super(message);
     }
 }
 
-// com/hotelms/exception/BillingException.java
+// hms/exception/BillingException.java
 public class BillingException extends ApplicationException {
     public BillingException(String message) {
         super(message);
@@ -1095,7 +1094,7 @@ String sql = String.format("SELECT * FROM guests WHERE email = '%s'", userEmail)
 For staff accounts using bcrypt:
 
 ```java
-// com/hotelms/util/PasswordUtil.java
+// hms/util/PasswordUtil.java
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordUtil {
@@ -1152,7 +1151,7 @@ public boolean authenticateStaff(String email, String password) {
 ### 11.3 Input Validation
 
 ```java
-// com/hotelms/util/ValidationUtil.java
+// hms/util/ValidationUtil.java
 public class ValidationUtil {
     
     /**
@@ -1225,7 +1224,7 @@ pstmt.setString(1, sanitizedInput);  // Safe, parameterized
 ### 12.1 Singleton Pattern (Database Connection)
 
 ```java
-// com/hotelms/database/DatabaseConnection.java
+// hms/database/DatabaseConnection.java
 public class DatabaseConnection {
     
     private static DatabaseConnection instance;
@@ -1334,7 +1333,7 @@ public class GuestDAO {
 ### 12.2 DAO Pattern
 
 ```java
-// com/hotelms/dao/ReservationDAO.java
+// hms/dao/ReservationDAO.java
 public class ReservationDAO {
     
     /**
@@ -1586,7 +1585,7 @@ public class ReservationController {
 ### 13.1 FlatLaf Theme Application
 
 ```java
-// com/hotelms/HotelManagementApp.java
+// hms/HotelManagementApp.java
 public class HotelManagementApp {
     
     public static void main(String[] args) {
@@ -1695,7 +1694,7 @@ public class ReservationPanel extends JPanel {
 ### 13.3 Dialog Implementation
 
 ```java
-// com/hotelms/view/dialogs/ReservationDialog.java
+// hms/view/dialogs/ReservationDialog.java
 public class ReservationDialog extends JDialog {
     
     private JComboBox<Guest> guestCombo;
@@ -1926,13 +1925,13 @@ import java.awt.*;
 import java.awt.event.*;
 
 // Custom packages
-import com.hotelms.model.*;
-import com.hotelms.dao.*;
-import com.hotelms.controller.*;
-import com.hotelms.exception.*;
-import com.hotelms.util.*;
-import com.hotelms.config.*;
-import com.hotelms.database.*;
+import hms.model.*;
+import hms.dao.*;
+import hms.controller.*;
+import hms.exception.*;
+import hms.util.*;
+import hms.config.*;
+import hms.database.*;
 ```
 
 ### Useful Constants Pattern
