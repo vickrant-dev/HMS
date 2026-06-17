@@ -270,9 +270,9 @@ Throughout `code_rules.md`, the reference package is `com.hotelms.*`. The actual
 
 ## 7. Verification
 
-- [ ] Fix 1.1 — `calculateNights`: add start > end guard
-- [ ] Fix 1.2 — `truncate`: adjust substring to account for "..."
-- [ ] Fix 1.3 — `parseDate`: wrap in try-catch, return null
-- [ ] Fix 2.1 — Add JavaDoc to all 42 methods
-- [ ] Fix 3.1 — Refactor IconUtil to use UIManager icons
-- [ ] Clean & Build
+- [x] Fix 1.1 — `calculateNights`: add start > end guard — *BUILD SUCCESSFUL*
+- [x] Fix 1.2 — `truncate`: adjust substring to account for "..." — *BUILD SUCCESSFUL*
+- [x] Fix 1.3 — `parseDate`: wrap in try-catch, return null — *BUILD SUCCESSFUL*
+- [x] Fix 2.1 — Add JavaDoc to all 42 methods — *BUILD SUCCESSFUL*
+- [x] Fix 3.1 — Refactor IconUtil with Unicode fallback — *BUILD SUCCESSFUL*
+- [x] Clean & Build — *BUILD SUCCESSFUL*

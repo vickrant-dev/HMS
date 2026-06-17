@@ -11,6 +11,9 @@ public final class StringUtil {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
 
+    /**
+     * Truncates a string to maxLength characters, appending "...".
+     */
     public static String truncate(String value, int maxLength) {
         if (value == null) {
             return "";
@@ -18,9 +21,13 @@ public final class StringUtil {
         if (value.length() <= maxLength) {
             return value;
         }
-        return value.substring(0, maxLength) + "...";
+        int truncateAt = Math.max(0, maxLength - 3);
+        return value.substring(0, truncateAt) + "...";
     }
 
+    /**
+     * Capitalizes the first character and lowercases the rest.
+     */
     public static String capitalize(String value) {
         if (value == null || value.isBlank()) {
             return "";
@@ -30,6 +37,9 @@ public final class StringUtil {
                 + trimmed.substring(1).toLowerCase();
     }
 
+    /**
+     * Capitalizes the first character of each word.
+     */
     public static String capitalizeWords(String value) {
         if (value == null || value.isBlank()) {
             return "";
@@ -49,6 +59,9 @@ public final class StringUtil {
         return result.toString();
     }
 
+    /**
+     * Trims whitespace and collapses internal whitespace to single spaces.
+     */
     public static String sanitize(String value) {
         if (value == null) {
             return "";
@@ -56,6 +69,9 @@ public final class StringUtil {
         return value.trim().replaceAll("\\s+", " ");
     }
 
+    /**
+     * Generates a reservation ID in format RES-YYYYMMDD-XXXXX.
+     */
     public static String generateReservationId() {
         String datePart = LocalDate.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -64,6 +80,9 @@ public final class StringUtil {
                 + String.format("%05d", randomPart);
     }
 
+    /**
+     * Generates a reservation ID with a specific sequence number.
+     */
     public static String generateReservationId(int sequenceNumber) {
         String datePart = LocalDate.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd"));
