@@ -40,7 +40,7 @@
 |---|------|-------------|--------------|
 | 2.1 | `Guest.java` | Fields: guestId, firstName, lastName, email, phone, address, idProofType, idProofNumber, dateOfBirth, createdAt | — |
 | 2.2 | `Room.java` | Fields: roomId, roomNumber, roomType, capacity, basePrice, status, floor, createdAt | — |
-| 2.3 | `Reservation.java` | Fields: reservationId, guest (Guest), room (Room), checkInDate, checkOutDate, bookingDate, numberOfGuests, status, totalAmount, createdAt | 2.1, 2.2 |
+| 2.3 | `Reservation.java` | Fields: reservationId, displayId, guest (Guest), room (Room), checkInDate, checkOutDate, bookingDate, numberOfGuests, status, totalAmount, createdByStaffId, createdAt | 2.1, 2.2 |
 | 2.4 | `Billing.java` | Fields: billingId, reservation (Reservation), roomCharge, serviceCharge, otherCharges, taxAmount, totalBill, paymentStatus, paymentDate, notes | 2.3 |
 | 2.5 | `Staff.java` | Fields: staffId, firstName, lastName, email, phone, position, department, salary, joiningDate, status, passwordHash, createdAt | — |
 | 2.6 | `Service.java` | Fields: serviceId, serviceName, serviceType, price, description, isAvailable, createdAt | — |

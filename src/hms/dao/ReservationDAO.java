@@ -18,7 +18,7 @@ import java.util.List;
 public class ReservationDAO {
 
     private static final String SELECT_JOIN =
-            "SELECT r.reservation_id, r.guest_id, r.room_id, "
+            "SELECT r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
           + "r.number_of_guests, r.status, r.total_amount, "
           + "r.created_by_staff_id, r.created_at AS res_created_at, "
@@ -35,8 +35,8 @@ public class ReservationDAO {
     public Reservation save(Reservation reservation) throws DatabaseException {
         String sql = "INSERT INTO reservations (guest_id, room_id, check_in_date, "
                    + "check_out_date, booking_date, number_of_guests, status, "
-                   + "total_amount, created_by_staff_id) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "total_amount, created_by_staff_id, display_id) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -50,6 +50,7 @@ public class ReservationDAO {
             pstmt.setString(7, reservation.getStatus());
             pstmt.setDouble(8, reservation.getTotalAmount());
             pstmt.setObject(9, reservation.getCreatedByStaffId());
+            pstmt.setString(10, reservation.getDisplayId());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -60,6 +61,7 @@ public class ReservationDAO {
                 if (generatedKeys.next()) {
                     return new Reservation(
                             generatedKeys.getInt(1),
+                            reservation.getDisplayId(),
                             reservation.getGuest(),
                             reservation.getRoom(),
                             reservation.getCheckInDate(),
@@ -353,6 +355,7 @@ public class ReservationDAO {
 
         return new Reservation(
                 rs.getInt("reservation_id"),
+                rs.getString("display_id"),
                 guest,
                 room,
                 rs.getDate("check_in_date").toLocalDate(),

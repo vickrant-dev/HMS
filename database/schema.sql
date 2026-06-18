@@ -74,6 +74,7 @@ CREATE TABLE services (
 -- 5. reservations
 CREATE TABLE reservations (
     reservation_id INT PRIMARY KEY AUTO_INCREMENT,
+    display_id VARCHAR(20),
     guest_id INT NOT NULL,
     room_id INT NOT NULL,
     check_in_date DATE NOT NULL,
@@ -93,7 +94,8 @@ CREATE TABLE reservations (
     INDEX idx_reservations_check_in (check_in_date),
     INDEX idx_reservations_check_out (check_out_date),
     INDEX idx_reservations_status (status),
-    INDEX idx_reservations_created_by (created_by_staff_id)
+    INDEX idx_reservations_created_by (created_by_staff_id),
+    INDEX idx_reservations_display_id (display_id)
 );
 
 -- 6. billing

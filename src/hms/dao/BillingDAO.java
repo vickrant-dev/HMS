@@ -23,7 +23,7 @@ public class BillingDAO {
             "SELECT b.billing_id, b.reservation_id, b.room_charge, "
           + "b.service_charge, b.other_charges, b.tax_amount, "
           + "b.total_bill, b.payment_status, b.payment_date, b.notes, "
-          + "r.reservation_id, r.guest_id, r.room_id, "
+           + "r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
           + "r.number_of_guests, r.status, r.total_amount, "
           + "r.created_by_staff_id, r.created_at AS res_created_at, "
@@ -230,6 +230,7 @@ public class BillingDAO {
 
         Reservation reservation = new Reservation(
                 rs.getInt("reservation_id"),
+                rs.getString("display_id"),
                 guest,
                 room,
                 rs.getDate("check_in_date").toLocalDate(),

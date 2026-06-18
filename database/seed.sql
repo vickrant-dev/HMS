@@ -83,27 +83,27 @@ INSERT INTO services (service_name, service_type, price, description, is_availab
 --   guest 7 (David Lee)     → res 9
 --   guest 8 (Sophia Garcia) → res 10
 
-INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, number_of_guests, status, total_amount) VALUES
+INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, number_of_guests, status, total_amount, display_id) VALUES
 -- 1: Checked out (June 10-12, Room 106 - Single)
-(1, 6, '2026-06-10', '2026-06-12', 1, 'checked_out', 260.00),
+(1, 6, '2026-06-10', '2026-06-12', 1, 'checked_out', 260.00, 'RES-20260610-00001'),
 -- 2: Checked out (June 12-15, Room 202 - Double)
-(2, 7, '2026-06-12', '2026-06-15', 2, 'checked_out', 510.00),
+(2, 7, '2026-06-12', '2026-06-15', 2, 'checked_out', 510.00, 'RES-20260612-00002'),
 -- 3: Checked out (June 14-16, Room 302 - Suite)
-(3, 16, '2026-06-14', '2026-06-16', 2, 'checked_out', 700.00),
+(3, 16, '2026-06-14', '2026-06-16', 2, 'checked_out', 700.00, 'RES-20260614-00003'),
 -- 4: Checked in (June 15-18, Room 204 - Double)
-(4, 9, '2026-06-15', '2026-06-18', 2, 'checked_in', 540.00),
+(4, 9, '2026-06-15', '2026-06-18', 2, 'checked_in', 540.00, 'RES-20260615-00004'),
 -- 5: Checked in (June 16-19, Room 304 - Suite)
-(5, 18, '2026-06-16', '2026-06-19', 3, 'checked_in', 1200.00),
+(5, 18, '2026-06-16', '2026-06-19', 3, 'checked_in', 1200.00, 'RES-20260616-00005'),
 -- 6: Checked in (June 16-20, Room 401 - Deluxe)
-(1, 21, '2026-06-16', '2026-06-20', 2, 'checked_in', 880.00),
+(1, 21, '2026-06-16', '2026-06-20', 2, 'checked_in', 880.00, 'RES-20260616-00006'),
 -- 7: Confirmed (June 20-23, Room 205 - Double)
-(2, 10, '2026-06-20', '2026-06-23', 2, 'confirmed', 570.00),
+(2, 10, '2026-06-20', '2026-06-23', 2, 'confirmed', 570.00, 'RES-20260620-00007'),
 -- 8: Confirmed (June 22-26, Room 305 - Suite)
-(6, 19, '2026-06-22', '2026-06-26', 3, 'confirmed', 1680.00),
+(6, 19, '2026-06-22', '2026-06-26', 3, 'confirmed', 1680.00, 'RES-20260622-00008'),
 -- 9: Pending (July 01-03, Room 502 - Deluxe)
-(7, 24, '2026-07-01', '2026-07-03', 2, 'pending', 600.00),
+(7, 24, '2026-07-01', '2026-07-03', 2, 'pending', 600.00, 'RES-20260701-00009'),
 -- 10: Cancelled (was June 05-07, Room 208 - Double)
-(8, 15, '2026-06-05', '2026-06-07', 1, 'cancelled', 390.00);
+(8, 15, '2026-06-05', '2026-06-07', 1, 'cancelled', 390.00, 'RES-20260605-00010');
 
 -- ============================================
 -- 6. billing (3) — only for checked_out reservations
