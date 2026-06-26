@@ -2,30 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package hms.view;
-
-import hms.config.Constants;
-import javax.swing.JFrame;
+package hms.view.panels;
 
 /**
  *
  * @author vickrant-dev
  */
-public class MainWindow extends javax.swing.JFrame {
+public class DashboardPanel extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainWindow.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardPanel.class.getName());
 
     /**
-     * Creates new form dash
+     * Creates new form DashboardPanel
      */
-    public MainWindow() {
+    public DashboardPanel() {
         initComponents();
-        
-        // Custom Design
-        setTitle(Constants.APP_TITLE);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -37,23 +28,21 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        main_scroll_pane = new javax.swing.JScrollPane();
-        main_panel = new javax.swing.JPanel();
-        main_tab = new javax.swing.JTabbedPane();
-        dashboard_grp_main = new javax.swing.JPanel();
-        stat_card_4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        dashboard_panel = new javax.swing.JPanel();
+        dashboard_grp = new javax.swing.JPanel();
+        stat_card_1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         stat_card_val_1 = new javax.swing.JLabel();
-        stat_card_5 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        stat_card_2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         stat_card_val_2 = new javax.swing.JLabel();
-        stat_card_6 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
+        stat_card_3 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         stat_card_val_3 = new javax.swing.JLabel();
-        stat_card_7 = new javax.swing.JPanel();
+        stat_card_4 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         stat_card_val_4 = new javax.swing.JLabel();
@@ -66,23 +55,113 @@ public class MainWindow extends javax.swing.JFrame {
         view_all_reservations_btn = new javax.swing.JLabel();
         check_ins_table = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
-        menu_bar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 0, 0));
-        setSize(new java.awt.Dimension(1024, 720));
+        setSize(new java.awt.Dimension(0, 0));
 
-        main_scroll_pane.setBorder(null);
-        main_scroll_pane.setViewportView(main_panel);
+        dashboard_panel.setBackground(new java.awt.Color(0, 0, 0));
 
-        main_panel.setBackground(new java.awt.Color(0, 0, 0));
+        stat_card_1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+        stat_card_1.setPreferredSize(new java.awt.Dimension(190, 2));
 
-        stat_card_4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-        stat_card_4.setPreferredSize(new java.awt.Dimension(190, 2));
+        jPanel3.setBackground(new java.awt.Color(169, 202, 238));
+        jPanel3.setPreferredSize(new java.awt.Dimension(40, 40));
 
-        jPanel6.setBackground(new java.awt.Color(169, 202, 238));
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLabel1.setText("TOTAL OCCUPANCY");
+
+        stat_card_val_1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        stat_card_val_1.setText("84.56%");
+
+        javax.swing.GroupLayout stat_card_1Layout = new javax.swing.GroupLayout(stat_card_1);
+        stat_card_1.setLayout(stat_card_1Layout);
+        stat_card_1Layout.setHorizontalGroup(
+            stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(stat_card_val_1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        stat_card_1Layout.setVerticalGroup(
+            stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(stat_card_1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(stat_card_val_1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        stat_card_2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+        stat_card_2.setPreferredSize(new java.awt.Dimension(190, 2));
+
+        jPanel4.setBackground(new java.awt.Color(46, 204, 113));
+        jPanel4.setPreferredSize(new java.awt.Dimension(40, 40));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLabel2.setText("DAILY REVENUE (LKR)");
+
+        stat_card_val_2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        stat_card_val_2.setText("12,450.00");
+
+        javax.swing.GroupLayout stat_card_2Layout = new javax.swing.GroupLayout(stat_card_2);
+        stat_card_2.setLayout(stat_card_2Layout);
+        stat_card_2Layout.setHorizontalGroup(
+            stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(stat_card_val_2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        stat_card_2Layout.setVerticalGroup(
+            stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(stat_card_2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(stat_card_val_2))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        stat_card_3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+        stat_card_3.setPreferredSize(new java.awt.Dimension(190, 2));
+
+        jPanel6.setBackground(new java.awt.Color(147, 0, 10));
         jPanel6.setPreferredSize(new java.awt.Dimension(40, 40));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -96,136 +175,39 @@ public class MainWindow extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("TOTAL OCCUPANCY");
-
-        stat_card_val_1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        stat_card_val_1.setText("84.56%");
-
-        javax.swing.GroupLayout stat_card_4Layout = new javax.swing.GroupLayout(stat_card_4);
-        stat_card_4.setLayout(stat_card_4Layout);
-        stat_card_4Layout.setHorizontalGroup(
-            stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(stat_card_val_1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        stat_card_4Layout.setVerticalGroup(
-            stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_4Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat_card_val_1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        stat_card_5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-        stat_card_5.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel7.setBackground(new java.awt.Color(46, 204, 113));
-        jPanel7.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jLabel2.setText("DAILY REVENUE (LKR)");
-
-        stat_card_val_2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        stat_card_val_2.setText("12,450.00");
-
-        javax.swing.GroupLayout stat_card_5Layout = new javax.swing.GroupLayout(stat_card_5);
-        stat_card_5.setLayout(stat_card_5Layout);
-        stat_card_5Layout.setHorizontalGroup(
-            stat_card_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(stat_card_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(stat_card_val_2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        stat_card_5Layout.setVerticalGroup(
-            stat_card_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(stat_card_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_5Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_2))
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        stat_card_6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-        stat_card_6.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel8.setBackground(new java.awt.Color(147, 0, 10));
-        jPanel8.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         jLabel3.setText("PENDING CHECK-INS");
 
         stat_card_val_3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         stat_card_val_3.setText("12");
 
-        javax.swing.GroupLayout stat_card_6Layout = new javax.swing.GroupLayout(stat_card_6);
-        stat_card_6.setLayout(stat_card_6Layout);
-        stat_card_6Layout.setHorizontalGroup(
-            stat_card_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_6Layout.createSequentialGroup()
+        javax.swing.GroupLayout stat_card_3Layout = new javax.swing.GroupLayout(stat_card_3);
+        stat_card_3.setLayout(stat_card_3Layout);
+        stat_card_3Layout.setHorizontalGroup(
+            stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(stat_card_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(stat_card_val_3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        stat_card_6Layout.setVerticalGroup(
-            stat_card_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_6Layout.createSequentialGroup()
+        stat_card_3Layout.setVerticalGroup(
+            stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_6Layout.createSequentialGroup()
+                .addGroup(stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(stat_card_3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(stat_card_val_3))
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        stat_card_7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-        stat_card_7.setPreferredSize(new java.awt.Dimension(190, 2));
+        stat_card_4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+        stat_card_4.setPreferredSize(new java.awt.Dimension(190, 2));
 
         jPanel11.setBackground(new java.awt.Color(152, 184, 220));
         jPanel11.setPreferredSize(new java.awt.Dimension(40, 40));
@@ -246,25 +228,25 @@ public class MainWindow extends javax.swing.JFrame {
         stat_card_val_4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         stat_card_val_4.setText("04");
 
-        javax.swing.GroupLayout stat_card_7Layout = new javax.swing.GroupLayout(stat_card_7);
-        stat_card_7.setLayout(stat_card_7Layout);
-        stat_card_7Layout.setHorizontalGroup(
-            stat_card_7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_7Layout.createSequentialGroup()
+        javax.swing.GroupLayout stat_card_4Layout = new javax.swing.GroupLayout(stat_card_4);
+        stat_card_4.setLayout(stat_card_4Layout);
+        stat_card_4Layout.setHorizontalGroup(
+            stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(stat_card_7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(stat_card_val_4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        stat_card_7Layout.setVerticalGroup(
-            stat_card_7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stat_card_7Layout.createSequentialGroup()
+        stat_card_4Layout.setVerticalGroup(
+            stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stat_card_4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_7Layout.createSequentialGroup()
+                .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(stat_card_4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(stat_card_val_4))
@@ -294,7 +276,7 @@ public class MainWindow extends javax.swing.JFrame {
             revenue_summary_chartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(revenue_summary_chartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                 .addGap(448, 448, 448)
                 .addComponent(revenue_daily_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -374,81 +356,70 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout dashboard_grp_mainLayout = new javax.swing.GroupLayout(dashboard_grp_main);
-        dashboard_grp_main.setLayout(dashboard_grp_mainLayout);
-        dashboard_grp_mainLayout.setHorizontalGroup(
-            dashboard_grp_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dashboard_grp_mainLayout.createSequentialGroup()
+        javax.swing.GroupLayout dashboard_grpLayout = new javax.swing.GroupLayout(dashboard_grp);
+        dashboard_grp.setLayout(dashboard_grpLayout);
+        dashboard_grpLayout.setHorizontalGroup(
+            dashboard_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboard_grpLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dashboard_grp_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dashboard_grp_mainLayout.createSequentialGroup()
-                        .addComponent(stat_card_4, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addGroup(dashboard_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dashboard_grpLayout.createSequentialGroup()
+                        .addComponent(stat_card_1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(stat_card_5, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                        .addComponent(stat_card_2, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(stat_card_6, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(stat_card_3, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(stat_card_7, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
+                        .addComponent(stat_card_4, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
                     .addComponent(revenue_summary_chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(recent_checkins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        dashboard_grp_mainLayout.setVerticalGroup(
-            dashboard_grp_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dashboard_grp_mainLayout.createSequentialGroup()
+        dashboard_grpLayout.setVerticalGroup(
+            dashboard_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboard_grpLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dashboard_grp_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(stat_card_4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stat_card_5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stat_card_6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stat_card_7, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(revenue_summary_chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(dashboard_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(stat_card_1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stat_card_2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stat_card_3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stat_card_4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
+                .addComponent(revenue_summary_chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(recent_checkins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        main_tab.addTab("Dashboard", dashboard_grp_main);
-
-        javax.swing.GroupLayout main_panelLayout = new javax.swing.GroupLayout(main_panel);
-        main_panel.setLayout(main_panelLayout);
-        main_panelLayout.setHorizontalGroup(
-            main_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(main_panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(main_tab)
-                .addContainerGap())
+        javax.swing.GroupLayout dashboard_panelLayout = new javax.swing.GroupLayout(dashboard_panel);
+        dashboard_panel.setLayout(dashboard_panelLayout);
+        dashboard_panelLayout.setHorizontalGroup(
+            dashboard_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(dashboard_grp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        main_panelLayout.setVerticalGroup(
-            main_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(main_panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(main_tab)
-                .addContainerGap())
+        dashboard_panelLayout.setVerticalGroup(
+            dashboard_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboard_panelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(dashboard_grp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        main_scroll_pane.setViewportView(main_panel);
-
-        jMenu1.setText("File");
-        menu_bar.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        menu_bar.add(jMenu2);
-
-        setJMenuBar(menu_bar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(main_scroll_pane)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(dashboard_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(main_scroll_pane)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(dashboard_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -476,38 +447,24 @@ public class MainWindow extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new DashboardPanel().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane check_ins_table;
     private javax.swing.JPanel dashboard_grp;
-    private javax.swing.JPanel dashboard_grp1;
-    private javax.swing.JPanel dashboard_grp2;
-    private javax.swing.JPanel dashboard_grp_main;
     private javax.swing.JPanel dashboard_panel;
-    private javax.swing.JPanel dashboard_panel1;
-    private javax.swing.JPanel dashboard_panel2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JTable jTable6;
-    private javax.swing.JPanel main_panel;
-    private javax.swing.JScrollPane main_scroll_pane;
-    private javax.swing.JTabbedPane main_tab;
-    private javax.swing.JMenuBar menu_bar;
     private javax.swing.JPanel recent_checkins;
     private javax.swing.JLabel revenue_daily_btn;
     private javax.swing.JPanel revenue_summary_chart;
@@ -516,9 +473,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel stat_card_2;
     private javax.swing.JPanel stat_card_3;
     private javax.swing.JPanel stat_card_4;
-    private javax.swing.JPanel stat_card_5;
-    private javax.swing.JPanel stat_card_6;
-    private javax.swing.JPanel stat_card_7;
     private javax.swing.JLabel stat_card_val_1;
     private javax.swing.JLabel stat_card_val_2;
     private javax.swing.JLabel stat_card_val_3;
