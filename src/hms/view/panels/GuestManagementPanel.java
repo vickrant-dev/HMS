@@ -44,7 +44,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
 
         add_guest_btn.setText("Add Guest");
 
-        search_field.setText("Search by name, email or phone...");
+        search_field.setToolTipText("Search by name, email or phone...");
 
         search_btn.setText("Search");
 
