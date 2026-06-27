@@ -8,14 +8,14 @@ package hms.view.dialogs;
  *
  * @author vickrant
  */
-public class CheckInDialog extends javax.swing.JDialog {
+public class GuestCheckInDialog extends javax.swing.JDialog {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CheckInDialog.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GuestCheckInDialog.class.getName());
 
     /**
      * Creates new form CheckInDialog
      */
-    public CheckInDialog(java.awt.Frame parent, boolean modal) {
+    public GuestCheckInDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -380,7 +380,7 @@ public class CheckInDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                CheckInDialog dialog = new CheckInDialog(new javax.swing.JFrame(), true);
+                GuestCheckInDialog dialog = new GuestCheckInDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -394,15 +394,11 @@ public class CheckInDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel guest_name_box;
-    private javax.swing.JPanel guest_name_box1;
-    private javax.swing.JPanel guest_name_box2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -418,8 +414,6 @@ public class CheckInDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
