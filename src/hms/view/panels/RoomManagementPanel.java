@@ -4,17 +4,47 @@
  */
 package hms.view.panels;
 
+import hms.model.Room;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.AddNewRoomDialog;
+
 /**
  *
  * @author vickrant
  */
 public class RoomManagementPanel extends javax.swing.JPanel {
 
+    private List<Room> filteredRooms;
+
     /**
      * Creates new form RoomManagementPanel
      */
     public RoomManagementPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private Room getSelectedRoom() {
+        int viewRow = roomManagementTable.getSelectedRow();
+        if (viewRow == -1 || filteredRooms == null) return null;
+        return filteredRooms.get(roomManagementTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        roomManagementTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = roomManagementTable.getSelectedRow() != -1;
+            editRoomBtn.setEnabled(hasSelection);
+            deleteRoomBtn.setEnabled(hasSelection);
+            markMaintBtn.setEnabled(hasSelection);
+            markAvailBtn.setEnabled(hasSelection);
+        });
+        editRoomBtn.setEnabled(false);
+        deleteRoomBtn.setEnabled(false);
+        markMaintBtn.setEnabled(false);
+        markAvailBtn.setEnabled(false);
     }
 
     /**
@@ -121,7 +151,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -314,35 +344,55 @@ public class RoomManagementPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRoomBtnActionPerformed
-        // TODO add your handling code here:
+        Room selected = getSelectedRoom();
+        if (selected == null) return;
+        AddNewRoomDialog d = new AddNewRoomDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Edit Room: " + selected.getRoomNumber());
+        d.setVisible(true);
     }//GEN-LAST:event_editRoomBtnActionPerformed
 
     private void addRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoomBtnActionPerformed
-        // TODO add your handling code here:
+        AddNewRoomDialog d = new AddNewRoomDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setVisible(true);
     }//GEN-LAST:event_addRoomBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: roomController.searchRooms(searchBox.getText()); refreshTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+        searchBox.setText("");
+        statusCmb.setSelectedIndex(0);
+        priceRangeFrom.setText("");
+        priceRangeTo.setText("");
+        capacityCmb.setSelectedIndex(0);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: roomController.applyFilters(statusCmb, priceRangeFrom, priceRangeTo, capacityCmb); refreshTable();
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void deleteRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRoomBtnActionPerformed
-        // TODO add your handling code here:
+        Room selected = getSelectedRoom();
+        if (selected == null) return;
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Delete room " + selected.getRoomNumber() + "?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // TODO: roomController.deleteRoom(selected.getRoomId()); refreshTable();
+        }
     }//GEN-LAST:event_deleteRoomBtnActionPerformed
 
     private void markMaintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markMaintBtnActionPerformed
-        // TODO add your handling code here:
+        Room selected = getSelectedRoom();
+        if (selected == null) return;
+        // TODO: roomController.updateStatus(selected.getRoomId(), "MAINTENANCE"); refreshTable();
     }//GEN-LAST:event_markMaintBtnActionPerformed
 
     private void markAvailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAvailBtnActionPerformed
-        // TODO add your handling code here:
+        Room selected = getSelectedRoom();
+        if (selected == null) return;
+        // TODO: roomController.updateStatus(selected.getRoomId(), "AVAILABLE"); refreshTable();
     }//GEN-LAST:event_markAvailBtnActionPerformed
 
 

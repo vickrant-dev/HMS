@@ -4,17 +4,48 @@
  */
 package hms.view.panels;
 
+import hms.model.Service;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.AddNewService;
+import hms.view.dialogs.ServiceBookingDialog;
+
 /**
  *
  * @author vickrant-dev
  */
 public class ServicePanel extends javax.swing.JPanel {
 
+    private List<Service> filteredServices;
+
     /**
      * Creates new form ServicePanel
      */
     public ServicePanel() {
         initComponents();
+        setupTable();
+    }
+
+    private Service getSelectedService() {
+        int viewRow = serviceCatalogTable.getSelectedRow();
+        if (viewRow == -1 || filteredServices == null) return null;
+        return filteredServices.get(serviceCatalogTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        serviceCatalogTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = serviceCatalogTable.getSelectedRow() != -1;
+            editServiceBtn.setEnabled(hasSelection);
+            deleteServiceBtn.setEnabled(hasSelection);
+            toggleAvailBtn.setEnabled(hasSelection);
+            bookServiceBtn.setEnabled(hasSelection);
+        });
+        editServiceBtn.setEnabled(false);
+        deleteServiceBtn.setEnabled(false);
+        toggleAvailBtn.setEnabled(false);
+        bookServiceBtn.setEnabled(false);
     }
 
     /**
@@ -260,43 +291,66 @@ public class ServicePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editServiceBtnActionPerformed
-        // TODO add your handling code here:
+        Service selected = getSelectedService();
+        if (selected == null) return;
+        AddNewService d = new AddNewService((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Edit Service: " + selected.getServiceName());
+        d.setVisible(true);
     }//GEN-LAST:event_editServiceBtnActionPerformed
 
     private void addServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addServiceBtnActionPerformed
-        // TODO add your handling code here:
+        AddNewService d = new AddNewService((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setVisible(true);
     }//GEN-LAST:event_addServiceBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: serviceController.search(searchBox.getText()); refreshTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+        searchBox.setText("");
+        serviceTypeCmb.setSelectedIndex(0);
+        availabilityCmb.setSelectedIndex(0);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: serviceController.applyFilters(serviceTypeCmb, availabilityCmb); refreshTable();
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void deleteServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteServiceBtnActionPerformed
-        // TODO add your handling code here:
+        Service selected = getSelectedService();
+        if (selected == null) return;
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Delete service " + selected.getServiceName() + "?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // TODO: serviceController.deleteService(selected.getServiceId()); refreshTable();
+        }
     }//GEN-LAST:event_deleteServiceBtnActionPerformed
 
     private void toggleAvailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAvailBtnActionPerformed
-        // TODO add your handling code here:
+        Service selected = getSelectedService();
+        if (selected == null) return;
+        boolean newState = !selected.isAvailable();
+        // TODO: serviceController.toggleAvailability(selected.getServiceId(), newState); refreshTable();
+        JOptionPane.showMessageDialog(this, selected.getServiceName()
+            + " toggled to " + (newState ? "Available" : "Unavailable"));
     }//GEN-LAST:event_toggleAvailBtnActionPerformed
 
     private void bookServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookServiceBtnActionPerformed
-        // TODO add your handling code here:
+        Service selected = getSelectedService();
+        if (selected == null) return;
+        ServiceBookingDialog d = new ServiceBookingDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Book Service: " + selected.getServiceName());
+        d.setVisible(true);
     }//GEN-LAST:event_bookServiceBtnActionPerformed
 
     private void serviceCatalogPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCatalogPaginationLeftActionPerformed
-        // TODO add your handling code here:
+        // TODO: loadPreviousPage();
     }//GEN-LAST:event_serviceCatalogPaginationLeftActionPerformed
 
     private void serviceCatalogPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCatalogPaginationRightActionPerformed
-        // TODO add your handling code here:
+        // TODO: loadNextPage();
     }//GEN-LAST:event_serviceCatalogPaginationRightActionPerformed
 
 

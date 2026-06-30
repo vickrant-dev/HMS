@@ -243,7 +243,7 @@
                     <Column editable="false" title="CHECK-IN" type="java.lang.Object"/>
                     <Column editable="false" title="CHECK-OUT" type="java.lang.Object"/>
                     <Column editable="false" title="AMOUNT" type="java.lang.Object"/>
-                    <Column editable="true" title="STATUS" type="java.lang.Object"/>
+                    <Column editable="false" title="STATUS" type="java.lang.Object"/>
                     <Column editable="false" title="CREATED" type="java.lang.Object"/>
                   </Table>
                 </Property>
