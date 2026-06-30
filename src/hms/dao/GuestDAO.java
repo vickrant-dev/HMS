@@ -17,8 +17,9 @@ public class GuestDAO {
 
     public Guest save(Guest guest) throws DatabaseException {
         String sql = "INSERT INTO guests (first_name, last_name, email, phone, "
-                   + "address, id_proof_type, id_proof_number, date_of_birth) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "address, id_proof_type, id_proof_number, date_of_birth, "
+                   + "guest_type, nationality) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -33,6 +34,8 @@ public class GuestDAO {
             pstmt.setDate(8, guest.getDateOfBirth() != null
                     ? java.sql.Date.valueOf(guest.getDateOfBirth())
                     : null);
+            pstmt.setString(9, guest.getGuestType());
+            pstmt.setString(10, guest.getNationality());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -51,6 +54,8 @@ public class GuestDAO {
                             guest.getIdProofType(),
                             guest.getIdProofNumber(),
                             guest.getDateOfBirth(),
+                            guest.getGuestType(),
+                            guest.getNationality(),
                             guest.getCreatedAt()
                     );
                 }
@@ -104,7 +109,8 @@ public class GuestDAO {
     public void update(Guest guest) throws DatabaseException {
         String sql = "UPDATE guests SET first_name = ?, last_name = ?, phone = ?, "
                    + "address = ?, id_proof_type = ?, id_proof_number = ?, "
-                   + "date_of_birth = ? WHERE guest_id = ?";
+                   + "date_of_birth = ?, guest_type = ?, nationality = ? "
+                   + "WHERE guest_id = ?";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -118,7 +124,9 @@ public class GuestDAO {
             pstmt.setDate(7, guest.getDateOfBirth() != null
                     ? java.sql.Date.valueOf(guest.getDateOfBirth())
                     : null);
-            pstmt.setInt(8, guest.getGuestId());
+            pstmt.setString(8, guest.getGuestType());
+            pstmt.setString(9, guest.getNationality());
+            pstmt.setInt(10, guest.getGuestId());
 
             pstmt.executeUpdate();
 
@@ -244,6 +252,8 @@ public class GuestDAO {
                 rs.getString("id_proof_type"),
                 rs.getString("id_proof_number"),
                 dateOfBirth,
+                rs.getString("guest_type"),
+                rs.getString("nationality"),
                 rs.getTimestamp("created_at").toLocalDateTime()
         );
     }

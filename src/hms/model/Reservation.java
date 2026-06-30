@@ -20,6 +20,7 @@ public final class Reservation {
     private final double totalAmount;
     private final Integer createdByStaffId;
     private final LocalDateTime createdAt;
+    private final String notes;
 
     /**
      * Creates a new reservation without an ID (for new records).
@@ -33,11 +34,13 @@ public final class Reservation {
      * @param totalAmount      The total amount charged
      * @param displayId        The display ID in format RES-YYYYMMDD-XXXXX
      * @param createdByStaffId The staff ID who created the reservation (nullable)
+     * @param notes            Additional notes about the reservation
      */
     public Reservation(Guest guest, Room room, LocalDate checkInDate,
                        LocalDate checkOutDate, int numberOfGuests,
                        String status, double totalAmount,
-                       String displayId, Integer createdByStaffId) {
+                       String displayId, Integer createdByStaffId,
+                       String notes) {
         this.reservationId = 0;
         this.displayId = displayId;
         this.guest = guest;
@@ -50,6 +53,7 @@ public final class Reservation {
         this.totalAmount = totalAmount;
         this.createdByStaffId = createdByStaffId;
         this.createdAt = LocalDateTime.now();
+        this.notes = notes;
     }
 
     /**
@@ -67,12 +71,14 @@ public final class Reservation {
      * @param totalAmount      The total amount charged
      * @param createdByStaffId The staff ID who created the reservation (nullable)
      * @param createdAt        The timestamp when the record was created
+     * @param notes            Additional notes about the reservation
      */
     public Reservation(int reservationId, String displayId, Guest guest, Room room,
                        LocalDate checkInDate, LocalDate checkOutDate,
                        LocalDateTime bookingDate, int numberOfGuests,
                        String status, double totalAmount,
-                       Integer createdByStaffId, LocalDateTime createdAt) {
+                       Integer createdByStaffId, LocalDateTime createdAt,
+                       String notes) {
         this.reservationId = reservationId;
         this.displayId = displayId;
         this.guest = guest;
@@ -85,6 +91,7 @@ public final class Reservation {
         this.totalAmount = totalAmount;
         this.createdByStaffId = createdByStaffId;
         this.createdAt = createdAt;
+        this.notes = notes;
     }
 
     /** Returns the reservation's unique ID. */
@@ -145,6 +152,11 @@ public final class Reservation {
     /** Returns the timestamp when the record was created. */
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    /** Returns additional notes about the reservation. */
+    public String getNotes() {
+        return notes;
     }
 
     /** Returns the guest's ID. */

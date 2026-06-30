@@ -20,11 +20,12 @@ public class ReservationDAO {
     private static final String SELECT_JOIN =
             "SELECT r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
-          + "r.number_of_guests, r.status, r.total_amount, "
+          + "r.number_of_guests, r.status, r.total_amount, r.notes, "
           + "r.created_by_staff_id, r.created_at AS res_created_at, "
           + "g.guest_id AS g_guest_id, g.first_name, g.last_name, "
           + "g.email, g.phone, g.address, g.id_proof_type, "
-          + "g.id_proof_number, g.date_of_birth, g.created_at AS g_created_at, "
+          + "g.id_proof_number, g.date_of_birth, g.guest_type, g.nationality, "
+          + "g.created_at AS g_created_at, "
           + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
           + "rm.capacity, rm.base_price, rm.status AS rm_status, "
           + "rm.floor, rm.created_at AS rm_created_at "
@@ -35,8 +36,8 @@ public class ReservationDAO {
     public Reservation save(Reservation reservation) throws DatabaseException {
         String sql = "INSERT INTO reservations (guest_id, room_id, check_in_date, "
                    + "check_out_date, booking_date, number_of_guests, status, "
-                   + "total_amount, created_by_staff_id, display_id) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "total_amount, created_by_staff_id, display_id, notes) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -51,6 +52,7 @@ public class ReservationDAO {
             pstmt.setDouble(8, reservation.getTotalAmount());
             pstmt.setObject(9, reservation.getCreatedByStaffId());
             pstmt.setString(10, reservation.getDisplayId());
+            pstmt.setString(11, reservation.getNotes());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -71,7 +73,8 @@ public class ReservationDAO {
                             reservation.getStatus(),
                             reservation.getTotalAmount(),
                             reservation.getCreatedByStaffId(),
-                            reservation.getCreatedAt()
+                            reservation.getCreatedAt(),
+                            reservation.getNotes()
                     );
                 }
                 throw new DatabaseException("Failed to retrieve generated reservation ID");
@@ -125,7 +128,7 @@ public class ReservationDAO {
     public void update(Reservation reservation) throws DatabaseException {
         String sql = "UPDATE reservations SET room_id = ?, check_in_date = ?, "
                    + "check_out_date = ?, number_of_guests = ?, status = ?, "
-                   + "total_amount = ?, created_by_staff_id = ? "
+                   + "total_amount = ?, created_by_staff_id = ?, notes = ? "
                    + "WHERE reservation_id = ?";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
@@ -138,7 +141,8 @@ public class ReservationDAO {
             pstmt.setString(5, reservation.getStatus());
             pstmt.setDouble(6, reservation.getTotalAmount());
             pstmt.setObject(7, reservation.getCreatedByStaffId());
-            pstmt.setInt(8, reservation.getReservationId());
+            pstmt.setString(8, reservation.getNotes());
+            pstmt.setInt(9, reservation.getReservationId());
 
             pstmt.executeUpdate();
 
@@ -339,6 +343,8 @@ public class ReservationDAO {
                 rs.getString("id_proof_type"),
                 rs.getString("id_proof_number"),
                 dateOfBirth,
+                rs.getString("guest_type"),
+                rs.getString("nationality"),
                 rs.getTimestamp("g_created_at").toLocalDateTime()
         );
 
@@ -365,7 +371,8 @@ public class ReservationDAO {
                 rs.getString("status"),
                 rs.getDouble("total_amount"),
                 rs.getObject("created_by_staff_id", Integer.class),
-                rs.getTimestamp("res_created_at").toLocalDateTime()
+                rs.getTimestamp("res_created_at").toLocalDateTime(),
+                rs.getString("notes")
         );
     }
 }

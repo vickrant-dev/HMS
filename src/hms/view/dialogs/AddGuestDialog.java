@@ -318,11 +318,14 @@ public class AddGuestDialog extends javax.swing.JDialog {
         try {
             if (editingGuest != null) {
                 Guest updated = new Guest(editingGuest.getGuestId(), fname, lname,
-                    email, phone, addr, idType, idNum, dob, editingGuest.getCreatedAt());
+                    email, phone, addr, idType, idNum, dob,
+                    editingGuest.getGuestType(), nationality.getText().trim(),
+                    editingGuest.getCreatedAt());
                 guestController.updateGuest(updated);
                 JOptionPane.showMessageDialog(this, "Guest updated successfully.");
             } else {
-                Guest guest = new Guest(fname, lname, email, phone, addr, idType, idNum, dob);
+                Guest guest = new Guest(fname, lname, email, phone, addr, idType, idNum, dob,
+                    "Regular", nationality.getText().trim());
                 guestController.createGuest(guest);
                 JOptionPane.showMessageDialog(this, "Guest created successfully.");
             }

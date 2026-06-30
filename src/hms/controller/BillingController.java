@@ -92,11 +92,19 @@ public class BillingController {
         billingDAO.updatePaymentStatus(billingId, paymentStatus, LocalDateTime.now());
     }
 
-    public Billing adjustBill(int billingId, double otherCharges, String notes)
+    public Billing adjustBill(int billingId, double otherCharges,
+                               double discountAmount, double lateCharge,
+                               String notes)
             throws ValidationException, DatabaseException {
 
         if (otherCharges < 0) {
             throw new ValidationException("Other charges cannot be negative");
+        }
+        if (discountAmount < 0) {
+            throw new ValidationException("Discount cannot be negative");
+        }
+        if (lateCharge < 0) {
+            throw new ValidationException("Late charge cannot be negative");
         }
 
         Billing existing = billingDAO.getById(billingId);
@@ -106,11 +114,17 @@ public class BillingController {
 
         double roomCharge = existing.getRoomCharge();
         double serviceCharge = existing.getServiceCharge();
-        double taxAmount = (roomCharge + serviceCharge + otherCharges)
-                * Constants.DEFAULT_TAX_RATE;
-        double totalBill = roomCharge + serviceCharge + otherCharges + taxAmount;
 
-        billingDAO.updateCharges(billingId, otherCharges, taxAmount, totalBill, notes);
+        // net other charges after adjustments
+        double netOtherCharges = otherCharges + lateCharge - discountAmount;
+        if (netOtherCharges < 0) netOtherCharges = 0;
+
+        double taxAmount = (roomCharge + serviceCharge + netOtherCharges)
+                * Constants.DEFAULT_TAX_RATE;
+        double totalBill = roomCharge + serviceCharge + netOtherCharges + taxAmount;
+
+        billingDAO.updateCharges(billingId, netOtherCharges, discountAmount, lateCharge,
+                taxAmount, totalBill, notes);
 
         return billingDAO.getById(billingId);
     }
