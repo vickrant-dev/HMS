@@ -3,19 +3,19 @@ USE hotel_management_system;
 -- ============================================
 -- 1. guests (12)
 -- ============================================
-INSERT INTO guests (first_name, last_name, email, phone, address, id_proof_type, id_proof_number, date_of_birth) VALUES
-('John', 'Smith', 'john.smith@email.com', '0771234567', '12 Kings Road, Colombo 01', 'Passport', 'P1234567', '1985-03-15'),
-('Sarah', 'Johnson', 'sarah.j@email.com', '0772345678', '45 Park Street, Kandy', 'Driving License', 'DL876543', '1990-07-22'),
-('Michael', 'Chen', 'mchen@email.com', '0773456789', '78 Galle Road, Colombo 03', 'Passport', 'P2345678', '1982-11-08'),
-('Emily', 'Davis', 'emily.davis@email.com', '0774567890', '23 Temple Road, Nugegoda', 'Driving License', 'DL123456', '1995-05-30'),
-('James', 'Wilson', 'jwilson@email.com', '0775678901', '56 Hill Street, Colombo 07', NULL, NULL, '1978-09-12'),
-('Emma', 'Brown', 'emma.brown@email.com', '0776789012', '90 Lake Drive, Negombo', 'Passport', 'P3456789', '1988-01-25'),
-('David', 'Lee', 'david.lee@email.com', '0777890123', '34 Ocean View, Galle', 'Driving License', 'DL654321', '1992-06-18'),
-('Sophia', 'Garcia', 'sophia.g@email.com', '0778901234', '67 Green Lane, Colombo 05', 'Passport', 'P4567890', '1987-04-05'),
-('Robert', 'Taylor', 'rtaylor@email.com', '0779012345', '12 River Road, Kandy', NULL, NULL, '1965-12-20'),
-('Olivia', 'Martinez', 'olivia.m@email.com', '0770123456', '89 Sunset Blvd, Colombo 04', 'Driving License', 'DL345678', '1993-08-14'),
-('William', 'Anderson', 'wanderson@email.com', '0771122334', '55 Mountain View, Nuwara Eliya', 'Passport', 'P5678901', '1980-02-28'),
-('Isabella', 'Thomas', 'isabella.t@email.com', '0772233445', '22 Garden Road, Colombo 08', 'Driving License', 'DL234567', '1996-10-10');
+INSERT INTO guests (first_name, last_name, email, phone, address, id_proof_type, id_proof_number, date_of_birth, guest_type, nationality) VALUES
+('John', 'Smith', 'john.smith@email.com', '0771234567', '12 Kings Road, Colombo 01', 'Passport', 'P1234567', '1985-03-15', 'VIP', 'British'),
+('Sarah', 'Johnson', 'sarah.j@email.com', '0772345678', '45 Park Street, Kandy', 'Driving License', 'DL876543', '1990-07-22', 'Regular', 'American'),
+('Michael', 'Chen', 'mchen@email.com', '0773456789', '78 Galle Road, Colombo 03', 'Passport', 'P2345678', '1982-11-08', 'Corporate', 'Chinese'),
+('Emily', 'Davis', 'emily.davis@email.com', '0774567890', '23 Temple Road, Nugegoda', 'Driving License', 'DL123456', '1995-05-30', 'Regular', 'Canadian'),
+('James', 'Wilson', 'jwilson@email.com', '0775678901', '56 Hill Street, Colombo 07', NULL, NULL, '1978-09-12', 'VIP', 'Australian'),
+('Emma', 'Brown', 'emma.brown@email.com', '0776789012', '90 Lake Drive, Negombo', 'Passport', 'P3456789', '1988-01-25', 'Regular', 'British'),
+('David', 'Lee', 'david.lee@email.com', '0777890123', '34 Ocean View, Galle', 'Driving License', 'DL654321', '1992-06-18', 'Regular', 'Singaporean'),
+('Sophia', 'Garcia', 'sophia.g@email.com', '0778901234', '67 Green Lane, Colombo 05', 'Passport', 'P4567890', '1987-04-05', 'VIP', 'Spanish'),
+('Robert', 'Taylor', 'rtaylor@email.com', '0779012345', '12 River Road, Kandy', NULL, NULL, '1965-12-20', 'Corporate', 'American'),
+('Olivia', 'Martinez', 'olivia.m@email.com', '0770123456', '89 Sunset Blvd, Colombo 04', 'Driving License', 'DL345678', '1993-08-14', 'Regular', 'Mexican'),
+('William', 'Anderson', 'wanderson@email.com', '0771122334', '55 Mountain View, Nuwara Eliya', 'Passport', 'P5678901', '1980-02-28', 'Corporate', 'Canadian'),
+('Isabella', 'Thomas', 'isabella.t@email.com', '0772233445', '22 Garden Road, Colombo 08', 'Driving License', 'DL234567', '1996-10-10', 'Regular', 'Italian');
 
 -- ============================================
 -- 2. rooms (24)

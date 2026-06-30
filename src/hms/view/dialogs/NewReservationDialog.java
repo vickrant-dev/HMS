@@ -59,11 +59,13 @@ public class NewReservationDialog extends javax.swing.JDialog {
         guestIdNumber.setText("ID: " + selectedGuest.getIdProofNumber());
         guestProfile.setText(selectedGuest.getFirstName().substring(0, 1).toUpperCase()
             + selectedGuest.getLastName().substring(0, 1).toUpperCase());
+        guestType.setText(selectedGuest.getGuestType());
         checkInDate.setDate(java.util.Date.from(reservation.getCheckInDate()
             .atStartOfDay(ZoneId.systemDefault()).toInstant()));
         checkOutDate.setDate(java.util.Date.from(reservation.getCheckOutDate()
             .atStartOfDay(ZoneId.systemDefault()).toInstant()));
         guestCount.setText(String.valueOf(reservation.getNumberOfGuests()));
+        additionalInfo.setText(reservation.getNotes());
         loadAvailableRooms();
         updatePriceBreakdown();
     }
@@ -130,6 +132,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
         guestIdNumber.setText("ID: " + guest.getIdProofNumber());
         guestProfile.setText(guest.getFirstName().substring(0, 1).toUpperCase()
             + guest.getLastName().substring(0, 1).toUpperCase());
+        guestType.setText(guest.getGuestType());
     }
 
     private void loadAvailableRooms() {
@@ -733,14 +736,16 @@ public class NewReservationDialog extends javax.swing.JDialog {
                     editingReservation.getStatus(),
                     editingReservation.getTotalAmount(),
                     editingReservation.getCreatedByStaffId(),
-                    editingReservation.getCreatedAt()
+                    editingReservation.getCreatedAt(),
+                    additionalInfo.getText().trim()
                 );
                 reservationController.updateReservation(updated);
                 JOptionPane.showMessageDialog(this, "Reservation updated successfully.",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 reservationController.createReservation(
-                    selectedGuest, selectedRoom, inDate, outDate, numGuests, null
+                    selectedGuest, selectedRoom, inDate, outDate, numGuests, null,
+                    additionalInfo.getText().trim()
                 );
                 JOptionPane.showMessageDialog(this, "Reservation created successfully.",
                     "Success", JOptionPane.INFORMATION_MESSAGE);

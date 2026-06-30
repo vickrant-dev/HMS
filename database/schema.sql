@@ -23,6 +23,8 @@ CREATE TABLE guests (
     id_proof_type VARCHAR(50),
     id_proof_number VARCHAR(50),
     date_of_birth DATE,
+    guest_type VARCHAR(50) DEFAULT 'Regular',
+    nationality VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -85,6 +87,7 @@ CREATE TABLE reservations (
     total_amount DECIMAL(12, 2),
     created_by_staff_id INT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT,
 
     FOREIGN KEY (guest_id) REFERENCES guests(guest_id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (room_id) REFERENCES rooms(room_id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -105,6 +108,8 @@ CREATE TABLE billing (
     room_charge DECIMAL(12, 2) NOT NULL,
     service_charge DECIMAL(12, 2) DEFAULT 0,
     other_charges DECIMAL(12, 2) DEFAULT 0,
+    discount_amount DECIMAL(12, 2) DEFAULT 0,
+    late_charge DECIMAL(12, 2) DEFAULT 0,
     tax_amount DECIMAL(12, 2) DEFAULT 0,
     total_bill DECIMAL(12, 2) NOT NULL,
     payment_status ENUM('pending', 'partial', 'paid', 'refunded') NOT NULL DEFAULT 'pending',

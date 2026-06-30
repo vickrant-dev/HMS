@@ -41,7 +41,7 @@ public class ReservationController {
 
     public Reservation createReservation(Guest guest, Room room, LocalDate checkInDate,
                                          LocalDate checkOutDate, int numberOfGuests,
-                                         Integer createdByStaffId)
+                                         Integer createdByStaffId, String notes)
             throws ValidationException, DatabaseException {
 
         validateReservationInput(guest, room, checkInDate, checkOutDate, numberOfGuests);
@@ -61,7 +61,8 @@ public class ReservationController {
         String displayId = StringUtil.generateReservationId();
         Reservation reservation = new Reservation(
                 guest, room, checkInDate, checkOutDate, numberOfGuests,
-                Constants.RES_STATUS_CONFIRMED, totalAmount, displayId, createdByStaffId
+                Constants.RES_STATUS_CONFIRMED, totalAmount, displayId, createdByStaffId,
+                notes
         );
 
         Reservation saved = reservationDAO.save(reservation);

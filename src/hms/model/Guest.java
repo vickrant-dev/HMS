@@ -17,6 +17,8 @@ public final class Guest {
     private final String idProofType;
     private final String idProofNumber;
     private final LocalDate dateOfBirth;
+    private final String guestType;
+    private final String nationality;
     private final LocalDateTime createdAt;
 
     /**
@@ -30,10 +32,12 @@ public final class Guest {
      * @param idProofType   The type of ID proof (e.g., "Passport", "Driver's License")
      * @param idProofNumber The ID proof document number
      * @param dateOfBirth   The guest's date of birth
+     * @param guestType     The guest type (e.g., "Regular", "VIP", "Corporate")
+     * @param nationality   The guest's nationality
      */
     public Guest(String firstName, String lastName, String email, String phone,
                  String address, String idProofType, String idProofNumber,
-                 LocalDate dateOfBirth) {
+                 LocalDate dateOfBirth, String guestType, String nationality) {
         this.guestId = 0;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,6 +47,8 @@ public final class Guest {
         this.idProofType = idProofType;
         this.idProofNumber = idProofNumber;
         this.dateOfBirth = dateOfBirth;
+        this.guestType = guestType;
+        this.nationality = nationality;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -58,11 +64,14 @@ public final class Guest {
      * @param idProofType   The type of ID proof
      * @param idProofNumber The ID proof document number
      * @param dateOfBirth   The guest's date of birth
+     * @param guestType     The guest type (e.g., "Regular", "VIP", "Corporate")
+     * @param nationality   The guest's nationality
      * @param createdAt     The timestamp when the record was created
      */
     public Guest(int guestId, String firstName, String lastName, String email,
                  String phone, String address, String idProofType,
                  String idProofNumber, LocalDate dateOfBirth,
+                 String guestType, String nationality,
                  LocalDateTime createdAt) {
         this.guestId = guestId;
         this.firstName = firstName;
@@ -73,6 +82,8 @@ public final class Guest {
         this.idProofType = idProofType;
         this.idProofNumber = idProofNumber;
         this.dateOfBirth = dateOfBirth;
+        this.guestType = guestType;
+        this.nationality = nationality;
         this.createdAt = createdAt;
     }
 
@@ -119,6 +130,16 @@ public final class Guest {
     /** Returns the guest's date of birth. */
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    /** Returns the guest type (e.g., "Regular", "VIP"). */
+    public String getGuestType() {
+        return guestType;
+    }
+
+    /** Returns the guest's nationality. */
+    public String getNationality() {
+        return nationality;
     }
 
     /** Returns the timestamp when the record was created. */

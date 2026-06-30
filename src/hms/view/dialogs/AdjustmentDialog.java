@@ -269,14 +269,16 @@ public class AdjustmentDialog extends javax.swing.JDialog {
             return;
         }
 
-        double otherCharges = 0.0;
+        double discountAmt = 0.0, lateAmt = 0.0, otherAmt = 0.0;
         try {
+            String discText = discountAmount.getText().trim();
+            if (!discText.isEmpty()) discountAmt = Double.parseDouble(discText);
+            String lateText = lateCharge.getText().trim();
+            if (!lateText.isEmpty()) lateAmt = Double.parseDouble(lateText);
             String otherText = otherCharge.getText().trim();
-            if (!otherText.isEmpty()) {
-                otherCharges = Double.parseDouble(otherText);
-            }
+            if (!otherText.isEmpty()) otherAmt = Double.parseDouble(otherText);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Invalid other charge amount.",
+            JOptionPane.showMessageDialog(this, "Invalid amount entered.",
                 "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -287,7 +289,8 @@ public class AdjustmentDialog extends javax.swing.JDialog {
         }
 
         try {
-            billingController.adjustBill(billing.getBillingId(), otherCharges, notes);
+            billingController.adjustBill(billing.getBillingId(), otherAmt,
+                discountAmt, lateAmt, notes);
             JOptionPane.showMessageDialog(this, "Bill adjusted successfully.",
                 "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
