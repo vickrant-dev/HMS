@@ -5,6 +5,15 @@
 package hms.view;
 
 import hms.config.Constants;
+import hms.view.panels.BillingManagementPanel;
+import hms.view.panels.DashboardPanel;
+import hms.view.panels.GuestManagementPanel;
+import hms.view.panels.ReportsPanel;
+import hms.view.panels.ReservationPanel;
+import hms.view.panels.RoomAssignmentPanel;
+import hms.view.panels.RoomManagementPanel;
+import hms.view.panels.ServicePanel;
+import hms.view.panels.StaffPanel;
 import javax.swing.JFrame;
 
 /**
@@ -26,6 +35,21 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         setLocationRelativeTo(null);
+        
+        setupTabs();
+    }
+    
+    private void setupTabs() {
+        main_tab.removeAll();
+        main_tab.addTab("Dashboard", new DashboardPanel());
+        main_tab.addTab("Guests", new GuestManagementPanel());
+        main_tab.addTab("Rooms", new RoomManagementPanel());
+        main_tab.addTab("Reservations", new ReservationPanel());
+        main_tab.addTab("Billing", new BillingManagementPanel());
+        main_tab.addTab("Services", new ServicePanel());
+        main_tab.addTab("Staff", new StaffPanel());
+        main_tab.addTab("Room Assignments", new RoomAssignmentPanel());
+        main_tab.addTab("Reports", new ReportsPanel());
     }
 
     /**
