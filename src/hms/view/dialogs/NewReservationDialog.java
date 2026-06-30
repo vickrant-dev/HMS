@@ -93,6 +93,11 @@ public class NewReservationDialog extends javax.swing.JDialog {
         jLabel3.setText("Search by Name or ID Number");
 
         findGuestBtn.setText("Find Guest");
+        findGuestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findGuestBtnActionPerformed(evt);
+            }
+        });
 
         searchBox.setToolTipText("Search by room no.");
 
@@ -130,6 +135,11 @@ public class NewReservationDialog extends javax.swing.JDialog {
         guestType.setText("Frequent Guest");
 
         changeGuestBtn.setText("Change Guest");
+        changeGuestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeGuestBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -369,9 +379,19 @@ public class NewReservationDialog extends javax.swing.JDialog {
         jLabel25.setText("TOTAL EST. AMOUNT");
 
         createReservationBtn.setText("Create Reservation");
+        createReservationBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createReservationBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
         cancelBtn.setToolTipText("");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rightLayout = new javax.swing.GroupLayout(right);
         right.setLayout(rightLayout);
@@ -483,6 +503,22 @@ public class NewReservationDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void findGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findGuestBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_findGuestBtnActionPerformed
+
+    private void changeGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeGuestBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_changeGuestBtnActionPerformed
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void createReservationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createReservationBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createReservationBtnActionPerformed
 
     /**
      * @param args the command line arguments

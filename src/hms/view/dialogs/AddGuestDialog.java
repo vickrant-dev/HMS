@@ -112,8 +112,18 @@ public class AddGuestDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(address);
 
         saveGuestProfileBtn.setText("Save Guest Profile");
+        saveGuestProfileBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveGuestProfileBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout AddNewGuestPanelLayout = new javax.swing.GroupLayout(AddNewGuestPanel);
         AddNewGuestPanel.setLayout(AddNewGuestPanelLayout);
@@ -254,6 +264,14 @@ public class AddGuestDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void saveGuestProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveGuestProfileBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveGuestProfileBtnActionPerformed
 
     /**
      * @param args the command line arguments

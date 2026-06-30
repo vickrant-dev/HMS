@@ -613,11 +613,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Confirm Check-Out"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="confirmCheckOutBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="cancelBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancel"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelBtnActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

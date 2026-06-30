@@ -92,8 +92,18 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
         jLabel11.setText("0/200 Characters");
 
         saveRoomBtn.setText("Save Room");
+        saveRoomBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveRoomBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -206,6 +216,14 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void saveRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveRoomBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveRoomBtnActionPerformed
 
     /**
      * @param args the command line arguments

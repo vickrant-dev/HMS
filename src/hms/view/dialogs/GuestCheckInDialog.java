@@ -279,8 +279,18 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(checkInNotes);
 
         confirmCheckInBtn.setText("Confirm Check-in");
+        confirmCheckInBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmCheckInBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -365,6 +375,14 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void confirmCheckInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCheckInBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmCheckInBtnActionPerformed
 
     /**
      * @param args the command line arguments

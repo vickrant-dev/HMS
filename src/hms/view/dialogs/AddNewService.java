@@ -79,8 +79,10 @@ public class AddNewService extends javax.swing.JDialog {
         availableForBooking.setText("Available for Booking");
 
         saveServiceBtn.setText("Save Service");
+        saveServiceBtn.addActionListener(this::saveServiceBtnActionPerformed);
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,6 +178,14 @@ public class AddNewService extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void saveServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveServiceBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveServiceBtnActionPerformed
 
     /**
      * @param args the command line arguments

@@ -77,8 +77,10 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
 
         saveStaffProfileBtn.setText("Save Staff Profile");
         saveStaffProfileBtn.setActionCommand("");
+        saveStaffProfileBtn.addActionListener(this::saveStaffProfileBtnActionPerformed);
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,6 +170,14 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void saveStaffProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveStaffProfileBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveStaffProfileBtnActionPerformed
 
     /**
      * @param args the command line arguments

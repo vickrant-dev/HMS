@@ -215,8 +215,18 @@ public class CancellationDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(cancellationNotes);
 
         confirmCancellationBtn.setText("Confirm Cancellation");
+        confirmCancellationBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmCancellationBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -312,6 +322,14 @@ public class CancellationDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void confirmCancellationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCancellationBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmCancellationBtnActionPerformed
 
     /**
      * @param args the command line arguments

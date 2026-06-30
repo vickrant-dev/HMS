@@ -193,8 +193,10 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
         );
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
         confirmBookingBtn.setText("Confirm Booking");
+        confirmBookingBtn.addActionListener(this::confirmBookingBtnActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -292,6 +294,14 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void confirmBookingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBookingBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmBookingBtnActionPerformed
 
     /**
      * @param args the command line arguments
