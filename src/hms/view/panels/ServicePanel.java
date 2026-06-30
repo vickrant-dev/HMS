@@ -43,7 +43,15 @@ public class ServicePanel extends javax.swing.JPanel {
         room_seperator_2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         serviceCatalogTable = new javax.swing.JTable();
-        pageNumber = new javax.swing.JLabel();
+        bottomBar = new javax.swing.JPanel();
+        editServiceBtn = new javax.swing.JButton();
+        deleteServiceBtn = new javax.swing.JButton();
+        toggleAvailBtn = new javax.swing.JButton();
+        paginateLeft1 = new javax.swing.JButton();
+        paginateRight1 = new javax.swing.JButton();
+        pageNumber2 = new javax.swing.JLabel();
+        totalRecords1 = new javax.swing.JLabel();
+        bookServiceBtn = new javax.swing.JButton();
 
         addServiceBtn.setText("Add Service");
 
@@ -85,8 +93,65 @@ public class ServicePanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(serviceCatalogTable);
 
-        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pageNumber.setText("Page 1 of 1");
+        bottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+
+        editServiceBtn.setText("Edit");
+
+        deleteServiceBtn.setText("Delete");
+
+        toggleAvailBtn.setText("Toggle Availability");
+
+        paginateLeft1.setText("<");
+
+        paginateRight1.setText(">");
+
+        pageNumber2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber2.setText("Page 1 of 5");
+
+        totalRecords1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        totalRecords1.setText("Records: 20");
+
+        bookServiceBtn.setText("Book for Reservation");
+        bookServiceBtn.setToolTipText("");
+
+        javax.swing.GroupLayout bottomBarLayout = new javax.swing.GroupLayout(bottomBar);
+        bottomBar.setLayout(bottomBarLayout);
+        bottomBarLayout.setHorizontalGroup(
+            bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(editServiceBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteServiceBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toggleAvailBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bookServiceBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(totalRecords1)
+                .addGap(18, 18, 18)
+                .addComponent(paginateLeft1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paginateRight1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pageNumber2)
+                .addContainerGap())
+        );
+        bottomBarLayout.setVerticalGroup(
+            bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editServiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteServiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toggleAvailBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageNumber2)
+                    .addComponent(paginateLeft1)
+                    .addComponent(paginateRight1)
+                    .addComponent(totalRecords1)
+                    .addComponent(bookServiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout servicePanelGroupLayout = new javax.swing.GroupLayout(servicePanelGroup);
         servicePanelGroup.setLayout(servicePanelGroupLayout);
@@ -127,9 +192,7 @@ public class ServicePanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addServiceBtn))
                     .addComponent(jScrollPane1)
-                    .addGroup(servicePanelGroupLayout.createSequentialGroup()
-                        .addComponent(pageNumber)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(bottomBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         servicePanelGroupLayout.setVerticalGroup(
@@ -167,7 +230,7 @@ public class ServicePanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pageNumber)
+                .addComponent(bottomBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -179,7 +242,9 @@ public class ServicePanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(servicePanelGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(servicePanelGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -188,14 +253,20 @@ public class ServicePanel extends javax.swing.JPanel {
     private javax.swing.JButton addServiceBtn;
     private javax.swing.JButton applyFiltersBtn;
     private javax.swing.JComboBox<String> availabilityCmb;
+    private javax.swing.JButton bookServiceBtn;
+    private javax.swing.JPanel bottomBar;
     private javax.swing.JButton clearBtn;
+    private javax.swing.JButton deleteServiceBtn;
     private javax.swing.JLabel description;
+    private javax.swing.JButton editServiceBtn;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel pageNumber;
+    private javax.swing.JLabel pageNumber2;
+    private javax.swing.JButton paginateLeft1;
+    private javax.swing.JButton paginateRight1;
     private javax.swing.JSeparator room_seperator_1;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
@@ -203,5 +274,7 @@ public class ServicePanel extends javax.swing.JPanel {
     private javax.swing.JTable serviceCatalogTable;
     private javax.swing.JPanel servicePanelGroup;
     private javax.swing.JComboBox<String> serviceTypeCmb;
+    private javax.swing.JButton toggleAvailBtn;
+    private javax.swing.JLabel totalRecords1;
     // End of variables declaration//GEN-END:variables
 }

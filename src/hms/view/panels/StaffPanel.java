@@ -45,7 +45,13 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         staffDirectoryTable = new javax.swing.JTable();
-        pageNumber = new javax.swing.JLabel();
+        bottomBar = new javax.swing.JPanel();
+        editStaffBtn = new javax.swing.JButton();
+        deleteStaffBtn = new javax.swing.JButton();
+        paginateLeft1 = new javax.swing.JButton();
+        paginateRight1 = new javax.swing.JButton();
+        pageNumber2 = new javax.swing.JLabel();
+        totalRecords1 = new javax.swing.JLabel();
 
         addStaffBtn.setText("Add Staff");
 
@@ -91,8 +97,54 @@ public class StaffPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(staffDirectoryTable);
 
-        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pageNumber.setText("Page 1 of 2");
+        bottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+
+        editStaffBtn.setText("Edit");
+
+        deleteStaffBtn.setText("Delete");
+
+        paginateLeft1.setText("<");
+
+        paginateRight1.setText(">");
+
+        pageNumber2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber2.setText("Page 1 of 5");
+
+        totalRecords1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        totalRecords1.setText("Records: 20");
+
+        javax.swing.GroupLayout bottomBarLayout = new javax.swing.GroupLayout(bottomBar);
+        bottomBar.setLayout(bottomBarLayout);
+        bottomBarLayout.setHorizontalGroup(
+            bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(editStaffBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteStaffBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(totalRecords1)
+                .addGap(18, 18, 18)
+                .addComponent(paginateLeft1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paginateRight1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pageNumber2)
+                .addContainerGap())
+        );
+        bottomBarLayout.setVerticalGroup(
+            bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageNumber2)
+                    .addComponent(paginateLeft1)
+                    .addComponent(paginateRight1)
+                    .addComponent(totalRecords1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout staffPanelGroupLayout = new javax.swing.GroupLayout(staffPanelGroup);
         staffPanelGroup.setLayout(staffPanelGroupLayout);
@@ -137,9 +189,7 @@ public class StaffPanel extends javax.swing.JPanel {
                                 .addComponent(clearBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applyFiltersBtn))))
-                    .addGroup(staffPanelGroupLayout.createSequentialGroup()
-                        .addComponent(pageNumber)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(bottomBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         staffPanelGroupLayout.setVerticalGroup(
@@ -179,7 +229,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pageNumber)
+                .addComponent(bottomBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -199,16 +249,21 @@ public class StaffPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStaffBtn;
     private javax.swing.JButton applyFiltersBtn;
+    private javax.swing.JPanel bottomBar;
     private javax.swing.JButton clearBtn;
+    private javax.swing.JButton deleteStaffBtn;
     private javax.swing.JComboBox<String> departmentCmb;
     private javax.swing.JLabel description;
+    private javax.swing.JButton editStaffBtn;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel pageNumber;
+    private javax.swing.JLabel pageNumber2;
+    private javax.swing.JButton paginateLeft1;
+    private javax.swing.JButton paginateRight1;
     private javax.swing.JComboBox<String> positionCmb;
     private javax.swing.JSeparator room_seperator_1;
     private javax.swing.JSeparator room_seperator_2;
@@ -217,5 +272,6 @@ public class StaffPanel extends javax.swing.JPanel {
     private javax.swing.JTable staffDirectoryTable;
     private javax.swing.JPanel staffPanelGroup;
     private javax.swing.JComboBox<String> statusCmb;
+    private javax.swing.JLabel totalRecords1;
     // End of variables declaration//GEN-END:variables
 }

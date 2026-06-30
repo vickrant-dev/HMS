@@ -44,7 +44,15 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         dateRangeFrom = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         billingManagementTable = new javax.swing.JTable();
-        pageNumber = new javax.swing.JLabel();
+        exportCmb = new javax.swing.JComboBox<>();
+        bottomBar3 = new javax.swing.JPanel();
+        viewDetailsBtn = new javax.swing.JButton();
+        recordPaymentBtn = new javax.swing.JButton();
+        adjustBillBtn = new javax.swing.JButton();
+        paginateLeft8 = new javax.swing.JButton();
+        paginateRight8 = new javax.swing.JButton();
+        pageNumber9 = new javax.swing.JLabel();
+        totalRecords8 = new javax.swing.JLabel();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Billing Management");
@@ -94,8 +102,61 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(billingManagementTable);
 
-        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pageNumber.setText("Page 1 of 5");
+        exportCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        bottomBar3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+
+        viewDetailsBtn.setText("View Details");
+
+        recordPaymentBtn.setText("Record Payment");
+
+        adjustBillBtn.setText("Adjust Bill");
+
+        paginateLeft8.setText("<");
+
+        paginateRight8.setText(">");
+
+        pageNumber9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber9.setText("Page 1 of 5");
+
+        totalRecords8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        totalRecords8.setText("Records: 10");
+
+        javax.swing.GroupLayout bottomBar3Layout = new javax.swing.GroupLayout(bottomBar3);
+        bottomBar3.setLayout(bottomBar3Layout);
+        bottomBar3Layout.setHorizontalGroup(
+            bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBar3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(viewDetailsBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(recordPaymentBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adjustBillBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(totalRecords8)
+                .addGap(18, 18, 18)
+                .addComponent(paginateLeft8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paginateRight8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pageNumber9)
+                .addContainerGap())
+        );
+        bottomBar3Layout.setVerticalGroup(
+            bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBar3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recordPaymentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adjustBillBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageNumber9)
+                    .addComponent(paginateLeft8)
+                    .addComponent(paginateRight8)
+                    .addComponent(totalRecords8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -106,14 +167,6 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addComponent(guest_seperator_1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(heading)
-                            .addComponent(description))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newInvoiceBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exportBtn))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,8 +193,16 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applyFiltersBtn))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pageNumber)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(heading)
+                            .addComponent(description))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(newInvoiceBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(exportCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exportBtn))
+                    .addComponent(bottomBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -149,13 +210,15 @@ public class BillingManagementPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(exportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(newInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(description)))
+                        .addComponent(description))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(exportBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(newInvoiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(exportCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(guest_seperator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -181,20 +244,23 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pageNumber)
+                .addComponent(bottomBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adjustBillBtn;
     private javax.swing.JButton applyFiltersBtn;
     private javax.swing.JTable billingManagementTable;
+    private javax.swing.JPanel bottomBar3;
     private javax.swing.JButton clearBtn;
     private com.toedter.calendar.JDateChooser dateRangeFrom;
     private com.toedter.calendar.JDateChooser dateRangeTo;
     private javax.swing.JLabel description;
     private javax.swing.JButton exportBtn;
+    private javax.swing.JComboBox<String> exportCmb;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel jLabel1;
@@ -202,10 +268,15 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton newInvoiceBtn;
-    private javax.swing.JLabel pageNumber;
+    private javax.swing.JLabel pageNumber9;
+    private javax.swing.JButton paginateLeft8;
+    private javax.swing.JButton paginateRight8;
     private javax.swing.JComboBox<String> paymentStatusCmb;
+    private javax.swing.JButton recordPaymentBtn;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
+    private javax.swing.JLabel totalRecords8;
+    private javax.swing.JButton viewDetailsBtn;
     // End of variables declaration//GEN-END:variables
 }

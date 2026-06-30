@@ -26,7 +26,7 @@ public class ReservationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        reservaionGroupPanel = new javax.swing.JPanel();
+        reservationGroupPanel = new javax.swing.JPanel();
         heading = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
         addReservationBtn = new javax.swing.JButton();
@@ -44,7 +44,15 @@ public class ReservationPanel extends javax.swing.JPanel {
         dateRangeTo = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         reservationsTable = new javax.swing.JTable();
-        pageNumber = new javax.swing.JLabel();
+        bottomBar3 = new javax.swing.JPanel();
+        checkInBtn = new javax.swing.JButton();
+        checkOutBtn = new javax.swing.JButton();
+        modifyResBtn = new javax.swing.JButton();
+        paginateLeft8 = new javax.swing.JButton();
+        paginateRight8 = new javax.swing.JButton();
+        pageNumber9 = new javax.swing.JLabel();
+        totalRecords8 = new javax.swing.JLabel();
+        cancelResBtn = new javax.swing.JButton();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Reservations");
@@ -92,81 +100,135 @@ public class ReservationPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(reservationsTable);
 
-        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pageNumber.setText("Page 1 of 5");
+        bottomBar3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
-        javax.swing.GroupLayout reservaionGroupPanelLayout = new javax.swing.GroupLayout(reservaionGroupPanel);
-        reservaionGroupPanel.setLayout(reservaionGroupPanelLayout);
-        reservaionGroupPanelLayout.setHorizontalGroup(
-            reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
+        checkInBtn.setText("Check-In");
+
+        checkOutBtn.setText("Check-Out");
+
+        modifyResBtn.setText("Modify");
+
+        paginateLeft8.setText("<");
+
+        paginateRight8.setText(">");
+
+        pageNumber9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber9.setText("Page 1 of 5");
+
+        totalRecords8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        totalRecords8.setText("Records: 10");
+
+        cancelResBtn.setText("Cancel");
+
+        javax.swing.GroupLayout bottomBar3Layout = new javax.swing.GroupLayout(bottomBar3);
+        bottomBar3.setLayout(bottomBar3Layout);
+        bottomBar3Layout.setHorizontalGroup(
+            bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBar3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(checkInBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkOutBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(modifyResBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelResBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(totalRecords8)
+                .addGap(18, 18, 18)
+                .addComponent(paginateLeft8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paginateRight8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pageNumber9)
+                .addContainerGap())
+        );
+        bottomBar3Layout.setVerticalGroup(
+            bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBar3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkInBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifyResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageNumber9)
+                    .addComponent(paginateLeft8)
+                    .addComponent(paginateRight8)
+                    .addComponent(totalRecords8)
+                    .addComponent(cancelResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout reservationGroupPanelLayout = new javax.swing.GroupLayout(reservationGroupPanel);
+        reservationGroupPanel.setLayout(reservationGroupPanelLayout);
+        reservationGroupPanelLayout.setHorizontalGroup(
+            reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reservationGroupPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addComponent(guest_seperator_1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
-                        .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(reservationGroupPanelLayout.createSequentialGroup()
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(heading)
                             .addComponent(description))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addReservationBtn))
-                    .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
-                        .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
-                                .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
-                                        .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(searchBtn)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(room_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(statusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
-                                        .addComponent(dateRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(dateRangeTo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(28, 28, 28)
-                                        .addComponent(clearBtn)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(applyFiltersBtn))))
-                            .addComponent(pageNumber))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(reservationGroupPanelLayout.createSequentialGroup()
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(reservationGroupPanelLayout.createSequentialGroup()
+                                .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchBtn)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(room_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(statusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(reservationGroupPanelLayout.createSequentialGroup()
+                                .addComponent(dateRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dateRangeTo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(clearBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(applyFiltersBtn)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(bottomBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        reservaionGroupPanelLayout.setVerticalGroup(
-            reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
+        reservationGroupPanelLayout.setVerticalGroup(
+            reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reservationGroupPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addReservationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
+                    .addGroup(reservationGroupPanelLayout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(description)))
                 .addGap(18, 18, 18)
                 .addComponent(guest_seperator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, reservaionGroupPanelLayout.createSequentialGroup()
+                .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, reservationGroupPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(room_seperator_2)
-                    .addGroup(reservaionGroupPanelLayout.createSequentialGroup()
-                        .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(reservationGroupPanelLayout.createSequentialGroup()
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(reservaionGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(reservationGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(statusCmb)
                             .addComponent(applyFiltersBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                             .addComponent(clearBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -175,7 +237,7 @@ public class ReservationPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pageNumber)
+                .addComponent(bottomBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -183,11 +245,13 @@ public class ReservationPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(reservaionGroupPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(reservationGroupPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(reservaionGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(reservationGroupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -195,22 +259,94 @@ public class ReservationPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addReservationBtn;
     private javax.swing.JButton applyFiltersBtn;
+    private javax.swing.JPanel bottomBar;
+    private javax.swing.JPanel bottomBar1;
+    private javax.swing.JPanel bottomBar2;
+    private javax.swing.JPanel bottomBar3;
+    private javax.swing.JButton cancelResBtn;
+    private javax.swing.JButton checkInBtn;
+    private javax.swing.JButton checkOutBtn;
     private javax.swing.JButton clearBtn;
     private com.toedter.calendar.JDateChooser dateRangeFrom;
     private com.toedter.calendar.JDateChooser dateRangeTo;
+    private javax.swing.JButton deleteGuestBtn;
+    private javax.swing.JButton deleteGuestBtn1;
+    private javax.swing.JButton deleteGuestBtn2;
+    private javax.swing.JButton deleteGuestBtn3;
+    private javax.swing.JButton deleteGuestBtn4;
+    private javax.swing.JButton deleteGuestBtn5;
+    private javax.swing.JButton deleteGuestBtn6;
+    private javax.swing.JButton deleteGuestBtn7;
     private javax.swing.JLabel description;
+    private javax.swing.JButton editGuestBtn;
+    private javax.swing.JButton editGuestBtn1;
+    private javax.swing.JButton editGuestBtn2;
+    private javax.swing.JButton editGuestBtn3;
+    private javax.swing.JButton editGuestBtn4;
+    private javax.swing.JButton editGuestBtn5;
+    private javax.swing.JButton editGuestBtn6;
+    private javax.swing.JButton editGuestBtn7;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel pageNumber;
-    private javax.swing.JPanel reservaionGroupPanel;
+    private javax.swing.JButton modifyResBtn;
+    private javax.swing.JLabel pageNumber1;
+    private javax.swing.JLabel pageNumber2;
+    private javax.swing.JLabel pageNumber3;
+    private javax.swing.JLabel pageNumber4;
+    private javax.swing.JLabel pageNumber5;
+    private javax.swing.JLabel pageNumber6;
+    private javax.swing.JLabel pageNumber7;
+    private javax.swing.JLabel pageNumber8;
+    private javax.swing.JLabel pageNumber9;
+    private javax.swing.JButton paginateLeft;
+    private javax.swing.JButton paginateLeft1;
+    private javax.swing.JButton paginateLeft2;
+    private javax.swing.JButton paginateLeft3;
+    private javax.swing.JButton paginateLeft4;
+    private javax.swing.JButton paginateLeft5;
+    private javax.swing.JButton paginateLeft6;
+    private javax.swing.JButton paginateLeft7;
+    private javax.swing.JButton paginateLeft8;
+    private javax.swing.JButton paginateRight;
+    private javax.swing.JButton paginateRight1;
+    private javax.swing.JButton paginateRight2;
+    private javax.swing.JButton paginateRight3;
+    private javax.swing.JButton paginateRight4;
+    private javax.swing.JButton paginateRight5;
+    private javax.swing.JButton paginateRight6;
+    private javax.swing.JButton paginateRight7;
+    private javax.swing.JButton paginateRight8;
+    private javax.swing.JPanel reservationGroupPanel;
     private javax.swing.JTable reservationsTable;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
     private javax.swing.JComboBox<String> statusCmb;
+    private javax.swing.JLabel totalRecords;
+    private javax.swing.JLabel totalRecords1;
+    private javax.swing.JLabel totalRecords2;
+    private javax.swing.JLabel totalRecords3;
+    private javax.swing.JLabel totalRecords4;
+    private javax.swing.JLabel totalRecords5;
+    private javax.swing.JLabel totalRecords6;
+    private javax.swing.JLabel totalRecords7;
+    private javax.swing.JLabel totalRecords8;
+    private javax.swing.JButton viewHistoryBtn;
+    private javax.swing.JButton viewHistoryBtn1;
+    private javax.swing.JButton viewHistoryBtn2;
+    private javax.swing.JButton viewHistoryBtn3;
+    private javax.swing.JButton viewHistoryBtn4;
+    private javax.swing.JButton viewHistoryBtn5;
+    private javax.swing.JButton viewHistoryBtn6;
+    private javax.swing.JButton viewHistoryBtn7;
     // End of variables declaration//GEN-END:variables
 }

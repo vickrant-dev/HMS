@@ -48,6 +48,7 @@ public class ReportsPanel extends javax.swing.JPanel {
         guest_seperator_2 = new javax.swing.JSeparator();
         generateReportBtn = new javax.swing.JButton();
         reportPreviewPanel = new javax.swing.JPanel();
+        exportPdfBtn = new javax.swing.JButton();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Reports");
@@ -154,15 +155,24 @@ public class ReportsPanel extends javax.swing.JPanel {
 
         reportPreviewPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
+        exportPdfBtn.setText("Export PDF");
+        exportPdfBtn.setActionCommand("");
+
         javax.swing.GroupLayout reportPreviewPanelLayout = new javax.swing.GroupLayout(reportPreviewPanel);
         reportPreviewPanel.setLayout(reportPreviewPanelLayout);
         reportPreviewPanelLayout.setHorizontalGroup(
             reportPreviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportPreviewPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exportPdfBtn)
+                .addContainerGap())
         );
         reportPreviewPanelLayout.setVerticalGroup(
             reportPreviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportPreviewPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exportPdfBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -214,6 +224,7 @@ public class ReportsPanel extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser dateRangeFrom;
     private com.toedter.calendar.JDateChooser dateRangeTo;
     private javax.swing.JLabel description;
+    private javax.swing.JButton exportPdfBtn;
     private javax.swing.JPanel filtersPanel;
     private javax.swing.JButton generateReportBtn;
     private javax.swing.JSeparator guest_seperator_1;

@@ -44,7 +44,15 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         roomAssignmentsTable = new javax.swing.JTable();
-        pageNumber = new javax.swing.JLabel();
+        bottomBar1 = new javax.swing.JPanel();
+        editAssignBtn = new javax.swing.JButton();
+        markInProgressBtn = new javax.swing.JButton();
+        markCompletedBtn = new javax.swing.JButton();
+        paginateLeft2 = new javax.swing.JButton();
+        paginateRight2 = new javax.swing.JButton();
+        pageNumber3 = new javax.swing.JLabel();
+        totalRecords2 = new javax.swing.JLabel();
+        deleteAssignBtn = new javax.swing.JButton();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Room Assignments");
@@ -88,8 +96,65 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(roomAssignmentsTable);
 
-        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pageNumber.setText("Page 1 of 1");
+        bottomBar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+
+        editAssignBtn.setText("Edit");
+
+        markInProgressBtn.setText("Mark In Progress");
+
+        markCompletedBtn.setText("Mark Completed");
+
+        paginateLeft2.setText("<");
+
+        paginateRight2.setText(">");
+
+        pageNumber3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber3.setText("Page 1 of 5");
+
+        totalRecords2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        totalRecords2.setText("Records: 20");
+
+        deleteAssignBtn.setText("Delete");
+        deleteAssignBtn.setToolTipText("");
+
+        javax.swing.GroupLayout bottomBar1Layout = new javax.swing.GroupLayout(bottomBar1);
+        bottomBar1.setLayout(bottomBar1Layout);
+        bottomBar1Layout.setHorizontalGroup(
+            bottomBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBar1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(editAssignBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(markInProgressBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(markCompletedBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteAssignBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(totalRecords2)
+                .addGap(18, 18, 18)
+                .addComponent(paginateLeft2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paginateRight2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pageNumber3)
+                .addContainerGap())
+        );
+        bottomBar1Layout.setVerticalGroup(
+            bottomBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomBar1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(bottomBar1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editAssignBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(markInProgressBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(markCompletedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pageNumber3)
+                    .addComponent(paginateLeft2)
+                    .addComponent(paginateRight2)
+                    .addComponent(totalRecords2)
+                    .addComponent(deleteAssignBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -134,9 +199,7 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
                                 .addComponent(clearBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applyFiltersBtn))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pageNumber)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(bottomBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -177,7 +240,7 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pageNumber)
+                .addComponent(bottomBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -186,9 +249,15 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAssignmentBtn;
     private javax.swing.JButton applyFiltersBtn;
+    private javax.swing.JPanel bottomBar;
+    private javax.swing.JPanel bottomBar1;
     private javax.swing.JButton clearBtn;
     private com.toedter.calendar.JDateChooser dateChooser;
+    private javax.swing.JButton deleteAssignBtn;
+    private javax.swing.JButton deleteRoomBtn;
     private javax.swing.JLabel description;
+    private javax.swing.JButton editAssignBtn;
+    private javax.swing.JButton editRoomBtn;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel jLabel1;
@@ -196,12 +265,23 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel pageNumber;
+    private javax.swing.JButton markAvailBtn;
+    private javax.swing.JButton markCompletedBtn;
+    private javax.swing.JButton markInProgressBtn;
+    private javax.swing.JButton markMaintBtn;
+    private javax.swing.JLabel pageNumber2;
+    private javax.swing.JLabel pageNumber3;
+    private javax.swing.JButton paginateLeft1;
+    private javax.swing.JButton paginateLeft2;
+    private javax.swing.JButton paginateRight1;
+    private javax.swing.JButton paginateRight2;
     private javax.swing.JTable roomAssignmentsTable;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
     private javax.swing.JComboBox<String> staffCmb;
     private javax.swing.JComboBox<String> statusCmb;
+    private javax.swing.JLabel totalRecords1;
+    private javax.swing.JLabel totalRecords2;
     // End of variables declaration//GEN-END:variables
 }

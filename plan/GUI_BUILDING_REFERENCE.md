@@ -1512,7 +1512,547 @@ When "New Assignment" is clicked, show a small dialog or inline form:
 
 ---
 
-## Appendix: Reusable UI Patterns
+## Appendix: Row-Action Buttons — Bottom Action Bar Pattern
+
+> **Target:** All 7 list panels (Guest, Room, Reservation, Billing, Service, Staff, Room Assignment).
+> **Pattern:** Add action buttons at the bottom of each panel. Wire a `ListSelectionListener` on the table so buttons are disabled when no row is selected, enabled when a row is selected.
+> **Note:** You add the buttons in NetBeans GUI builder (Design view). The selection listener and action stubs go **outside** `initComponents()` — in a `setupTable()` method called from the constructor after `initComponents()`.
+
+---
+
+### Overview of the Pattern
+
+Every list panel follows this structure:
+
+```
+Constructor:
+  1. initComponents();        // NetBeans-generated — buttons, separator, labels
+  2. setupTable();            // Selection listener, renderers, sorting
+  3. setupListeners();        // Button click handlers (plumbing only, no controllers yet)
+```
+
+The bottom action bar layout is consistent:
+
+```
+[ActionBtn1] [ActionBtn2] [ActionBtn3] [ActionBtn4]    Records: {count}    < [Page X of Y] >
+```
+
+All action buttons start **disabled**. They become enabled only when a row is selected in the table.
+
+---
+
+### 1. GuestManagementPanel — Bottom Bar
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `editGuestBtn` | "Edit" | Enabled when 1 row selected |
+| `deleteGuestBtn` | "Delete" | Enabled when 1 row selected |
+| `viewHistoryBtn` | "View History" | Enabled when 1 row selected |
+| `paginateLeft` | "<" | Already exists |
+| `paginateRight` | ">" | Already exists |
+| `totalRecords` | "0 Records" | Already exists |
+| `pageNumber` | "Page 1 of 1" | Already exists |
+
+**Visual layout (bottom bar):**
+
+```
+[Edit] [Delete] [View History]          Records: 15    < Page 1 of 5 >
+```
+
+**Code to add** (in `setupTable()`, called after `initComponents()` in constructor):
+
+```java
+public GuestManagementPanel() {
+    initComponents();
+    setupTable();
+    setupListeners();
+}
+
+private void setupTable() {
+    guestManagementTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = guestManagementTable.getSelectedRow() != -1;
+        editGuestBtn.setEnabled(rowSelected);
+        deleteGuestBtn.setEnabled(rowSelected);
+        viewHistoryBtn.setEnabled(rowSelected);
+    });
+    editGuestBtn.setEnabled(false);
+    deleteGuestBtn.setEnabled(false);
+    viewHistoryBtn.setEnabled(false);
+}
+
+private void setupListeners() {
+    // Action stubs — wire to controllers later
+    editGuestBtn.addActionListener(e -> editGuest());
+    deleteGuestBtn.addActionListener(e -> deleteGuest());
+    viewHistoryBtn.addActionListener(e -> viewGuestHistory());
+}
+```
+
+**Action stubs** (placeholder methods):
+
+```java
+private void editGuest() {
+    int viewRow = guestManagementTable.getSelectedRow();
+    if (viewRow == -1) return;
+    int modelRow = guestManagementTable.convertRowIndexToModel(viewRow);
+    // TODO: Get Guest object from backing list, open GuestDialog in EDIT mode
+    // GuestDialog dialog = new GuestDialog(SwingUtilities.getWindowAncestor(this), "EDIT", guestController);
+    // dialog.setGuest(filteredGuests.get(modelRow));
+    // if (dialog.showDialog() != null) loadGuests();
+}
+
+private void deleteGuest() {
+    int viewRow = guestManagementTable.getSelectedRow();
+    if (viewRow == -1) return;
+    int modelRow = guestManagementTable.convertRowIndexToModel(viewRow);
+    // TODO: Show confirm dialog, then call guestController.deleteGuest(id)
+    // if (confirmDelete("Guest", guestName)) { guestController.deleteGuest(guestId); loadGuests(); }
+}
+
+private void viewGuestHistory() {
+    int viewRow = guestManagementTable.getSelectedRow();
+    if (viewRow == -1) return;
+    int modelRow = guestManagementTable.convertRowIndexToModel(viewRow);
+    // TODO: Open guest history sub-panel or dialog
+}
+```
+
+**Helper method** (reused across panels):
+
+```java
+private boolean confirmDelete(String itemType, String itemName) {
+    int result = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to delete " + itemType + " \"" + itemName + "\"?\n"
+        + "This action cannot be undone.",
+        "Confirm Deletion",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
+    return result == JOptionPane.YES_OPTION;
+}
+```
+
+---
+
+### 2. RoomManagementPanel — Bottom Bar
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `editRoomBtn` | "Edit" | Enabled when 1 row selected |
+| `deleteRoomBtn` | "Delete" | Enabled when 1 row selected |
+| `markMaintBtn` | "Mark Maintenance" | Enabled when 1 row selected |
+| `markAvailBtn` | "Mark Available" | Enabled when 1 row selected |
+
+**Visual layout:**
+
+```
+[Edit] [Delete] [Mark Maintenance] [Mark Available]    Records: 20    < Page 1 of 4 >
+```
+
+**Code additions:**
+
+```java
+// In constructor:
+// initComponents();
+// setupTable();
+// setupListeners();
+
+private void setupTable() {
+    roomManagementTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = roomManagementTable.getSelectedRow() != -1;
+        editRoomBtn.setEnabled(rowSelected);
+        deleteRoomBtn.setEnabled(rowSelected);
+        markMaintBtn.setEnabled(rowSelected);
+        markAvailBtn.setEnabled(rowSelected);
+    });
+    editRoomBtn.setEnabled(false);
+    deleteRoomBtn.setEnabled(false);
+    markMaintBtn.setEnabled(false);
+    markAvailBtn.setEnabled(false);
+}
+
+private void setupListeners() {
+    editRoomBtn.addActionListener(e -> editRoom());
+    deleteRoomBtn.addActionListener(e -> deleteRoom());
+    markMaintBtn.addActionListener(e -> updateRoomStatus("maintenance"));
+    markAvailBtn.addActionListener(e -> updateRoomStatus("available"));
+}
+
+private void editRoom() {
+    int viewRow = roomManagementTable.getSelectedRow();
+    if (viewRow == -1) return;
+    int modelRow = roomManagementTable.convertRowIndexToModel(viewRow);
+    // TODO: Open RoomDialog in EDIT mode
+}
+
+private void deleteRoom() {
+    int viewRow = roomManagementTable.getSelectedRow();
+    if (viewRow == -1) return;
+    int modelRow = roomManagementTable.convertRowIndexToModel(viewRow);
+    // TODO: Confirm, then delete if no active reservations
+}
+
+private void updateRoomStatus(String newStatus) {
+    int viewRow = roomManagementTable.getSelectedRow();
+    if (viewRow == -1) return;
+    int modelRow = roomManagementTable.convertRowIndexToModel(viewRow);
+    // TODO: Call roomController.updateStatus(roomId, newStatus)
+}
+```
+
+---
+
+### 3. ReservationPanel — Bottom Bar
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `checkInBtn` | "Check-in" | Enabled when 1 row selected |
+| `checkOutBtn` | "Check-out" | Enabled when 1 row selected |
+| `modifyResBtn` | "Modify" | Enabled when 1 row selected |
+| `cancelResBtn` | "Cancel" | Enabled when 1 row selected |
+
+**Visual layout:**
+
+```
+[Check-in] [Check-out] [Modify] [Cancel]    Records: 25    < Page 1 of 3 >
+```
+
+**Code additions:**
+
+```java
+private void setupTable() {
+    reservationsTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = reservationsTable.getSelectedRow() != -1;
+        checkInBtn.setEnabled(rowSelected);
+        checkOutBtn.setEnabled(rowSelected);
+        modifyResBtn.setEnabled(rowSelected);
+        cancelResBtn.setEnabled(rowSelected);
+    });
+    checkInBtn.setEnabled(false);
+    checkOutBtn.setEnabled(false);
+    modifyResBtn.setEnabled(false);
+    cancelResBtn.setEnabled(false);
+}
+
+private void setupListeners() {
+    checkInBtn.addActionListener(e -> checkIn());
+    checkOutBtn.addActionListener(e -> checkOut());
+    modifyResBtn.addActionListener(e -> modifyReservation());
+    cancelResBtn.addActionListener(e -> cancelReservation());
+}
+
+private void checkIn() {
+    // TODO: Open CheckInDialog
+}
+
+private void checkOut() {
+    // TODO: Open CheckOutDialog
+}
+
+private void modifyReservation() {
+    // TODO: Open ReservationDialog in EDIT mode
+}
+
+private void cancelReservation() {
+    // TODO: Open CancellationDialog
+}
+```
+
+---
+
+### 4. BillingManagementPanel — Bottom Bar
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `viewDetailsBtn` | "View Details" | Enabled when 1 row selected |
+| `recordPaymentBtn` | "Record Payment" | Enabled when 1 row selected |
+| `adjustBillBtn` | "Adjust Bill" | Enabled when 1 row selected |
+
+**Visual layout:**
+
+```
+[View Details] [Record Payment] [Adjust Bill]    Records: 15    < Page 1 of 2 >
+```
+
+**Code additions:**
+
+```java
+private void setupTable() {
+    billingManagementTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = billingManagementTable.getSelectedRow() != -1;
+        viewDetailsBtn.setEnabled(rowSelected);
+        recordPaymentBtn.setEnabled(rowSelected);
+        adjustBillBtn.setEnabled(rowSelected);
+    });
+    viewDetailsBtn.setEnabled(false);
+    recordPaymentBtn.setEnabled(false);
+    adjustBillBtn.setEnabled(false);
+}
+
+private void setupListeners() {
+    viewDetailsBtn.addActionListener(e -> viewBillDetails());
+    recordPaymentBtn.addActionListener(e -> recordPayment());
+    adjustBillBtn.addActionListener(e -> adjustBill());
+}
+
+private void viewBillDetails() {
+    // TODO: Show itemized bill
+}
+
+private void recordPayment() {
+    // TODO: Open PaymentDialog
+}
+
+private void adjustBill() {
+    // TODO: Open AdjustmentDialog
+}
+```
+
+---
+
+### 5. ServicePanel — Bottom Bar + JToggleButton for Available Column
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `editServiceBtn` | "Edit" | Enabled when 1 row selected |
+| `deleteServiceBtn` | "Delete" | Enabled when 1 row selected |
+| `toggleAvailBtn` | "Toggle Availability" | Enabled when 1 row selected |
+| `bookServiceBtn` | "Book for Reservation..." | Enabled when 1 row selected |
+
+**Visual layout:**
+
+```
+[Edit] [Delete] [Toggle Availability] [Book for Reservation...]    Records: 8    < Page 1 of 1 >
+```
+
+**Code additions:**
+
+```java
+private void setupTable() {
+    serviceCatalogTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = serviceCatalogTable.getSelectedRow() != -1;
+        editServiceBtn.setEnabled(rowSelected);
+        deleteServiceBtn.setEnabled(rowSelected);
+        toggleAvailBtn.setEnabled(rowSelected);
+        bookServiceBtn.setEnabled(rowSelected);
+    });
+    editServiceBtn.setEnabled(false);
+    deleteServiceBtn.setEnabled(false);
+    toggleAvailBtn.setEnabled(false);
+    bookServiceBtn.setEnabled(false);
+    
+    // Apply toggle renderer/editor to "AVAILABLE" column (index 4)
+    serviceCatalogTable.getColumnModel().getColumn(4).setCellRenderer(new ToggleButtonRenderer());
+    serviceCatalogTable.getColumnModel().getColumn(4).setCellEditor(new ToggleButtonEditor());
+}
+
+private void setupListeners() {
+    editServiceBtn.addActionListener(e -> editService());
+    deleteServiceBtn.addActionListener(e -> deleteService());
+    toggleAvailBtn.addActionListener(e -> toggleAvailability());
+    bookServiceBtn.addActionListener(e -> openBookingDialog());
+}
+```
+
+#### JToggleButton Renderer & Editor for Available Column
+
+**Place these as inner classes inside `ServicePanel`:**
+
+```java
+private class ToggleButtonRenderer extends JToggleButton implements TableCellRenderer {
+    public ToggleButtonRenderer() {
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+        boolean selected = value != null && Boolean.parseBoolean(value.toString());
+        setSelected(selected);
+        setText(selected ? "Yes" : "No");
+        return this;
+    }
+}
+
+private class ToggleButtonEditor extends DefaultCellEditor {
+    private JToggleButton button;
+    private boolean currentValue;
+    private int editingRow;
+
+    public ToggleButtonEditor() {
+        super(new JCheckBox());
+        button = new JToggleButton();
+        button.addActionListener(e -> {
+            // Toggle the value
+            currentValue = !currentValue;
+            button.setSelected(currentValue);
+            button.setText(currentValue ? "Yes" : "No");
+            stopCellEditing();
+
+            // TODO: Fire controller call to persist change
+            // int modelRow = serviceCatalogTable.convertRowIndexToModel(editingRow);
+            // serviceController.toggleAvailability(serviceId);
+        });
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value,
+            boolean isSelected, int row, int column) {
+        currentValue = value != null && Boolean.parseBoolean(value.toString());
+        editingRow = row;
+        button.setSelected(currentValue);
+        button.setText(currentValue ? "Yes" : "No");
+        return button;
+    }
+
+    @Override
+    public Object getCellEditorValue() {
+        return currentValue;
+    }
+}
+```
+
+---
+
+### 6. StaffPanel — Bottom Bar
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `editStaffBtn` | "Edit" | Enabled when 1 row selected |
+| `deleteStaffBtn` | "Delete" | Enabled when 1 row selected |
+
+**Visual layout:**
+
+```
+[Edit] [Delete]    Records: 10    < Page 1 of 2 >
+```
+
+**Code additions:**
+
+```java
+private void setupTable() {
+    staffDirectoryTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = staffDirectoryTable.getSelectedRow() != -1;
+        editStaffBtn.setEnabled(rowSelected);
+        deleteStaffBtn.setEnabled(rowSelected);
+    });
+    editStaffBtn.setEnabled(false);
+    deleteStaffBtn.setEnabled(false);
+}
+
+private void setupListeners() {
+    editStaffBtn.addActionListener(e -> editStaff());
+    deleteStaffBtn.addActionListener(e -> deleteStaff());
+}
+
+private void editStaff() {
+    // TODO: Open StaffDialog in EDIT mode
+}
+
+private void deleteStaff() {
+    // TODO: Confirm, then call staffController.deleteStaff(id)
+}
+```
+
+---
+
+### 7. RoomAssignmentPanel — Bottom Bar
+
+**Buttons to add in NetBeans:**
+
+| Variable name | Text | Behavior |
+|--------------|------|----------|
+| `editAssignBtn` | "Edit" | Enabled when 1 row selected |
+| `markInProgressBtn` | "Mark In Progress" | Enabled when 1 row selected |
+| `markCompletedBtn` | "Mark Completed" | Enabled when 1 row selected |
+| `deleteAssignBtn` | "Delete" | Enabled when 1 row selected |
+
+**Visual layout:**
+
+```
+[Edit] [Mark In Progress] [Mark Completed] [Delete]    Records: 5    < Page 1 of 1 >
+```
+
+**Code additions:**
+
+```java
+private void setupTable() {
+    roomAssignmentsTable.getSelectionModel().addListSelectionListener(e -> {
+        boolean rowSelected = roomAssignmentsTable.getSelectedRow() != -1;
+        editAssignBtn.setEnabled(rowSelected);
+        markInProgressBtn.setEnabled(rowSelected);
+        markCompletedBtn.setEnabled(rowSelected);
+        deleteAssignBtn.setEnabled(rowSelected);
+    });
+    editAssignBtn.setEnabled(false);
+    markInProgressBtn.setEnabled(false);
+    markCompletedBtn.setEnabled(false);
+    deleteAssignBtn.setEnabled(false);
+}
+
+private void setupListeners() {
+    editAssignBtn.addActionListener(e -> editAssignment());
+    markInProgressBtn.addActionListener(e -> updateAssignmentStatus("in_progress"));
+    markCompletedBtn.addActionListener(e -> updateAssignmentStatus("completed"));
+    deleteAssignBtn.addActionListener(e -> deleteAssignment());
+}
+```
+
+---
+
+### Summary: Button Inventory Across All Panels
+
+| Panel | Buttons (variable names) |
+|-------|-------------------------|
+| **GuestManagementPanel** | `editGuestBtn`, `deleteGuestBtn`, `viewHistoryBtn` |
+| **RoomManagementPanel** | `editRoomBtn`, `deleteRoomBtn`, `markMaintBtn`, `markAvailBtn` |
+| **ReservationPanel** | `checkInBtn`, `checkOutBtn`, `modifyResBtn`, `cancelResBtn` |
+| **BillingManagementPanel** | `viewDetailsBtn`, `recordPaymentBtn`, `adjustBillBtn` |
+| **ServicePanel** | `editServiceBtn`, `deleteServiceBtn`, `toggleAvailBtn`, `bookServiceBtn` |
+| **StaffPanel** | `editStaffBtn`, `deleteStaffBtn` |
+| **RoomAssignmentPanel** | `editAssignBtn`, `markInProgressBtn`, `markCompletedBtn`, `deleteAssignBtn` |
+
+### Constructor Pattern (for all 7 panels)
+
+```java
+public XxxPanel() {
+    initComponents();       // NetBeans generated — buttons, labels, table, separators
+    setupTable();           // Selection listener + renderers
+    setupListeners();       // Button click plumbing
+}
+```
+
+### Row-to-Object Mapping
+
+When controllers are wired later, each panel will hold a `List<Xxx> filteredData`. The selected model row index maps directly into this list:
+
+```java
+private List<Guest> filteredGuests;
+
+private Guest getSelectedGuest() {
+    int viewRow = guestManagementTable.getSelectedRow();
+    if (viewRow == -1) return null;
+    int modelRow = guestManagementTable.convertRowIndexToModel(viewRow);
+    return filteredGuests.get(modelRow);
+}
+```
+
+This pattern applies identically to Room, Reservation, Billing, Service, Staff, and RoomAssignment panels.
+
+---
 
 ### Common Dialog Pattern
 
