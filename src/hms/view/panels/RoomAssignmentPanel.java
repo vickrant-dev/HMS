@@ -405,7 +405,7 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     private void editAssignBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAssignBtnActionPerformed
         RoomAssignment selected = getSelectedAssignment();
         if (selected == null) return;
-        NewRoomAssignmentDialog d = new NewRoomAssignmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        NewRoomAssignmentDialog d = new NewRoomAssignmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Edit Assignment #" + selected.getAssignmentId());
         d.setVisible(true);
         loadAssignments();

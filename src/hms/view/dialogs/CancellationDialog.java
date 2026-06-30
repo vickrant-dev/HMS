@@ -4,6 +4,13 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.ReservationController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Reservation;
+import java.time.temporal.ChronoUnit;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
@@ -12,12 +19,31 @@ public class CancellationDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CancellationDialog.class.getName());
 
+    private final ReservationController reservationController = new ReservationController();
+    private Reservation reservation;
+
     /**
      * Creates new form CancellationDialog
      */
     public CancellationDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form CancellationDialog with reservation data.
+     */
+    public CancellationDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
+        super(parent, modal);
+        initComponents();
+        this.reservation = reservation;
+        setTitle("Cancel: " + reservation.getDisplayId());
+        guestFullName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());
+        roomNumber.setText(reservation.getRoom().getRoomNumber());
+        roomType.setText(reservation.getRoom().getRoomType());
+        stayPeriodRange.setText(reservation.getCheckInDate() + " to " + reservation.getCheckOutDate());
+        long nights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
+        duration.setText(nights + " night(s)");
     }
 
     /**
@@ -324,11 +350,36 @@ public class CancellationDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void confirmCancellationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCancellationBtnActionPerformed
-        // TODO add your handling code here:
+        if (reservation == null) return;
+
+        if (!cancellationReason_1.isSelected() && !cancellationReason_2.isSelected()
+            && !cancellationReason_3.isSelected() && !cancellationReason_4.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Please select at least one cancellation reason.",
+                "Reason Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (cancellationReason_4.isSelected() && cancellationReason_4_description.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please describe the other cancellation reason.",
+                "Reason Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            reservationController.cancelReservation(reservation.getReservationId());
+            JOptionPane.showMessageDialog(this, "Reservation cancelled successfully.");
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_confirmCancellationBtnActionPerformed
 
     /**

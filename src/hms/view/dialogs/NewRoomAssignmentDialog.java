@@ -4,6 +4,18 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.RoomController;
+import hms.controller.StaffController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Room;
+import hms.model.RoomAssignment;
+import hms.model.Staff;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant-dev
@@ -12,12 +24,58 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewRoomAssignmentDialog.class.getName());
 
+    private final StaffController staffController = new StaffController();
+    private final RoomController roomController = new RoomController();
+    private List<Room> rooms;
+    private List<Staff> staffList;
+    private RoomAssignment editingAssignment;
+
     /**
      * Creates new form NewRoomAssignmentDialog
      */
     public NewRoomAssignmentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadComboBoxData();
+    }
+
+    /**
+     * Creates new form NewRoomAssignmentDialog in edit mode.
+     */
+    public NewRoomAssignmentDialog(java.awt.Frame parent, boolean modal, RoomAssignment assignment) {
+        super(parent, modal);
+        initComponents();
+        this.editingAssignment = assignment;
+        setTitle("Edit Assignment #" + assignment.getAssignmentId());
+        loadComboBoxData();
+        roomCmb.setSelectedItem(assignment.getRoom().getRoomNumber());
+        staffCmb.setSelectedItem(assignment.getStaff().getFirstName() + " " + assignment.getStaff().getLastName());
+        assignmentTypeCmb.setSelectedItem(assignment.getAssignmentType());
+        if (assignment.getAssignmentDate() != null) {
+            date.setDate(java.util.Date.from(assignment.getAssignmentDate()
+                .atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        notes.setText(assignment.getNotes());
+    }
+
+    private void loadComboBoxData() {
+        try {
+            rooms = roomController.getAllRooms();
+            staffList = staffController.getAllStaff();
+
+            roomCmb.removeAllItems();
+            for (Room r : rooms) {
+                roomCmb.addItem(r.getRoomNumber());
+            }
+
+            staffCmb.removeAllItems();
+            for (Staff s : staffList) {
+                staffCmb.addItem(s.getFirstName() + " " + s.getLastName());
+            }
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load data: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -172,11 +230,48 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void saveStaffProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveStaffProfileBtnActionPerformed
-        // TODO add your handling code here:
+        int roomIdx = roomCmb.getSelectedIndex();
+        int staffIdx = staffCmb.getSelectedIndex();
+        if (roomIdx < 0 || staffIdx < 0 || rooms == null || staffList == null
+            || roomIdx >= rooms.size() || staffIdx >= staffList.size()) {
+            JOptionPane.showMessageDialog(this, "Please select a room and staff member.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Room selectedRoom = rooms.get(roomIdx);
+        Staff selectedStaff = staffList.get(staffIdx);
+        String assignType = (String) assignmentTypeCmb.getSelectedItem();
+        java.util.Date dateUtil = date.getDate();
+        LocalDate assignDate = dateUtil != null
+                ? dateUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                : null;
+        String notesText = notes.getText().trim();
+
+        try {
+            if (editingAssignment != null) {
+                RoomAssignment updated = new RoomAssignment(
+                    editingAssignment.getAssignmentId(), selectedRoom, selectedStaff,
+                    assignDate, assignType, editingAssignment.getStatus(), notesText);
+                staffController.updateAssignment(updated);
+                JOptionPane.showMessageDialog(this, "Assignment updated successfully.");
+            } else {
+                staffController.createRoomAssignment(selectedRoom, selectedStaff,
+                    assignDate, assignType, notesText);
+                JOptionPane.showMessageDialog(this, "Assignment created successfully.");
+            }
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveStaffProfileBtnActionPerformed
 
     /**

@@ -4,13 +4,24 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.GuestController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Guest;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
  */
 public class AddGuestDialog extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddGuestDialog.class.getName());
+
+    private final GuestController guestController = new GuestController();
+    private Guest editingGuest;
 
     /**
      * Creates new form AddGuestDialog
@@ -18,6 +29,28 @@ public class AddGuestDialog extends javax.swing.JDialog {
     public AddGuestDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form AddGuestDialog in edit mode.
+     */
+    public AddGuestDialog(java.awt.Frame parent, boolean modal, Guest guest) {
+        super(parent, modal);
+        initComponents();
+        this.editingGuest = guest;
+        setTitle("Edit Guest: " + guest.getFirstName() + " " + guest.getLastName());
+        firstName.setText(guest.getFirstName());
+        lastName.setText(guest.getLastName());
+        emailAddress.setText(guest.getEmail());
+        phoneNumber.setText(guest.getPhone());
+        address.setText(guest.getAddress());
+        idProofTypeCmb.setSelectedItem(guest.getIdProofType());
+        idProofNumber.setText(guest.getIdProofNumber());
+        if (guest.getDateOfBirth() != null) {
+            dateOfBirth.setDate(java.util.Date.from(guest.getDateOfBirth()
+                .atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        nationality.getText();
     }
 
     /**
@@ -266,11 +299,41 @@ public class AddGuestDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void saveGuestProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveGuestProfileBtnActionPerformed
-        // TODO add your handling code here:
+        String fname = firstName.getText().trim();
+        String lname = lastName.getText().trim();
+        String email = emailAddress.getText().trim();
+        String phone = phoneNumber.getText().trim();
+        String addr = address.getText().trim();
+        String idType = (String) idProofTypeCmb.getSelectedItem();
+        String idNum = idProofNumber.getText().trim();
+        java.util.Date dobUtil = dateOfBirth.getDate();
+        LocalDate dob = dobUtil != null
+                ? dobUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                : null;
+
+        try {
+            if (editingGuest != null) {
+                Guest updated = new Guest(editingGuest.getGuestId(), fname, lname,
+                    email, phone, addr, idType, idNum, dob, editingGuest.getCreatedAt());
+                guestController.updateGuest(updated);
+                JOptionPane.showMessageDialog(this, "Guest updated successfully.");
+            } else {
+                Guest guest = new Guest(fname, lname, email, phone, addr, idType, idNum, dob);
+                guestController.createGuest(guest);
+                JOptionPane.showMessageDialog(this, "Guest created successfully.");
+            }
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveGuestProfileBtnActionPerformed
 
     /**

@@ -4,6 +4,13 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.RoomController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Room;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
@@ -12,12 +19,30 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddNewRoomDialog.class.getName());
 
+    private final RoomController roomController = new RoomController();
+    private Room editingRoom;
+
     /**
      * Creates new form AddNewRoomDialog
      */
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form AddNewRoomDialog in edit mode.
+     */
+    public AddNewRoomDialog(java.awt.Frame parent, boolean modal, Room room) {
+        super(parent, modal);
+        initComponents();
+        this.editingRoom = room;
+        setTitle("Edit Room: " + room.getRoomNumber());
+        roomNumber.setText(room.getRoomNumber());
+        roomTypeCmb.setSelectedItem(room.getRoomType());
+        floor.setText(String.valueOf(room.getFloor()));
+        basePrice.setText(String.valueOf(room.getBasePrice()));
+        capacity.setText(String.valueOf(room.getCapacity()));
     }
 
     /**
@@ -218,11 +243,45 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void saveRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveRoomBtnActionPerformed
-        // TODO add your handling code here:
+        String roomNum = roomNumber.getText().trim();
+        String roomType = (String) roomTypeCmb.getSelectedItem();
+        int floorVal;
+        double price;
+        int cap;
+
+        try {
+            floorVal = Integer.parseInt(floor.getText().trim());
+            price = Double.parseDouble(basePrice.getText().trim());
+            cap = Integer.parseInt(capacity.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numeric values for floor, price, and capacity.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            if (editingRoom != null) {
+                Room updated = new Room(editingRoom.getRoomId(), roomNum, roomType,
+                    cap, price, editingRoom.getStatus(), floorVal, editingRoom.getCreatedAt());
+                roomController.updateRoom(updated);
+                JOptionPane.showMessageDialog(this, "Room updated successfully.");
+            } else {
+                Room room = new Room(roomNum, roomType, cap, price, "available", floorVal);
+                roomController.createRoom(room);
+                JOptionPane.showMessageDialog(this, "Room created successfully.");
+            }
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveRoomBtnActionPerformed
 
     /**

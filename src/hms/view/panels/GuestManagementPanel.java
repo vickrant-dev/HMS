@@ -316,7 +316,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     private void editGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editGuestBtnActionPerformed
         Guest selected = getSelectedGuest();
         if (selected == null) return;
-        AddGuestDialog d = new AddGuestDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        AddGuestDialog d = new AddGuestDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Edit Guest: " + selected.getFirstName() + " " + selected.getLastName());
         d.setVisible(true);
         loadGuests();

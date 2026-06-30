@@ -4,6 +4,15 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.ReservationController;
+import hms.controller.ServiceController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Reservation;
+import hms.model.Service;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant-dev
@@ -12,12 +21,63 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ServiceBookingDialog.class.getName());
 
+    private final ServiceController serviceController = new ServiceController();
+    private final ReservationController reservationController = new ReservationController();
+    private Service service;
+    private Reservation foundReservation;
+
     /**
      * Creates new form ServiceBookingDialog
      */
     public ServiceBookingDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form ServiceBookingDialog with a service to book.
+     */
+    public ServiceBookingDialog(java.awt.Frame parent, boolean modal, Service service) {
+        super(parent, modal);
+        initComponents();
+        this.service = service;
+        if (service != null) {
+            setTitle("Book Service: " + service.getServiceName());
+            serviceCategoryCmb.removeAllItems();
+            serviceCategoryCmb.addItem(service.getServiceName() + " - LKR " + String.format("%.2f", service.getPrice()));
+        }
+        findBtn.addActionListener(e -> findBtnActionPerformed(e));
+    }
+
+    private void findBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        String keyword = searchBox.getText().trim();
+        if (keyword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a reservation ID.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        try {
+            List<Reservation> results = reservationController.getByGuestId(0);
+            // Search by display ID
+            for (Reservation r : reservationController.getAllReservations()) {
+                if (r.getDisplayId().equalsIgnoreCase(keyword)
+                    || String.valueOf(r.getReservationId()).equals(keyword)) {
+                    foundReservation = r;
+                    guestFullName.setText(r.getGuest().getFirstName() + " " + r.getGuest().getLastName());
+                    guestReservationId.setText("ID: " + r.getDisplayId());
+                    guestRoom.setText("Room " + r.getRoom().getRoomNumber());
+                    stayDateRange.setText(r.getCheckInDate() + " - " + r.getCheckOutDate());
+                    double subtotal = service.getPrice();
+                    subtotalAmount.setText("LKR " + String.format("%.2f", subtotal));
+                    return;
+                }
+            }
+            JOptionPane.showMessageDialog(this, "Reservation not found.",
+                "Not Found", JOptionPane.INFORMATION_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -296,11 +356,37 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void confirmBookingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBookingBtnActionPerformed
-        // TODO add your handling code here:
+        if (foundReservation == null) {
+            JOptionPane.showMessageDialog(this, "Please find a reservation first.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int qty;
+        try {
+            qty = Integer.parseInt(quantity.getText().trim());
+            if (qty <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid quantity.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            serviceController.createServiceBooking(foundReservation, service, qty);
+            JOptionPane.showMessageDialog(this, "Service booked successfully.");
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_confirmBookingBtnActionPerformed
 
     /**
@@ -328,7 +414,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ServiceBookingDialog dialog = new ServiceBookingDialog(new javax.swing.JFrame(), true);
+                ServiceBookingDialog dialog = new ServiceBookingDialog(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

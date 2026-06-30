@@ -476,7 +476,7 @@ public class ReservationPanel extends javax.swing.JPanel {
     private void modifyResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyResBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        NewReservationDialog d = new NewReservationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        NewReservationDialog d = new NewReservationDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Modify Reservation: " + selected.getDisplayId());
         d.setVisible(true);
         loadReservations();

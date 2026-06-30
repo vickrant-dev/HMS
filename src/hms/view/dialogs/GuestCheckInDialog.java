@@ -4,6 +4,13 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.ReservationController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Reservation;
+import java.time.temporal.ChronoUnit;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
@@ -12,12 +19,32 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GuestCheckInDialog.class.getName());
 
+    private final ReservationController reservationController = new ReservationController();
+    private Reservation reservation;
+
     /**
      * Creates new form CheckInDialog
      */
     public GuestCheckInDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form CheckInDialog with reservation data.
+     */
+    public GuestCheckInDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
+        super(parent, modal);
+        initComponents();
+        this.reservation = reservation;
+        setTitle("Check-In: " + reservation.getDisplayId());
+        guestFullName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());
+        roomNumber.setText(reservation.getRoom().getRoomNumber());
+        roomType.setText(reservation.getRoom().getRoomType());
+        stayPeriodRange.setText(reservation.getCheckInDate() + " to " + reservation.getCheckOutDate());
+        long nights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
+        duration.setText(nights + " night(s)");
+        checkInStatus.setText(reservation.getStatus());
     }
 
     /**
@@ -377,11 +404,29 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void confirmCheckInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCheckInBtnActionPerformed
-        // TODO add your handling code here:
+        if (reservation == null) return;
+
+        if (!verificationChecklist_1.isSelected() || !verificationChecklist_2.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Please complete all verification checks before check-in.",
+                "Verification Required", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            reservationController.checkIn(reservation.getReservationId());
+            JOptionPane.showMessageDialog(this, "Check-in completed successfully.");
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_confirmCheckInBtnActionPerformed
 
     /**

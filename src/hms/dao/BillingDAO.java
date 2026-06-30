@@ -172,6 +172,29 @@ public class BillingDAO {
         }
     }
 
+    public void updateCharges(int billingId, double otherCharges,
+                                double taxAmount, double totalBill,
+                                String notes) throws DatabaseException {
+        String sql = "UPDATE billing SET other_charges = ?, tax_amount = ?, "
+                   + "total_bill = ?, notes = ? WHERE billing_id = ?";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, otherCharges);
+            pstmt.setDouble(2, taxAmount);
+            pstmt.setDouble(3, totalBill);
+            pstmt.setString(4, notes);
+            pstmt.setInt(5, billingId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DatabaseException(
+                    "Failed to update billing charges: " + e.getMessage(), e);
+        }
+    }
+
     public double getRevenueByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         String sql = "SELECT COALESCE(SUM(total_bill), 0) FROM billing "

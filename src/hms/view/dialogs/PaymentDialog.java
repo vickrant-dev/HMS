@@ -4,6 +4,14 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.BillingController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Billing;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
@@ -12,12 +20,31 @@ public class PaymentDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PaymentDialog.class.getName());
 
+    private final BillingController billingController = new BillingController();
+    private Billing billing;
+
     /**
      * Creates new form PaymentDialog
      */
     public PaymentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form PaymentDialog with billing data.
+     */
+    public PaymentDialog(java.awt.Frame parent, boolean modal, Billing billing) {
+        super(parent, modal);
+        initComponents();
+        this.billing = billing;
+        if (billing != null) {
+            guestFullName.setText(billing.getReservation().getGuest().getFirstName()
+                + " " + billing.getReservation().getGuest().getLastName());
+            totalBillAmount.setText(String.format("LKR %.2f", billing.getTotalBill()));
+            alreadyPaidAmount.setText(String.format("LKR %.2f", billing.getTotalBill())); // total due
+            balanceDueAmount.setText(String.format("LKR %.2f", billing.getTotalBill()));
+        }
     }
 
     /**
@@ -271,11 +298,53 @@ public class PaymentDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void confirmPaymentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPaymentBtnActionPerformed
-        // TODO add your handling code here:
+        if (billing == null) {
+            JOptionPane.showMessageDialog(this, "No billing record loaded.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String amountText = amountToPay.getText().trim();
+        if (amountText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the amount to pay.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        double amount;
+        try {
+            amount = Double.parseDouble(amountText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid payment amount.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (amount <= 0) {
+            JOptionPane.showMessageDialog(this, "Payment amount must be positive.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String paymentMethod = (String) paymentMethodCmb.getSelectedItem();
+        String txnId = transactionId.getText().trim();
+        String paymentNotes = notes.getText().trim();
+
+        try {
+            billingController.recordPayment(billing.getBillingId(), "paid");
+            JOptionPane.showMessageDialog(this,
+                "Payment of LKR " + String.format("%.2f", amount)
+                + " recorded via " + paymentMethod + ".",
+                "Payment Successful", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_confirmPaymentBtnActionPerformed
 
     /**

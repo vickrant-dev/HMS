@@ -4,6 +4,23 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.GuestController;
+import hms.controller.ReservationController;
+import hms.controller.RoomController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Guest;
+import hms.model.Reservation;
+import hms.model.Room;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 /**
  *
  * @author vickrant
@@ -12,12 +29,136 @@ public class NewReservationDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewReservationDialog.class.getName());
 
+    private final ReservationController reservationController = new ReservationController();
+    private final GuestController guestController = new GuestController();
+    private final RoomController roomController = new RoomController();
+    private Guest selectedGuest;
+    private List<Room> availableRooms;
+    private Reservation editingReservation;
+
     /**
      * Creates new form NewReservationDialog
      */
     public NewReservationDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setupListeners();
+    }
+
+    /**
+     * Creates new form NewReservationDialog in edit mode.
+     */
+    public NewReservationDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
+        super(parent, modal);
+        initComponents();
+        setupListeners();
+        this.editingReservation = reservation;
+        setTitle("Modify Reservation: " + reservation.getDisplayId());
+        selectedGuest = reservation.getGuest();
+        guestFullName.setText(selectedGuest.getFirstName() + " " + selectedGuest.getLastName());
+        guestIdNumber.setText("ID: " + selectedGuest.getIdProofNumber());
+        guestProfile.setText(selectedGuest.getFirstName().substring(0, 1).toUpperCase()
+            + selectedGuest.getLastName().substring(0, 1).toUpperCase());
+        checkInDate.setDate(java.util.Date.from(reservation.getCheckInDate()
+            .atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        checkOutDate.setDate(java.util.Date.from(reservation.getCheckOutDate()
+            .atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        guestCount.setText(String.valueOf(reservation.getNumberOfGuests()));
+        loadAvailableRooms();
+        updatePriceBreakdown();
+    }
+
+    private void setupListeners() {
+        checkInDate.addPropertyChangeListener("date", e -> {
+            loadAvailableRooms();
+            updatePriceBreakdown();
+        });
+        checkOutDate.addPropertyChangeListener("date", e -> {
+            loadAvailableRooms();
+            updatePriceBreakdown();
+        });
+        availableRoomsTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                updatePriceBreakdown();
+            }
+        });
+    }
+
+    private void updatePriceBreakdown() {
+        int selectedRow = availableRoomsTable.getSelectedRow();
+        if (selectedRow < 0 || selectedRow >= availableRoomsTable.getRowCount()) {
+            roomCharge.setText("LKR 0.00");
+            serviceCharge.setText("LKR 0.00");
+            tax.setText("LKR 0.00");
+            totalEstAmount.setText("LKR 0.00");
+            return;
+        }
+
+        java.util.Date inUtil = checkInDate.getDate();
+        java.util.Date outUtil = checkOutDate.getDate();
+        if (inUtil == null || outUtil == null) return;
+
+        LocalDate inDate = inUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate outDate = outUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        long nights = ChronoUnit.DAYS.between(inDate, outDate);
+        if (nights <= 0) return;
+
+        double basePrice = 0.0;
+        if (availableRooms != null && selectedRow < availableRooms.size()) {
+            basePrice = availableRooms.get(selectedRow).getBasePrice();
+        } else {
+            Object priceVal = availableRoomsTable.getValueAt(selectedRow, 2);
+            if (priceVal != null) {
+                basePrice = Double.parseDouble(priceVal.toString().replaceAll("[^\\d.]", ""));
+            }
+        }
+
+        double roomChargeVal = basePrice * nights;
+        double serviceChargeVal = 0.0;
+        double taxVal = (roomChargeVal + serviceChargeVal) * 0.10;
+        double total = roomChargeVal + serviceChargeVal + taxVal;
+
+        roomCharge.setText(String.format("LKR %.2f", roomChargeVal));
+        serviceCharge.setText(String.format("LKR %.2f", serviceChargeVal));
+        tax.setText(String.format("LKR %.2f", taxVal));
+        totalEstAmount.setText(String.format("LKR %.2f", total));
+    }
+
+    private void selectGuest(Guest guest) {
+        selectedGuest = guest;
+        guestFullName.setText(guest.getFirstName() + " " + guest.getLastName());
+        guestIdNumber.setText("ID: " + guest.getIdProofNumber());
+        guestProfile.setText(guest.getFirstName().substring(0, 1).toUpperCase()
+            + guest.getLastName().substring(0, 1).toUpperCase());
+    }
+
+    private void loadAvailableRooms() {
+        java.util.Date inUtil = checkInDate.getDate();
+        java.util.Date outUtil = checkOutDate.getDate();
+        if (inUtil == null || outUtil == null) return;
+
+        LocalDate inDate = inUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate outDate = outUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        try {
+            availableRooms = roomController.checkAvailability(inDate, outDate);
+            String[][] data = new String[availableRooms.size()][3];
+            for (int i = 0; i < availableRooms.size(); i++) {
+                Room r = availableRooms.get(i);
+                data[i][0] = r.getRoomNumber();
+                data[i][1] = r.getRoomType();
+                data[i][2] = String.format("%.2f", r.getBasePrice());
+            }
+            availableRoomsTable.setModel(new javax.swing.table.DefaultTableModel(data,
+                new String[]{"ROOM #", "ROOM TYPE", "PRICE/NIGHT"}) {
+                boolean[] canEdit = {false, false, false};
+                @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+            });
+            availableRoomsText.setText(availableRooms.size() + " ROOMS AVAILABLE");
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to check availability: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -505,19 +646,110 @@ public class NewReservationDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void findGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findGuestBtnActionPerformed
-        // TODO add your handling code here:
+        String keyword = searchBox.getText().trim();
+        if (keyword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a name or ID number to search.",
+                "Search", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        try {
+            List<Guest> results = guestController.searchGuests(keyword);
+            if (results.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No guests found matching \"" + keyword + "\".",
+                    "Not Found", JOptionPane.INFORMATION_MESSAGE);
+            } else if (results.size() == 1) {
+                selectGuest(results.get(0));
+            } else {
+                String[] options = results.stream()
+                    .map(g -> g.getFirstName() + " " + g.getLastName() + " (ID: " + g.getIdProofNumber() + ")")
+                    .toArray(String[]::new);
+                String choice = (String) JOptionPane.showInputDialog(this,
+                    "Select a guest:", "Multiple Guests Found",
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (choice != null) {
+                    int idx = java.util.Arrays.asList(options).indexOf(choice);
+                    if (idx >= 0) selectGuest(results.get(idx));
+                }
+            }
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_findGuestBtnActionPerformed
 
     private void changeGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeGuestBtnActionPerformed
-        // TODO add your handling code here:
+        selectedGuest = null;
+        guestFullName.setText("");
+        guestIdNumber.setText("");
+        guestProfile.setText("");
     }//GEN-LAST:event_changeGuestBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void createReservationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createReservationBtnActionPerformed
-        // TODO add your handling code here:
+        if (selectedGuest == null) {
+            JOptionPane.showMessageDialog(this, "Please select a guest first.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int selectedRow = availableRoomsTable.getSelectedRow();
+        if (selectedRow < 0 || availableRooms == null || selectedRow >= availableRooms.size()) {
+            JOptionPane.showMessageDialog(this, "Please select an available room.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        Room selectedRoom = availableRooms.get(selectedRow);
+
+        java.util.Date inUtil = checkInDate.getDate();
+        java.util.Date outUtil = checkOutDate.getDate();
+        if (inUtil == null || outUtil == null) {
+            JOptionPane.showMessageDialog(this, "Please select check-in and check-out dates.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        LocalDate inDate = inUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate outDate = outUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        int numGuests;
+        try {
+            numGuests = Integer.parseInt(guestCount.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid number of guests.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            if (editingReservation != null) {
+                Reservation updated = new Reservation(
+                    editingReservation.getReservationId(),
+                    editingReservation.getDisplayId(),
+                    selectedGuest, selectedRoom,
+                    inDate, outDate,
+                    editingReservation.getBookingDate(),
+                    numGuests,
+                    editingReservation.getStatus(),
+                    editingReservation.getTotalAmount(),
+                    editingReservation.getCreatedByStaffId(),
+                    editingReservation.getCreatedAt()
+                );
+                reservationController.updateReservation(updated);
+                JOptionPane.showMessageDialog(this, "Reservation updated successfully.",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                reservationController.createReservation(
+                    selectedGuest, selectedRoom, inDate, outDate, numGuests, null
+                );
+                JOptionPane.showMessageDialog(this, "Reservation created successfully.",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            dispose();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_createReservationBtnActionPerformed
 
     /**

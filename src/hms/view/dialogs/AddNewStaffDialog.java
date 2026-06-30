@@ -4,6 +4,14 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.StaffController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Staff;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant-dev
@@ -12,12 +20,37 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddNewStaffDialog.class.getName());
 
+    private final StaffController staffController = new StaffController();
+    private Staff editingStaff;
+
     /**
      * Creates new form AddNewStaffDialog
      */
     public AddNewStaffDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form AddNewStaffDialog in edit mode.
+     */
+    public AddNewStaffDialog(java.awt.Frame parent, boolean modal, Staff staff) {
+        super(parent, modal);
+        initComponents();
+        this.editingStaff = staff;
+        setTitle("Edit Staff: " + staff.getFirstName() + " " + staff.getLastName());
+        firstName.setText(staff.getFirstName());
+        lastName.setText(staff.getLastName());
+        emailAddress.setText(staff.getEmail());
+        phoneNumber.setText(staff.getPhone());
+        positionCmb.setSelectedItem(staff.getPosition());
+        departmentCmb.setSelectedItem(staff.getDepartment());
+        annualSalary.setText(String.valueOf(staff.getSalary()));
+        if (staff.getJoiningDate() != null) {
+            joiningDate.setDate(java.util.Date.from(staff.getJoiningDate()
+                .atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        statusCmb.setSelectedItem(staff.getStatus());
     }
 
     /**
@@ -230,11 +263,54 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void saveStaffProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveStaffProfileBtnActionPerformed
-        // TODO add your handling code here:
+        String fname = firstName.getText().trim();
+        String lname = lastName.getText().trim();
+        String email = emailAddress.getText().trim();
+        String phone = phoneNumber.getText().trim();
+        String pos = (String) positionCmb.getSelectedItem();
+        String dept = (String) departmentCmb.getSelectedItem();
+        double salary;
+
+        try {
+            salary = Double.parseDouble(annualSalary.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid salary.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        java.util.Date joinUtil = joiningDate.getDate();
+        LocalDate joinDate = joinUtil != null
+                ? joinUtil.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                : null;
+
+        String status = (String) statusCmb.getSelectedItem();
+
+        try {
+            if (editingStaff != null) {
+                Staff updated = new Staff(editingStaff.getStaffId(), fname, lname,
+                    email, phone, pos, dept, salary, joinDate, status,
+                    editingStaff.getPasswordHash(), editingStaff.getCreatedAt());
+                staffController.updateStaff(updated);
+                JOptionPane.showMessageDialog(this, "Staff updated successfully.");
+            } else {
+                Staff staff = new Staff(fname, lname, email, phone, pos, dept,
+                    salary, joinDate, status, "password123");
+                staffController.createStaff(staff);
+                JOptionPane.showMessageDialog(this, "Staff created successfully.");
+            }
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_saveStaffProfileBtnActionPerformed
 
     /**

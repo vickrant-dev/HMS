@@ -4,6 +4,15 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.BillingController;
+import hms.controller.ReservationController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Billing;
+import hms.model.Reservation;
+import java.time.temporal.ChronoUnit;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
@@ -12,12 +21,61 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GuestCheckOutDialog.class.getName());
 
+    private final ReservationController reservationController = new ReservationController();
+    private final BillingController billingController = new BillingController();
+    private Reservation reservation;
+    private Billing billing;
+
     /**
      * Creates new form GuestCheckOutDialog
      */
     public GuestCheckOutDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form GuestCheckOutDialog with reservation data.
+     */
+    public GuestCheckOutDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
+        super(parent, modal);
+        initComponents();
+        this.reservation = reservation;
+        setTitle("Check-Out: " + reservation.getDisplayId());
+        guestName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());
+        roomNumber.setText(reservation.getRoom().getRoomNumber());
+        roomType.setText(reservation.getRoom().getRoomType());
+        stayPeriodRange.setText(reservation.getCheckInDate() + " - " + reservation.getCheckOutDate());
+        long nights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
+        duration.setText(nights + " night(s)");
+        loadBilling();
+    }
+
+    private void loadBilling() {
+        try {
+            billing = billingController.getBillByReservationId(reservation.getReservationId());
+            if (billing != null) {
+                subtotalAmount.setText(String.format("%.2f", billing.getRoomCharge() + billing.getServiceCharge()));
+                taxAmount.setText(String.format("%.2f", billing.getTaxAmount()));
+                totalAmount.setText(String.format("%.2f", billing.getTotalBill()));
+
+                String[][] folioData = {
+                    {"Room Charge", String.format("%.2f", billing.getRoomCharge())},
+                    {"Service Charge", String.format("%.2f", billing.getServiceCharge())},
+                    {"Other Charges", String.format("%.2f", billing.getOtherCharges())},
+                    {"Tax", String.format("%.2f", billing.getTaxAmount())},
+                    {"Total", String.format("%.2f", billing.getTotalBill())}
+                };
+                folioSumaryTable.setModel(new javax.swing.table.DefaultTableModel(folioData,
+                    new String[]{"Item", "Amount"}) {
+                    boolean[] canEdit = {false, false};
+                    @Override public boolean isCellEditable(int r, int c) { return canEdit[c]; }
+                });
+            }
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load billing: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -433,11 +491,44 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void confirmCheckOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCheckOutBtnActionPerformed
-        // TODO add your handling code here:
+        if (reservation == null) return;
+
+        double received;
+        try {
+            received = Double.parseDouble(receivedAmount.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid received amount.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        double total = billing != null ? billing.getTotalBill() : 0.0;
+        if (received < total) {
+            JOptionPane.showMessageDialog(this, "Received amount is less than the total bill.",
+                "Payment Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            reservationController.checkOut(reservation.getReservationId());
+            if (billing != null) {
+                billingController.recordPayment(billing.getBillingId(), "paid");
+            }
+            double change = received - total;
+            changeDueAmount.setText(String.format("%.2f", change));
+            JOptionPane.showMessageDialog(this, "Check-out completed. Change due: LKR " + String.format("%.2f", change));
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_confirmCheckOutBtnActionPerformed
 
     /**

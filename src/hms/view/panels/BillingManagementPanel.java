@@ -395,7 +395,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     private void recordPaymentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordPaymentBtnActionPerformed
         Billing selected = getSelectedBill();
         if (selected == null) return;
-        PaymentDialog d = new PaymentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        PaymentDialog d = new PaymentDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Record Payment - Bill #" + selected.getBillingId());
         d.setVisible(true);
         loadBills();
@@ -404,7 +404,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     private void adjustBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustBillBtnActionPerformed
         Billing selected = getSelectedBill();
         if (selected == null) return;
-        AdjustmentDialog d = new AdjustmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        AdjustmentDialog d = new AdjustmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Adjust Bill #" + selected.getBillingId());
         d.setVisible(true);
         loadBills();
