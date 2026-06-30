@@ -60,6 +60,13 @@ public class RoomController {
         roomDAO.delete(id);
     }
 
+    public List<Room> searchRooms(String keyword) throws DatabaseException {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return roomDAO.getAll();
+        }
+        return roomDAO.searchByRoomNumber(keyword);
+    }
+
     public List<Room> filterByStatus(String status) throws DatabaseException {
         return roomDAO.filterByStatus(status);
     }

@@ -223,6 +223,27 @@ public class RoomDAO {
         }
     }
 
+    public List<Room> searchByRoomNumber(String keyword) throws DatabaseException {
+        String sql = "SELECT * FROM rooms WHERE room_number LIKE ? ORDER BY room_number";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "%" + keyword + "%");
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Room> rooms = new ArrayList<>();
+                while (rs.next()) {
+                    rooms.add(mapResultSetToRoom(rs));
+                }
+                return rooms;
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to search rooms: " + e.getMessage(), e);
+        }
+    }
+
     public boolean existsByRoomNumber(String roomNumber) throws DatabaseException {
         String sql = "SELECT COUNT(*) FROM rooms WHERE room_number = ?";
 

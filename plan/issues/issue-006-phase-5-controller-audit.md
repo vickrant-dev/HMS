@@ -606,7 +606,7 @@ This section maps each fix to the full list of files/layers affected, enabling a
 | Controller | `src/hms/controller/ReservationController.java` | Call `StringUtil.generateReservationId()` in `createReservation()` |
 | Tests | (none) | Pure additive, no regression |
 
-**Total files touched:** 5  
+**Total files touched:** 6 (+ BillingDAO.java, + ServiceBookingDAO.java — both reconstruct Reservation objects from their own SELECT_JOINs)  
 **Breakage risk:** Low — additive change, all existing data has `display_id = NULL` (acceptable for old records)
 
 ### 11.2 Plan Contradiction: Remove BillingDAO from ReservationController Dependencies
@@ -766,7 +766,7 @@ The first 6 items are low-risk, additive, or documentation-only changes that imp
 
 ## 14. Verification
 
-- [ ] Fix 1 — Reservation display ID: schema migration + model + DAO + controller
+- [x] Fix 1 — Reservation display ID: schema migration + model + DAO + controller + plan/README.md field list
 - [ ] Fix 2 — Plan dependency documentation update
 - [ ] Fix 3 — Guest soft-delete with booking check
 - [ ] Fix 4 — Room delete with active-reservation check
@@ -777,7 +777,7 @@ The first 6 items are low-risk, additive, or documentation-only changes that imp
 - [ ] Fix 9 — Receipt data structure
 - [ ] Fix 12 — Room type/status validation
 - [ ] Fix 13 — Refactor 6-param method
-- [ ] Clean & Build — *BUILD SUCCESSFUL*
+- [x] Clean & Build — *BUILD SUCCESSFUL* (42 source files)
 
 ---
 

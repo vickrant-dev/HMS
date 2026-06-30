@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public final class Reservation {
 
     private final int reservationId;
+    private final String displayId;
     private final Guest guest;
     private final Room room;
     private final LocalDate checkInDate;
@@ -30,13 +31,15 @@ public final class Reservation {
      * @param numberOfGuests   The number of guests
      * @param status           The reservation status (e.g., "confirmed", "checked-in")
      * @param totalAmount      The total amount charged
+     * @param displayId        The display ID in format RES-YYYYMMDD-XXXXX
      * @param createdByStaffId The staff ID who created the reservation (nullable)
      */
     public Reservation(Guest guest, Room room, LocalDate checkInDate,
                        LocalDate checkOutDate, int numberOfGuests,
                        String status, double totalAmount,
-                       Integer createdByStaffId) {
+                       String displayId, Integer createdByStaffId) {
         this.reservationId = 0;
+        this.displayId = displayId;
         this.guest = guest;
         this.room = room;
         this.checkInDate = checkInDate;
@@ -53,6 +56,7 @@ public final class Reservation {
      * Creates a reservation with all fields (for database reconstruction).
      *
      * @param reservationId    The reservation's unique ID
+     * @param displayId        The display ID in format RES-YYYYMMDD-XXXXX
      * @param guest            The guest making the reservation
      * @param room             The reserved room
      * @param checkInDate      The check-in date
@@ -64,12 +68,13 @@ public final class Reservation {
      * @param createdByStaffId The staff ID who created the reservation (nullable)
      * @param createdAt        The timestamp when the record was created
      */
-    public Reservation(int reservationId, Guest guest, Room room,
+    public Reservation(int reservationId, String displayId, Guest guest, Room room,
                        LocalDate checkInDate, LocalDate checkOutDate,
                        LocalDateTime bookingDate, int numberOfGuests,
                        String status, double totalAmount,
                        Integer createdByStaffId, LocalDateTime createdAt) {
         this.reservationId = reservationId;
+        this.displayId = displayId;
         this.guest = guest;
         this.room = room;
         this.checkInDate = checkInDate;
@@ -85,6 +90,11 @@ public final class Reservation {
     /** Returns the reservation's unique ID. */
     public int getReservationId() {
         return reservationId;
+    }
+
+    /** Returns the display ID in format RES-YYYYMMDD-XXXXX. */
+    public String getDisplayId() {
+        return displayId;
     }
 
     /** Returns the guest who made the reservation. */

@@ -10,6 +10,7 @@ import hms.model.Room;
 import hms.service.NormalPricingStrategy;
 import hms.service.PricingStrategy;
 import hms.util.DateUtil;
+import hms.util.StringUtil;
 import hms.util.ValidationUtil;
 
 import java.time.LocalDate;
@@ -57,9 +58,10 @@ public class ReservationController {
 
         double totalAmount = calculateTotalAmount(room, checkInDate, checkOutDate);
 
+        String displayId = StringUtil.generateReservationId();
         Reservation reservation = new Reservation(
                 guest, room, checkInDate, checkOutDate, numberOfGuests,
-                Constants.RES_STATUS_CONFIRMED, totalAmount, createdByStaffId
+                Constants.RES_STATUS_CONFIRMED, totalAmount, displayId, createdByStaffId
         );
 
         Reservation saved = reservationDAO.save(reservation);
