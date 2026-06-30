@@ -26,7 +26,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        guest_management_panel_grp = new javax.swing.JPanel();
+        guestManagementPanelGroup = new javax.swing.JPanel();
         heading = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
         addGuestBtn = new javax.swing.JButton();
@@ -72,45 +72,45 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber.setText("Page 1 of 5");
 
-        javax.swing.GroupLayout guest_management_panel_grpLayout = new javax.swing.GroupLayout(guest_management_panel_grp);
-        guest_management_panel_grp.setLayout(guest_management_panel_grpLayout);
-        guest_management_panel_grpLayout.setHorizontalGroup(
-            guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
+        javax.swing.GroupLayout guestManagementPanelGroupLayout = new javax.swing.GroupLayout(guestManagementPanelGroup);
+        guestManagementPanelGroup.setLayout(guestManagementPanelGroupLayout);
+        guestManagementPanelGroupLayout.setHorizontalGroup(
+            guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(guest_seperator_1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guest_management_panel_grpLayout.createSequentialGroup()
-                        .addGroup(guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guestManagementPanelGroupLayout.createSequentialGroup()
+                        .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(heading)
                             .addComponent(description))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
+                    .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
                         .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchBtn)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(guest_table, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guest_management_panel_grpLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guestManagementPanelGroupLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(pageNumber)))
                 .addContainerGap())
         );
-        guest_management_panel_grpLayout.setVerticalGroup(
-            guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
+        guestManagementPanelGroupLayout.setVerticalGroup(
+            guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
+                    .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(description)))
                 .addGap(18, 18, 18)
                 .addComponent(guest_seperator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
@@ -126,14 +126,14 @@ public class GuestManagementPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(guest_management_panel_grp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(guestManagementPanelGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(guest_management_panel_grp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(guestManagementPanelGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -142,8 +142,8 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGuestBtn;
     private javax.swing.JLabel description;
+    private javax.swing.JPanel guestManagementPanelGroup;
     private javax.swing.JTable guestManagementTable;
-    private javax.swing.JPanel guest_management_panel_grp;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JScrollPane guest_table;
     private javax.swing.JLabel heading;
