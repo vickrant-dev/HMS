@@ -410,7 +410,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
     private void editRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRoomBtnActionPerformed
         Room selected = getSelectedRoom();
         if (selected == null) return;
-        AddNewRoomDialog d = new AddNewRoomDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        AddNewRoomDialog d = new AddNewRoomDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Edit Room: " + selected.getRoomNumber());
         d.setVisible(true);
         loadRooms();

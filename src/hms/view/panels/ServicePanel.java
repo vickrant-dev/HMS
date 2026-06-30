@@ -344,7 +344,7 @@ public class ServicePanel extends javax.swing.JPanel {
     private void editServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editServiceBtnActionPerformed
         Service selected = getSelectedService();
         if (selected == null) return;
-        AddNewService d = new AddNewService((Frame) SwingUtilities.getWindowAncestor(this), true);
+        AddNewService d = new AddNewService((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Edit Service: " + selected.getServiceName());
         d.setVisible(true);
         loadServices();

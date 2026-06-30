@@ -4,6 +4,13 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.ServiceController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Service;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant-dev
@@ -12,12 +19,30 @@ public class AddNewService extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddNewService.class.getName());
 
+    private final ServiceController serviceController = new ServiceController();
+    private Service editingService;
+
     /**
      * Creates new form ServiceDialog
      */
     public AddNewService(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form ServiceDialog in edit mode.
+     */
+    public AddNewService(java.awt.Frame parent, boolean modal, Service service) {
+        super(parent, modal);
+        initComponents();
+        this.editingService = service;
+        setTitle("Edit Service: " + service.getServiceName());
+        serviceName.setText(service.getServiceName());
+        serviceTypeCmb.setSelectedItem(service.getServiceType());
+        basePrice.setText(String.valueOf(service.getPrice()));
+        description.setText(service.getDescription());
+        availableForBooking.setSelected(service.isAvailable());
     }
 
     /**
@@ -79,8 +104,10 @@ public class AddNewService extends javax.swing.JDialog {
         availableForBooking.setText("Available for Booking");
 
         saveServiceBtn.setText("Save Service");
+        saveServiceBtn.addActionListener(this::saveServiceBtnActionPerformed);
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(this::cancelBtnActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,6 +203,47 @@ public class AddNewService extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void saveServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveServiceBtnActionPerformed
+        String name = serviceName.getText().trim();
+        String type = (String) serviceTypeCmb.getSelectedItem();
+        double price;
+
+        try {
+            price = Double.parseDouble(basePrice.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid price.",
+                "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String desc = description.getText().trim();
+        boolean available = availableForBooking.isSelected();
+
+        try {
+            if (editingService != null) {
+                Service updated = new Service(editingService.getServiceId(), name, type,
+                    price, desc, available, editingService.getCreatedAt());
+                serviceController.updateService(updated);
+                JOptionPane.showMessageDialog(this, "Service updated successfully.");
+            } else {
+                Service service = new Service(name, type, price, desc, available);
+                serviceController.createService(service);
+                JOptionPane.showMessageDialog(this, "Service created successfully.");
+            }
+            dispose();
+        } catch (ValidationException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_saveServiceBtnActionPerformed
 
     /**
      * @param args the command line arguments

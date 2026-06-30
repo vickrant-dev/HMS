@@ -4,6 +4,12 @@
  */
 package hms.view.dialogs;
 
+import hms.controller.BillingController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
+import hms.model.Billing;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickrant
@@ -12,12 +18,27 @@ public class AdjustmentDialog extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdjustmentDialog.class.getName());
 
+    private final BillingController billingController = new BillingController();
+    private Billing billing;
+
     /**
      * Creates new form AdjustmentDialog
      */
     public AdjustmentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    /**
+     * Creates new form AdjustmentDialog with billing data.
+     */
+    public AdjustmentDialog(java.awt.Frame parent, boolean modal, Billing billing) {
+        super(parent, modal);
+        initComponents();
+        this.billing = billing;
+        if (billing != null) {
+            currentTotalAmount.setText("Current Total: LKR " + String.format("%.2f", billing.getTotalBill()));
+        }
     }
 
     /**
@@ -109,8 +130,18 @@ public class AdjustmentDialog extends javax.swing.JDialog {
         );
 
         confirmAdjustmentBtn.setText("Confirm Adjustment");
+        confirmAdjustmentBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmAdjustmentBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -226,6 +257,45 @@ public class AdjustmentDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void confirmAdjustmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmAdjustmentBtnActionPerformed
+        if (billing == null) {
+            JOptionPane.showMessageDialog(this, "No billing record loaded.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double otherCharges = 0.0;
+        try {
+            String otherText = otherCharge.getText().trim();
+            if (!otherText.isEmpty()) {
+                otherCharges = Double.parseDouble(otherText);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid other charge amount.",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String notes = adjustmentNotes.getText().trim();
+        if (notes.isEmpty()) {
+            notes = changeDescription.getText().trim();
+        }
+
+        try {
+            billingController.adjustBill(billing.getBillingId(), otherCharges, notes);
+            JOptionPane.showMessageDialog(this, "Bill adjusted successfully.",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_confirmAdjustmentBtnActionPerformed
 
     /**
      * @param args the command line arguments

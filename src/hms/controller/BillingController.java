@@ -92,6 +92,29 @@ public class BillingController {
         billingDAO.updatePaymentStatus(billingId, paymentStatus, LocalDateTime.now());
     }
 
+    public Billing adjustBill(int billingId, double otherCharges, String notes)
+            throws ValidationException, DatabaseException {
+
+        if (otherCharges < 0) {
+            throw new ValidationException("Other charges cannot be negative");
+        }
+
+        Billing existing = billingDAO.getById(billingId);
+        if (existing == null) {
+            throw new ValidationException("Billing record not found");
+        }
+
+        double roomCharge = existing.getRoomCharge();
+        double serviceCharge = existing.getServiceCharge();
+        double taxAmount = (roomCharge + serviceCharge + otherCharges)
+                * Constants.DEFAULT_TAX_RATE;
+        double totalBill = roomCharge + serviceCharge + otherCharges + taxAmount;
+
+        billingDAO.updateCharges(billingId, otherCharges, taxAmount, totalBill, notes);
+
+        return billingDAO.getById(billingId);
+    }
+
     public double getRevenueByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         return billingDAO.getRevenueByDateRange(start, end);

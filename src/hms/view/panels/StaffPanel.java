@@ -344,7 +344,7 @@ public class StaffPanel extends javax.swing.JPanel {
     private void editStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStaffBtnActionPerformed
         Staff selected = getSelectedStaff();
         if (selected == null) return;
-        AddNewStaffDialog d = new AddNewStaffDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        AddNewStaffDialog d = new AddNewStaffDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Edit Staff: " + selected.getFirstName() + " " + selected.getLastName());
         d.setVisible(true);
         loadStaff();
