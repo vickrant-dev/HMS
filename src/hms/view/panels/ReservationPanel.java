@@ -4,17 +4,50 @@
  */
 package hms.view.panels;
 
+import hms.model.Reservation;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.NewReservationDialog;
+import hms.view.dialogs.GuestCheckInDialog;
+import hms.view.dialogs.GuestCheckOutDialog;
+import hms.view.dialogs.CancellationDialog;
+
 /**
  *
  * @author vickrant
  */
 public class ReservationPanel extends javax.swing.JPanel {
 
+    private List<Reservation> filteredReservations;
+
     /**
      * Creates new form ReservationPanel
      */
     public ReservationPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private Reservation getSelectedReservation() {
+        int viewRow = reservationsTable.getSelectedRow();
+        if (viewRow == -1 || filteredReservations == null) return null;
+        return filteredReservations.get(reservationsTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        reservationsTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = reservationsTable.getSelectedRow() != -1;
+            checkInBtn.setEnabled(hasSelection);
+            checkOutBtn.setEnabled(hasSelection);
+            modifyResBtn.setEnabled(hasSelection);
+            cancelResBtn.setEnabled(hasSelection);
+        });
+        checkInBtn.setEnabled(false);
+        checkOutBtn.setEnabled(false);
+        modifyResBtn.setEnabled(false);
+        cancelResBtn.setEnabled(false);
     }
 
     /**
@@ -111,7 +144,7 @@ public class ReservationPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -306,43 +339,63 @@ public class ReservationPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addReservationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addReservationBtnActionPerformed
-        // TODO add your handling code here:
+        NewReservationDialog d = new NewReservationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setVisible(true);
     }//GEN-LAST:event_addReservationBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: reservationController.search(searchBox.getText()); refreshTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+        searchBox.setText("");
+        statusCmb.setSelectedIndex(0);
+        dateRangeFrom.setDate(null);
+        dateRangeTo.setDate(null);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: reservationController.applyFilters(statusCmb, dateRangeFrom, dateRangeTo); refreshTable();
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void checkInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInBtnActionPerformed
-        // TODO add your handling code here:
+        Reservation selected = getSelectedReservation();
+        if (selected == null) return;
+        GuestCheckInDialog d = new GuestCheckInDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Check-In: " + selected.getDisplayId());
+        d.setVisible(true);
     }//GEN-LAST:event_checkInBtnActionPerformed
 
     private void checkOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutBtnActionPerformed
-        // TODO add your handling code here:
+        Reservation selected = getSelectedReservation();
+        if (selected == null) return;
+        GuestCheckOutDialog d = new GuestCheckOutDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Check-Out: " + selected.getDisplayId());
+        d.setVisible(true);
     }//GEN-LAST:event_checkOutBtnActionPerformed
 
     private void modifyResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyResBtnActionPerformed
-        // TODO add your handling code here:
+        Reservation selected = getSelectedReservation();
+        if (selected == null) return;
+        NewReservationDialog d = new NewReservationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Modify Reservation: " + selected.getDisplayId());
+        d.setVisible(true);
     }//GEN-LAST:event_modifyResBtnActionPerformed
 
     private void cancelResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelResBtnActionPerformed
-        // TODO add your handling code here:
+        Reservation selected = getSelectedReservation();
+        if (selected == null) return;
+        CancellationDialog d = new CancellationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Cancel: " + selected.getDisplayId());
+        d.setVisible(true);
     }//GEN-LAST:event_cancelResBtnActionPerformed
 
     private void reservationPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationLeftActionPerformed
-        // TODO add your handling code here:
+        // TODO: loadPreviousPage();
     }//GEN-LAST:event_reservationPaginationLeftActionPerformed
 
     private void reservationPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationRightActionPerformed
-        // TODO add your handling code here:
+        // TODO: loadNextPage();
     }//GEN-LAST:event_reservationPaginationRightActionPerformed
 
 

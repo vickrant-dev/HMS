@@ -4,17 +4,47 @@
  */
 package hms.view.panels;
 
+import hms.model.RoomAssignment;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.NewRoomAssignmentDialog;
+
 /**
  *
  * @author vickrant-dev
  */
 public class RoomAssignmentPanel extends javax.swing.JPanel {
 
+    private List<RoomAssignment> filteredAssignments;
+
     /**
      * Creates new form RoomAssignmentPanel
      */
     public RoomAssignmentPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private RoomAssignment getSelectedAssignment() {
+        int viewRow = roomAssignmentsTable.getSelectedRow();
+        if (viewRow == -1 || filteredAssignments == null) return null;
+        return filteredAssignments.get(roomAssignmentsTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        roomAssignmentsTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = roomAssignmentsTable.getSelectedRow() != -1;
+            editAssignBtn.setEnabled(hasSelection);
+            markInProgressBtn.setEnabled(hasSelection);
+            markCompletedBtn.setEnabled(hasSelection);
+            deleteAssignBtn.setEnabled(hasSelection);
+        });
+        editAssignBtn.setEnabled(false);
+        markInProgressBtn.setEnabled(false);
+        markCompletedBtn.setEnabled(false);
+        deleteAssignBtn.setEnabled(false);
     }
 
     /**
@@ -254,35 +284,54 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addAssignmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAssignmentBtnActionPerformed
-        // TODO add your handling code here:
+        NewRoomAssignmentDialog d = new NewRoomAssignmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setVisible(true);
     }//GEN-LAST:event_addAssignmentBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: assignmentController.search(searchBox.getText()); refreshTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+        searchBox.setText("");
+        statusCmb.setSelectedIndex(0);
+        staffCmb.setSelectedIndex(0);
+        dateChooser.setDate(null);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: assignmentController.applyFilters(statusCmb, staffCmb, dateChooser); refreshTable();
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void editAssignBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAssignBtnActionPerformed
-        // TODO add your handling code here:
+        RoomAssignment selected = getSelectedAssignment();
+        if (selected == null) return;
+        NewRoomAssignmentDialog d = new NewRoomAssignmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Edit Assignment #" + selected.getAssignmentId());
+        d.setVisible(true);
     }//GEN-LAST:event_editAssignBtnActionPerformed
 
     private void markInProgressBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markInProgressBtnActionPerformed
-        // TODO add your handling code here:
+        RoomAssignment selected = getSelectedAssignment();
+        if (selected == null) return;
+        // TODO: assignmentController.updateStatus(selected.getAssignmentId(), "IN_PROGRESS"); refreshTable();
     }//GEN-LAST:event_markInProgressBtnActionPerformed
 
     private void markCompletedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markCompletedBtnActionPerformed
-        // TODO add your handling code here:
+        RoomAssignment selected = getSelectedAssignment();
+        if (selected == null) return;
+        // TODO: assignmentController.updateStatus(selected.getAssignmentId(), "COMPLETED"); refreshTable();
     }//GEN-LAST:event_markCompletedBtnActionPerformed
 
     private void deleteAssignBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAssignBtnActionPerformed
-        // TODO add your handling code here:
+        RoomAssignment selected = getSelectedAssignment();
+        if (selected == null) return;
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Delete assignment #" + selected.getAssignmentId() + "?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // TODO: assignmentController.deleteAssignment(selected.getAssignmentId()); refreshTable();
+        }
     }//GEN-LAST:event_deleteAssignBtnActionPerformed
 
 

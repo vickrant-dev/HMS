@@ -4,17 +4,45 @@
  */
 package hms.view.panels;
 
+import hms.model.Guest;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.AddGuestDialog;
+
 /**
  *
  * @author vickrant
  */
 public class GuestManagementPanel extends javax.swing.JPanel {
 
+    private List<Guest> filteredGuests;
+
     /**
      * Creates new form GuestManagementPanel2
      */
     public GuestManagementPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private Guest getSelectedGuest() {
+        int viewRow = guestManagementTable.getSelectedRow();
+        if (viewRow == -1 || filteredGuests == null) return null;
+        return filteredGuests.get(guestManagementTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        guestManagementTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = guestManagementTable.getSelectedRow() != -1;
+            editGuestBtn.setEnabled(hasSelection);
+            deleteGuestBtn.setEnabled(hasSelection);
+            viewHistoryBtn.setEnabled(hasSelection);
+        });
+        editGuestBtn.setEnabled(false);
+        deleteGuestBtn.setEnabled(false);
+        viewHistoryBtn.setEnabled(false);
     }
 
     /**
@@ -221,23 +249,39 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editGuestBtnActionPerformed
-        // TODO add your handling code here:
+        Guest selected = getSelectedGuest();
+        if (selected == null) return;
+        AddGuestDialog d = new AddGuestDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Edit Guest: " + selected.getFirstName() + " " + selected.getLastName());
+        d.setVisible(true);
     }//GEN-LAST:event_editGuestBtnActionPerformed
 
     private void deleteGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteGuestBtnActionPerformed
-        // TODO add your handling code here:
+        Guest selected = getSelectedGuest();
+        if (selected == null) return;
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Delete guest " + selected.getFirstName() + " " + selected.getLastName() + "?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // TODO: guestController.deleteGuest(selected.getGuestId()); refreshTable();
+        }
     }//GEN-LAST:event_deleteGuestBtnActionPerformed
 
     private void viewHistoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewHistoryBtnActionPerformed
-        // TODO add your handling code here:
+        Guest selected = getSelectedGuest();
+        if (selected == null) return;
+        JOptionPane.showMessageDialog(this, "Guest history for " + selected.getFirstName()
+            + " " + selected.getLastName() + " will be shown here.");
     }//GEN-LAST:event_viewHistoryBtnActionPerformed
 
     private void addGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGuestBtnActionPerformed
-        // TODO add your handling code here:
+        AddGuestDialog d = new AddGuestDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setVisible(true);
+        // TODO: refresh table on close if guest was saved
     }//GEN-LAST:event_addGuestBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: guestController.searchGuests(searchBox.getText()); refreshTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
 

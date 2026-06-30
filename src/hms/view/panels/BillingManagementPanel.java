@@ -4,17 +4,46 @@
  */
 package hms.view.panels;
 
+import hms.model.Billing;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.AdjustmentDialog;
+import hms.view.dialogs.PaymentDialog;
+
 /**
  *
  * @author vickrant
  */
 public class BillingManagementPanel extends javax.swing.JPanel {
 
+    private List<Billing> filteredBills;
+
     /**
      * Creates new form BillingManagement
      */
     public BillingManagementPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private Billing getSelectedBill() {
+        int viewRow = billingManagementTable.getSelectedRow();
+        if (viewRow == -1 || filteredBills == null) return null;
+        return filteredBills.get(billingManagementTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        billingManagementTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = billingManagementTable.getSelectedRow() != -1;
+            viewDetailsBtn.setEnabled(hasSelection);
+            recordPaymentBtn.setEnabled(hasSelection);
+            adjustBillBtn.setEnabled(hasSelection);
+        });
+        viewDetailsBtn.setEnabled(false);
+        recordPaymentBtn.setEnabled(false);
+        adjustBillBtn.setEnabled(false);
     }
 
     /**
@@ -32,15 +61,12 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         guest_seperator_1 = new javax.swing.JSeparator();
         newInvoiceBtn = new javax.swing.JButton();
         dateRangeTo = new com.toedter.calendar.JDateChooser();
-        applyFiltersBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         room_seperator_2 = new javax.swing.JSeparator();
         paymentStatusCmb = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         searchBox = new javax.swing.JTextField();
-        clearBtn = new javax.swing.JButton();
-        searchBtn = new javax.swing.JButton();
         dateRangeFrom = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         billingManagementTable = new javax.swing.JTable();
@@ -53,6 +79,9 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         billingPaginationRight = new javax.swing.JButton();
         pageNumber9 = new javax.swing.JLabel();
         totalRecords8 = new javax.swing.JLabel();
+        searchBtn = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
+        applyFiltersBtn = new javax.swing.JButton();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Billing Management");
@@ -73,8 +102,6 @@ public class BillingManagementPanel extends javax.swing.JPanel {
             }
         });
 
-        applyFiltersBtn.setText("Apply Filters");
-
         jLabel1.setText("Search by bill id or reservation id...");
 
         room_seperator_2.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -86,10 +113,6 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         jLabel3.setText("Date Range");
 
         searchBox.setToolTipText("Search by room no.");
-
-        clearBtn.setText("Clear");
-
-        searchBtn.setText("Search");
 
         billingManagementTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,6 +216,27 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
+
+        clearBtn.setText("Clear");
+        clearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBtnActionPerformed(evt);
+            }
+        });
+
+        applyFiltersBtn.setText("Apply Filters");
+        applyFiltersBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyFiltersBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -210,7 +254,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                                 .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(searchBtn)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(room_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,25 +301,27 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(guest_seperator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(room_seperator_2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(paymentStatusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(applyFiltersBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateRangeTo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(room_seperator_2)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(paymentStatusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(applyFiltersBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(dateRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dateRangeTo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -285,32 +331,59 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewDetailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailsBtnActionPerformed
-        // TODO add your handling code here:
+        Billing selected = getSelectedBill();
+        if (selected == null) return;
+        JOptionPane.showMessageDialog(this, "Bill Details for Bill #" + selected.getBillingId()
+            + "\nTotal: LKR " + selected.getTotalBill()
+            + "\nPaid: LKR " + (selected.getTotalBill() - (selected.getRoomCharge() + selected.getServiceCharge() + selected.getOtherCharges() + selected.getTaxAmount() - selected.getTotalBill()))
+            + "\nStatus: " + selected.getPaymentStatus());
     }//GEN-LAST:event_viewDetailsBtnActionPerformed
 
     private void recordPaymentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordPaymentBtnActionPerformed
-        // TODO add your handling code here:
+        Billing selected = getSelectedBill();
+        if (selected == null) return;
+        PaymentDialog d = new PaymentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Record Payment - Bill #" + selected.getBillingId());
+        d.setVisible(true);
     }//GEN-LAST:event_recordPaymentBtnActionPerformed
 
     private void adjustBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustBillBtnActionPerformed
-        // TODO add your handling code here:
+        Billing selected = getSelectedBill();
+        if (selected == null) return;
+        AdjustmentDialog d = new AdjustmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Adjust Bill #" + selected.getBillingId());
+        d.setVisible(true);
     }//GEN-LAST:event_adjustBillBtnActionPerformed
 
     private void billingPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationLeftActionPerformed
-        // TODO add your handling code here:
+        // TODO: loadPreviousPage();
     }//GEN-LAST:event_billingPaginationLeftActionPerformed
 
     private void billingPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationRightActionPerformed
-        // TODO add your handling code here:
+        // TODO: loadNextPage();
     }//GEN-LAST:event_billingPaginationRightActionPerformed
 
     private void newInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newInvoiceBtnActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "New Invoice creation will be available in the next phase.");
     }//GEN-LAST:event_newInvoiceBtnActionPerformed
 
     private void exportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportBtnActionPerformed
-        // TODO add your handling code here:
+        String format = (String) exportCmb.getSelectedItem();
+        JOptionPane.showMessageDialog(this, "Export as " + format + " will be implemented.");
     }//GEN-LAST:event_exportBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_applyFiltersBtnActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

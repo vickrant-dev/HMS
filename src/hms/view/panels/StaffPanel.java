@@ -4,17 +4,43 @@
  */
 package hms.view.panels;
 
+import hms.model.Staff;
+import java.awt.Frame;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import hms.view.dialogs.AddNewStaffDialog;
+
 /**
  *
  * @author vickrant-dev
  */
 public class StaffPanel extends javax.swing.JPanel {
 
+    private List<Staff> filteredStaff;
+
     /**
      * Creates new form StaffPanel
      */
     public StaffPanel() {
         initComponents();
+        setupTable();
+    }
+
+    private Staff getSelectedStaff() {
+        int viewRow = staffDirectoryTable.getSelectedRow();
+        if (viewRow == -1 || filteredStaff == null) return null;
+        return filteredStaff.get(staffDirectoryTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void setupTable() {
+        staffDirectoryTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean hasSelection = staffDirectoryTable.getSelectedRow() != -1;
+            editStaffBtn.setEnabled(hasSelection);
+            deleteStaffBtn.setEnabled(hasSelection);
+        });
+        editStaffBtn.setEnabled(false);
+        deleteStaffBtn.setEnabled(false);
     }
 
     /**
@@ -252,27 +278,42 @@ public class StaffPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStaffBtnActionPerformed
-        // TODO add your handling code here:
+        Staff selected = getSelectedStaff();
+        if (selected == null) return;
+        AddNewStaffDialog d = new AddNewStaffDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setTitle("Edit Staff: " + selected.getFirstName() + " " + selected.getLastName());
+        d.setVisible(true);
     }//GEN-LAST:event_editStaffBtnActionPerformed
 
     private void deleteStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStaffBtnActionPerformed
-        // TODO add your handling code here:
+        Staff selected = getSelectedStaff();
+        if (selected == null) return;
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Delete staff " + selected.getFirstName() + " " + selected.getLastName() + "?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // TODO: staffController.deleteStaff(selected.getStaffId()); refreshTable();
+        }
     }//GEN-LAST:event_deleteStaffBtnActionPerformed
 
     private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
-        // TODO add your handling code here:
+        AddNewStaffDialog d = new AddNewStaffDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        d.setVisible(true);
     }//GEN-LAST:event_addStaffBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: staffController.search(searchBox.getText()); refreshTable();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+        searchBox.setText("");
+        departmentCmb.setSelectedIndex(0);
+        positionCmb.setSelectedIndex(0);
+        statusCmb.setSelectedIndex(0);
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO add your handling code here:
+        // TODO: staffController.applyFilters(departmentCmb, positionCmb, statusCmb); refreshTable();
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
 
