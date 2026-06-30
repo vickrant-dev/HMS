@@ -49,8 +49,8 @@ public class DashboardPanel extends javax.swing.JPanel {
         revenue_daily_btn = new javax.swing.JLabel();
         recent_checkins = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        view_all_reservations_btn = new javax.swing.JLabel();
-        check_ins_table = new javax.swing.JScrollPane();
+        viewAllReservationsBtn = new javax.swing.JLabel();
+        checkInsTable = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
 
         stat_card_1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
@@ -291,8 +291,8 @@ public class DashboardPanel extends javax.swing.JPanel {
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel23.setText("Recent Check-ins");
 
-        view_all_reservations_btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        view_all_reservations_btn.setText("View all reservations");
+        viewAllReservationsBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        viewAllReservationsBtn.setText("View all reservations");
 
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -320,7 +320,7 @@ public class DashboardPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        check_ins_table.setViewportView(jTable6);
+        checkInsTable.setViewportView(jTable6);
 
         javax.swing.GroupLayout recent_checkinsLayout = new javax.swing.GroupLayout(recent_checkins);
         recent_checkins.setLayout(recent_checkinsLayout);
@@ -329,11 +329,11 @@ public class DashboardPanel extends javax.swing.JPanel {
             .addGroup(recent_checkinsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(recent_checkinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(check_ins_table)
+                    .addComponent(checkInsTable)
                     .addGroup(recent_checkinsLayout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(view_all_reservations_btn)))
+                        .addComponent(viewAllReservationsBtn)))
                 .addContainerGap())
         );
         recent_checkinsLayout.setVerticalGroup(
@@ -342,9 +342,9 @@ public class DashboardPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(recent_checkinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
-                    .addComponent(view_all_reservations_btn))
+                    .addComponent(viewAllReservationsBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(check_ins_table, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                .addComponent(checkInsTable, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -399,7 +399,7 @@ public class DashboardPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane check_ins_table;
+    private javax.swing.JScrollPane checkInsTable;
     private javax.swing.JPanel dashboard_grp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -424,6 +424,6 @@ public class DashboardPanel extends javax.swing.JPanel {
     private javax.swing.JLabel stat_card_val_2;
     private javax.swing.JLabel stat_card_val_3;
     private javax.swing.JLabel stat_card_val_4;
-    private javax.swing.JLabel view_all_reservations_btn;
+    private javax.swing.JLabel viewAllReservationsBtn;
     // End of variables declaration//GEN-END:variables
 }

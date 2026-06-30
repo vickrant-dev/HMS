@@ -29,49 +29,49 @@ public class ReservationPanel extends javax.swing.JPanel {
         reservation_panel_grp = new javax.swing.JPanel();
         heading = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
-        add_guest_btn = new javax.swing.JButton();
+        addReservationBtn = new javax.swing.JButton();
         guest_seperator_1 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
+        applyFiltersBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         room_seperator_2 = new javax.swing.JSeparator();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        statusCmb = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        search_field = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        search_btn = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        searchBox = new javax.swing.JTextField();
+        clearBtn = new javax.swing.JButton();
+        searchBtn = new javax.swing.JButton();
+        dateRangeFrom = new com.toedter.calendar.JDateChooser();
+        dateRangeTo = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
+        reservationsTable = new javax.swing.JTable();
+        pageNumber = new javax.swing.JLabel();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Reservations");
 
         description.setText("View reservations and manage them.");
 
-        add_guest_btn.setText("Add Reservation");
+        addReservationBtn.setText("Add Reservation");
 
-        jButton2.setText("Apply Filters");
+        applyFiltersBtn.setText("Apply Filters");
 
         jLabel1.setText("Search by room no.");
 
         room_seperator_2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Types", "Deluxe King Suite", "Standard Double", "Single Economy" }));
+        statusCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Types", "Deluxe King Suite", "Standard Double", "Single Economy" }));
 
         jLabel2.setText("Status");
 
         jLabel3.setText("Date Range");
 
-        search_field.setToolTipText("Search by room no.");
+        searchBox.setToolTipText("Search by room no.");
 
-        jButton1.setText("Clear");
+        clearBtn.setText("Clear");
 
-        search_btn.setText("Search");
+        searchBtn.setText("Search");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        reservationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -90,10 +90,10 @@ public class ReservationPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(reservationsTable);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setText("Page 1 of 5");
+        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber.setText("Page 1 of 5");
 
         javax.swing.GroupLayout reservation_panel_grpLayout = new javax.swing.GroupLayout(reservation_panel_grp);
         reservation_panel_grp.setLayout(reservation_panel_grpLayout);
@@ -109,34 +109,34 @@ public class ReservationPanel extends javax.swing.JPanel {
                             .addComponent(heading)
                             .addComponent(description))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(add_guest_btn))
+                        .addComponent(addReservationBtn))
                     .addGroup(reservation_panel_grpLayout.createSequentialGroup()
                         .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(reservation_panel_grpLayout.createSequentialGroup()
                                 .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addGroup(reservation_panel_grpLayout.createSequentialGroup()
-                                        .addComponent(search_field, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(search_btn)))
+                                        .addComponent(searchBtn)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(room_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(statusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addGroup(reservation_panel_grpLayout.createSequentialGroup()
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dateRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dateRangeTo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(28, 28, 28)
-                                        .addComponent(jButton1)
+                                        .addComponent(clearBtn)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton2))))
-                            .addComponent(jLabel4))
+                                        .addComponent(applyFiltersBtn))))
+                            .addComponent(pageNumber))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -145,7 +145,7 @@ public class ReservationPanel extends javax.swing.JPanel {
             .addGroup(reservation_panel_grpLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(add_guest_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addReservationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(reservation_panel_grpLayout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -158,8 +158,8 @@ public class ReservationPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(search_field, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(room_seperator_2)
                     .addGroup(reservation_panel_grpLayout.createSequentialGroup()
                         .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -167,15 +167,15 @@ public class ReservationPanel extends javax.swing.JPanel {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(reservation_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(statusCmb)
+                            .addComponent(applyFiltersBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(clearBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateRangeFrom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateRangeTo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(pageNumber)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -193,24 +193,24 @@ public class ReservationPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add_guest_btn;
+    private javax.swing.JButton addReservationBtn;
+    private javax.swing.JButton applyFiltersBtn;
+    private javax.swing.JButton clearBtn;
+    private com.toedter.calendar.JDateChooser dateRangeFrom;
+    private com.toedter.calendar.JDateChooser dateRangeTo;
     private javax.swing.JLabel description;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JLabel heading;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel pageNumber;
     private javax.swing.JPanel reservation_panel_grp;
+    private javax.swing.JTable reservationsTable;
     private javax.swing.JSeparator room_seperator_2;
-    private javax.swing.JButton search_btn;
-    private javax.swing.JTextField search_field;
+    private javax.swing.JTextField searchBox;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JComboBox<String> statusCmb;
     // End of variables declaration//GEN-END:variables
 }

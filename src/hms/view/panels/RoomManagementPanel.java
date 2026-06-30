@@ -29,59 +29,59 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         room_management_panel_grp = new javax.swing.JPanel();
         heading = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
-        add_guest_btn = new javax.swing.JButton();
+        addRoomBtn = new javax.swing.JButton();
         room_seperator_1 = new javax.swing.JSeparator();
-        search_field = new javax.swing.JTextField();
-        search_btn = new javax.swing.JButton();
+        searchBox = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         room_seperator_2 = new javax.swing.JSeparator();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        statusCmb = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        priceRangeFrom = new javax.swing.JTextField();
+        priceRangeTo = new javax.swing.JTextField();
+        capacityCmb = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
+        applyFiltersBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
+        roomManagementTable = new javax.swing.JTable();
+        pageNumber = new javax.swing.JLabel();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Room Mangement");
 
         description.setText("Manage property inventory, pricing and operational status");
 
-        add_guest_btn.setText("Add Room");
+        addRoomBtn.setText("Add Room");
 
-        search_field.setToolTipText("Search by room no.");
+        searchBox.setToolTipText("Search by room no.");
 
-        search_btn.setText("Search");
+        searchBtn.setText("Search");
 
         jLabel1.setText("Search by room no.");
 
         room_seperator_2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Types", "Deluxe King Suite", "Standard Double", "Single Economy" }));
+        statusCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Types", "Deluxe King Suite", "Standard Double", "Single Economy" }));
 
         jLabel2.setText("Status");
 
         jLabel3.setText("Price Range (LKR)");
 
-        jTextField1.setToolTipText("Min");
+        priceRangeFrom.setToolTipText("Min");
 
-        jTextField2.setToolTipText("Max");
+        priceRangeTo.setToolTipText("Max");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "1", "2", "3", "4", " " }));
+        capacityCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "1", "2", "3", "4", " " }));
 
         jLabel4.setText("Capacity");
 
-        jButton1.setText("Clear");
+        clearBtn.setText("Clear");
 
-        jButton2.setText("Apply Filters");
+        applyFiltersBtn.setText("Apply Filters");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        roomManagementTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -100,10 +100,10 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(roomManagementTable);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setText("Page 1 of 5");
+        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber.setText("Page 1 of 5");
 
         javax.swing.GroupLayout room_management_panel_grpLayout = new javax.swing.GroupLayout(room_management_panel_grp);
         room_management_panel_grp.setLayout(room_management_panel_grpLayout);
@@ -119,39 +119,39 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                             .addComponent(heading)
                             .addComponent(description))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(add_guest_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(room_management_panel_grpLayout.createSequentialGroup()
                         .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(room_management_panel_grpLayout.createSequentialGroup()
                                 .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addGroup(room_management_panel_grpLayout.createSequentialGroup()
-                                        .addComponent(search_field, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(search_btn)))
+                                        .addComponent(searchBtn)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(room_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(statusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(room_management_panel_grpLayout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(priceRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(priceRangeTo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
                                 .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addGroup(room_management_panel_grpLayout.createSequentialGroup()
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(capacityCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(41, 41, 41)
-                                        .addComponent(jButton1)
+                                        .addComponent(clearBtn)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton2))))
-                            .addComponent(jLabel5))
+                                        .addComponent(applyFiltersBtn))))
+                            .addComponent(pageNumber))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -160,7 +160,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
             .addGroup(room_management_panel_grpLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(add_guest_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(room_management_panel_grpLayout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,8 +173,8 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(search_field, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(room_seperator_2)
                     .addGroup(room_management_panel_grpLayout.createSequentialGroup()
                         .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -183,16 +183,16 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(statusCmb)
+                            .addComponent(capacityCmb, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(priceRangeFrom)
+                            .addComponent(priceRangeTo)
+                            .addComponent(applyFiltersBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clearBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(pageNumber)
                 .addContainerGap(89, Short.MAX_VALUE))
         );
 
@@ -210,26 +210,26 @@ public class RoomManagementPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add_guest_btn;
+    private javax.swing.JButton addRoomBtn;
+    private javax.swing.JButton applyFiltersBtn;
+    private javax.swing.JComboBox<String> capacityCmb;
+    private javax.swing.JButton clearBtn;
     private javax.swing.JLabel description;
     private javax.swing.JLabel heading;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel pageNumber;
+    private javax.swing.JTextField priceRangeFrom;
+    private javax.swing.JTextField priceRangeTo;
+    private javax.swing.JTable roomManagementTable;
     private javax.swing.JPanel room_management_panel_grp;
     private javax.swing.JSeparator room_seperator_1;
     private javax.swing.JSeparator room_seperator_2;
-    private javax.swing.JButton search_btn;
-    private javax.swing.JTextField search_field;
+    private javax.swing.JTextField searchBox;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JComboBox<String> statusCmb;
     // End of variables declaration//GEN-END:variables
 }

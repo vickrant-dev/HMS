@@ -29,26 +29,26 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         guest_management_panel_grp = new javax.swing.JPanel();
         heading = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
-        add_guest_btn = new javax.swing.JButton();
+        addGuestBtn = new javax.swing.JButton();
         guest_seperator_1 = new javax.swing.JSeparator();
-        search_field = new javax.swing.JTextField();
-        search_btn = new javax.swing.JButton();
+        searchBox = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
         guest_table = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        pagination_value = new javax.swing.JLabel();
+        guestManagementTable = new javax.swing.JTable();
+        pageNumber = new javax.swing.JLabel();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Guest Management");
 
         description.setText("Manage guest records, identities, and visit history");
 
-        add_guest_btn.setText("Add Guest");
+        addGuestBtn.setText("Add Guest");
 
-        search_field.setToolTipText("Search by name, email or phone...");
+        searchBox.setToolTipText("Search by name, email or phone...");
 
-        search_btn.setText("Search");
+        searchBtn.setText("Search");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        guestManagementTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -67,10 +67,10 @@ public class GuestManagementPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        guest_table.setViewportView(jTable1);
+        guest_table.setViewportView(guestManagementTable);
 
-        pagination_value.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pagination_value.setText("Page 1 of 5");
+        pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pageNumber.setText("Page 1 of 5");
 
         javax.swing.GroupLayout guest_management_panel_grpLayout = new javax.swing.GroupLayout(guest_management_panel_grp);
         guest_management_panel_grp.setLayout(guest_management_panel_grpLayout);
@@ -85,16 +85,16 @@ public class GuestManagementPanel extends javax.swing.JPanel {
                             .addComponent(heading)
                             .addComponent(description))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(add_guest_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
-                        .addComponent(search_field, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(search_btn)
+                        .addComponent(searchBtn)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(guest_table, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guest_management_panel_grpLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(pagination_value)))
+                        .addComponent(pageNumber)))
                 .addContainerGap())
         );
         guest_management_panel_grpLayout.setVerticalGroup(
@@ -102,7 +102,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
             .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(add_guest_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(guest_management_panel_grpLayout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -111,12 +111,12 @@ public class GuestManagementPanel extends javax.swing.JPanel {
                 .addComponent(guest_seperator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(guest_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(search_field, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(search_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                    .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(guest_table, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pagination_value)
+                .addComponent(pageNumber)
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -140,15 +140,15 @@ public class GuestManagementPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add_guest_btn;
+    private javax.swing.JButton addGuestBtn;
     private javax.swing.JLabel description;
+    private javax.swing.JTable guestManagementTable;
     private javax.swing.JPanel guest_management_panel_grp;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JScrollPane guest_table;
     private javax.swing.JLabel heading;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel pagination_value;
-    private javax.swing.JButton search_btn;
-    private javax.swing.JTextField search_field;
+    private javax.swing.JLabel pageNumber;
+    private javax.swing.JTextField searchBox;
+    private javax.swing.JButton searchBtn;
     // End of variables declaration//GEN-END:variables
 }

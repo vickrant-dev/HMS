@@ -49,18 +49,18 @@
                               <Component id="description" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="add_guest_btn" min="-2" pref="108" max="-2" attributes="0"/>
+                          <Component id="addGuestBtn" min="-2" pref="108" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="search_field" min="-2" pref="250" max="-2" attributes="0"/>
+                          <Component id="searchBox" min="-2" pref="250" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="search_btn" min="-2" max="-2" attributes="0"/>
+                          <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="guest_table" alignment="0" pref="775" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="pagination_value" min="-2" max="-2" attributes="0"/>
+                          <Component id="pageNumber" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -72,7 +72,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="add_guest_btn" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="addGuestBtn" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="heading" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -83,13 +83,13 @@
                   <Component id="guest_seperator_1" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="search_field" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="search_btn" alignment="3" pref="40" max="32767" attributes="0"/>
+                      <Component id="searchBox" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="searchBtn" alignment="3" pref="40" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="guest_table" min="-2" pref="299" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="pagination_value" min="-2" max="-2" attributes="0"/>
+                  <Component id="pageNumber" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -109,19 +109,19 @@
             <Property name="text" type="java.lang.String" value="Manage guest records, identities, and visit history"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="add_guest_btn">
+        <Component class="javax.swing.JButton" name="addGuestBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Guest"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="guest_seperator_1">
         </Component>
-        <Component class="javax.swing.JTextField" name="search_field">
+        <Component class="javax.swing.JTextField" name="searchBox">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Search by name, email or phone..."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="search_btn">
+        <Component class="javax.swing.JButton" name="searchBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
@@ -133,7 +133,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="guestManagementTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="10" rowCount="4">
@@ -156,7 +156,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="pagination_value">
+        <Component class="javax.swing.JLabel" name="pageNumber">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>

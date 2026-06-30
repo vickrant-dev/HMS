@@ -42,7 +42,7 @@
                               <Component id="description" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="add_guest_btn" min="-2" max="-2" attributes="0"/>
+                          <Component id="addReservationBtn" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -50,9 +50,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="search_field" min="-2" pref="160" max="-2" attributes="0"/>
+                                          <Component id="searchBox" min="-2" pref="160" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="search_btn" min="-2" max="-2" attributes="0"/>
+                                          <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -60,23 +60,23 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBox1" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                      <Component id="statusCmb" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
-                                          <Component id="jDateChooser1" min="-2" pref="115" max="-2" attributes="0"/>
+                                          <Component id="dateRangeFrom" min="-2" pref="115" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jDateChooser2" min="-2" pref="115" max="-2" attributes="0"/>
+                                          <Component id="dateRangeTo" min="-2" pref="115" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="clearBtn" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                          <Component id="applyFiltersBtn" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="pageNumber" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -90,7 +90,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="add_guest_btn" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="addReservationBtn" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="heading" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -105,8 +105,8 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="search_btn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="search_field" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="searchBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="searchBox" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="room_seperator_2" alignment="1" max="32767" attributes="0"/>
@@ -117,18 +117,18 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jComboBox1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jButton2" alignment="0" pref="40" max="32767" attributes="0"/>
-                              <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jDateChooser1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jDateChooser2" alignment="1" max="32767" attributes="0"/>
+                              <Component id="statusCmb" alignment="0" max="32767" attributes="0"/>
+                              <Component id="applyFiltersBtn" alignment="0" pref="40" max="32767" attributes="0"/>
+                              <Component id="clearBtn" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dateRangeFrom" alignment="0" max="32767" attributes="0"/>
+                              <Component id="dateRangeTo" alignment="1" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="315" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="pageNumber" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -148,14 +148,14 @@
             <Property name="text" type="java.lang.String" value="View reservations and manage them."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="add_guest_btn">
+        <Component class="javax.swing.JButton" name="addReservationBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Reservation"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="guest_seperator_1">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="applyFiltersBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apply Filters"/>
           </Properties>
@@ -170,7 +170,7 @@
             <Property name="orientation" type="int" value="1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="statusCmb">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -195,24 +195,24 @@
             <Property name="text" type="java.lang.String" value="Date Range"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="search_field">
+        <Component class="javax.swing.JTextField" name="searchBox">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Search by room no."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="clearBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="search_btn">
+        <Component class="javax.swing.JButton" name="searchBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+        <Component class="com.toedter.calendar.JDateChooser" name="dateRangeFrom">
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+        <Component class="com.toedter.calendar.JDateChooser" name="dateRangeTo">
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
@@ -221,7 +221,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="reservationsTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="9" rowCount="4">
@@ -292,7 +292,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="pageNumber">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
