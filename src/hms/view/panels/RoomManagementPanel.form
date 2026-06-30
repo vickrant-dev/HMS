@@ -160,6 +160,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Room"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addRoomBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="room_seperator_1">
         </Component>
@@ -172,6 +175,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -244,11 +250,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="applyFiltersBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apply Filters"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="applyFiltersBtnActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
@@ -342,9 +354,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="totalRecords1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="paginateLeft1" min="-2" max="-2" attributes="0"/>
+                      <Component id="roomManagementPaginationLeft" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="paginateRight1" min="-2" max="-2" attributes="0"/>
+                      <Component id="roomManagementPaginationRight" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pageNumber2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -360,8 +372,8 @@
                           <Component id="deleteRoomBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="markMaintBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="pageNumber2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateLeft1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateRight1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="roomManagementPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="roomManagementPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="totalRecords1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="markAvailBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
@@ -375,23 +387,32 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRoomBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteRoomBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteRoomBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="markMaintBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Mark Maintenance"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markMaintBtnActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateLeft1">
+            <Component class="javax.swing.JButton" name="roomManagementPaginationLeft">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateRight1">
+            <Component class="javax.swing.JButton" name="roomManagementPaginationRight">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>
@@ -417,6 +438,9 @@
                 <Property name="text" type="java.lang.String" value="Mark Available"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markAvailBtnActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -78,7 +78,7 @@
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="bottomBar3" alignment="0" max="32767" attributes="0"/>
+                      <Component id="reservationBottomBar" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -127,7 +127,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="315" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="bottomBar3" min="-2" max="-2" attributes="0"/>
+                  <Component id="reservationBottomBar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -151,6 +151,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Reservation"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addReservationBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="guest_seperator_1">
         </Component>
@@ -158,6 +161,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Apply Filters"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="applyFiltersBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -203,11 +209,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="searchBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dateRangeFrom">
         </Component>
@@ -291,7 +303,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="bottomBar3">
+        <Container class="javax.swing.JPanel" name="reservationBottomBar">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -317,9 +329,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="totalRecords8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="paginateLeft8" min="-2" max="-2" attributes="0"/>
+                      <Component id="reservationPaginationLeft" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="paginateRight8" min="-2" max="-2" attributes="0"/>
+                      <Component id="reservationPaginationRight" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pageNumber9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -335,8 +347,8 @@
                           <Component id="checkOutBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="modifyResBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="pageNumber9" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateLeft8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateRight8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="reservationPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="reservationPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="totalRecords8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cancelResBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
@@ -350,26 +362,41 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Check-In"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkInBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="checkOutBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Check-Out"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkOutBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="modifyResBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Modify"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyResBtnActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateLeft8">
+            <Component class="javax.swing.JButton" name="reservationPaginationLeft">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reservationPaginationLeftActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateRight8">
+            <Component class="javax.swing.JButton" name="reservationPaginationRight">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reservationPaginationRightActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="pageNumber9">
               <Properties>
@@ -391,6 +418,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancel"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelResBtnActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

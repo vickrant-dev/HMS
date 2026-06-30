@@ -49,8 +49,8 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         viewDetailsBtn = new javax.swing.JButton();
         recordPaymentBtn = new javax.swing.JButton();
         adjustBillBtn = new javax.swing.JButton();
-        paginateLeft8 = new javax.swing.JButton();
-        paginateRight8 = new javax.swing.JButton();
+        billingPaginationLeft = new javax.swing.JButton();
+        billingPaginationRight = new javax.swing.JButton();
         pageNumber9 = new javax.swing.JLabel();
         totalRecords8 = new javax.swing.JLabel();
 
@@ -60,8 +60,18 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         description.setText("Monitor and manage financial transactions across all property divisions.");
 
         exportBtn.setText("Export");
+        exportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportBtnActionPerformed(evt);
+            }
+        });
 
         newInvoiceBtn.setText("New Invoice");
+        newInvoiceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newInvoiceBtnActionPerformed(evt);
+            }
+        });
 
         applyFiltersBtn.setText("Apply Filters");
 
@@ -107,14 +117,39 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         bottomBar3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         viewDetailsBtn.setText("View Details");
+        viewDetailsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewDetailsBtnActionPerformed(evt);
+            }
+        });
 
         recordPaymentBtn.setText("Record Payment");
+        recordPaymentBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recordPaymentBtnActionPerformed(evt);
+            }
+        });
 
         adjustBillBtn.setText("Adjust Bill");
+        adjustBillBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adjustBillBtnActionPerformed(evt);
+            }
+        });
 
-        paginateLeft8.setText("<");
+        billingPaginationLeft.setText("<");
+        billingPaginationLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                billingPaginationLeftActionPerformed(evt);
+            }
+        });
 
-        paginateRight8.setText(">");
+        billingPaginationRight.setText(">");
+        billingPaginationRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                billingPaginationRightActionPerformed(evt);
+            }
+        });
 
         pageNumber9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber9.setText("Page 1 of 5");
@@ -136,9 +171,9 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRecords8)
                 .addGap(18, 18, 18)
-                .addComponent(paginateLeft8)
+                .addComponent(billingPaginationLeft)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paginateRight8)
+                .addComponent(billingPaginationRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pageNumber9)
                 .addContainerGap())
@@ -152,8 +187,8 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                     .addComponent(recordPaymentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(adjustBillBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageNumber9)
-                    .addComponent(paginateLeft8)
-                    .addComponent(paginateRight8)
+                    .addComponent(billingPaginationLeft)
+                    .addComponent(billingPaginationRight)
                     .addComponent(totalRecords8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -249,11 +284,41 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void viewDetailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailsBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewDetailsBtnActionPerformed
+
+    private void recordPaymentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordPaymentBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_recordPaymentBtnActionPerformed
+
+    private void adjustBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustBillBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adjustBillBtnActionPerformed
+
+    private void billingPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationLeftActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_billingPaginationLeftActionPerformed
+
+    private void billingPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationRightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_billingPaginationRightActionPerformed
+
+    private void newInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newInvoiceBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newInvoiceBtnActionPerformed
+
+    private void exportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exportBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adjustBillBtn;
     private javax.swing.JButton applyFiltersBtn;
     private javax.swing.JTable billingManagementTable;
+    private javax.swing.JButton billingPaginationLeft;
+    private javax.swing.JButton billingPaginationRight;
     private javax.swing.JPanel bottomBar3;
     private javax.swing.JButton clearBtn;
     private com.toedter.calendar.JDateChooser dateRangeFrom;
@@ -269,8 +334,6 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton newInvoiceBtn;
     private javax.swing.JLabel pageNumber9;
-    private javax.swing.JButton paginateLeft8;
-    private javax.swing.JButton paginateRight8;
     private javax.swing.JComboBox<String> paymentStatusCmb;
     private javax.swing.JButton recordPaymentBtn;
     private javax.swing.JSeparator room_seperator_2;

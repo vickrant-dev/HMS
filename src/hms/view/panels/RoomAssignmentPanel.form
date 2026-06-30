@@ -143,6 +143,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Add Assignment"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addAssignmentBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="guest_seperator_1">
     </Component>
@@ -187,11 +190,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Clear"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="searchBtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="dateChooser">
     </Component>
@@ -199,6 +208,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Apply Filters"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="applyFiltersBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="staffCmb">
       <Properties>
@@ -306,12 +318,12 @@
                   <Component id="markCompletedBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="deleteAssignBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="224" max="32767" attributes="0"/>
                   <Component id="totalRecords2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="paginateLeft2" min="-2" max="-2" attributes="0"/>
+                  <Component id="roomAssignmentPaginationLeft" min="-2" pref="27" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="paginateRight2" min="-2" max="-2" attributes="0"/>
+                  <Component id="roomAssignmentPaginationRight" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="pageNumber3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -327,8 +339,8 @@
                       <Component id="markInProgressBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="markCompletedBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="pageNumber3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="paginateLeft2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="paginateRight2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="roomAssignmentPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="roomAssignmentPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="totalRecords2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="deleteAssignBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
@@ -342,23 +354,32 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAssignBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="markInProgressBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Mark In Progress"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markInProgressBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="markCompletedBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Mark Completed"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markCompletedBtnActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="paginateLeft2">
+        <Component class="javax.swing.JButton" name="roomAssignmentPaginationLeft">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="paginateRight2">
+        <Component class="javax.swing.JButton" name="roomAssignmentPaginationRight">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;"/>
           </Properties>
@@ -384,6 +405,9 @@
             <Property name="text" type="java.lang.String" value="Delete"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteAssignBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

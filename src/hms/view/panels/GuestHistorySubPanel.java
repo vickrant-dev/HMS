@@ -51,6 +51,11 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
         jLabel1.setText("Guest History: John Scott");
 
         backToGuestListBtn.setText("Back to Guest List");
+        backToGuestListBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToGuestListBtnActionPerformed(evt);
+            }
+        });
 
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         jPanel5.setPreferredSize(new java.awt.Dimension(180, 69));
@@ -269,6 +274,10 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backToGuestListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToGuestListBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_backToGuestListBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

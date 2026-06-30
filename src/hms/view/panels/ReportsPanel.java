@@ -83,6 +83,7 @@ public class ReportsPanel extends javax.swing.JPanel {
         statusCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Active", "Inactive" }));
 
         generateReportBtn.setText("Generate Report");
+        generateReportBtn.addActionListener(this::generateReportBtnActionPerformed);
 
         javax.swing.GroupLayout filtersPanelLayout = new javax.swing.GroupLayout(filtersPanel);
         filtersPanel.setLayout(filtersPanelLayout);
@@ -157,6 +158,7 @@ public class ReportsPanel extends javax.swing.JPanel {
 
         exportPdfBtn.setText("Export PDF");
         exportPdfBtn.setActionCommand("");
+        exportPdfBtn.addActionListener(this::exportPdfBtnActionPerformed);
 
         javax.swing.GroupLayout reportPreviewPanelLayout = new javax.swing.GroupLayout(reportPreviewPanel);
         reportPreviewPanel.setLayout(reportPreviewPanelLayout);
@@ -218,6 +220,14 @@ public class ReportsPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void generateReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_generateReportBtnActionPerformed
+
+    private void exportPdfBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPdfBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exportPdfBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

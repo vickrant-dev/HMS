@@ -48,12 +48,13 @@ public class StaffPanel extends javax.swing.JPanel {
         bottomBar = new javax.swing.JPanel();
         editStaffBtn = new javax.swing.JButton();
         deleteStaffBtn = new javax.swing.JButton();
-        paginateLeft1 = new javax.swing.JButton();
-        paginateRight1 = new javax.swing.JButton();
+        staffPaginationLeft = new javax.swing.JButton();
+        staffPaginationRight = new javax.swing.JButton();
         pageNumber2 = new javax.swing.JLabel();
         totalRecords1 = new javax.swing.JLabel();
 
         addStaffBtn.setText("Add Staff");
+        addStaffBtn.addActionListener(this::addStaffBtnActionPerformed);
 
         description.setText("Manage employees, roles, and departmental assignments across the property.");
 
@@ -63,6 +64,7 @@ public class StaffPanel extends javax.swing.JPanel {
         searchBox.setToolTipText("Search by room no.");
 
         clearBtn.setText("Clear");
+        clearBtn.addActionListener(this::clearBtnActionPerformed);
 
         positionCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Available", "Unavailable" }));
 
@@ -77,8 +79,10 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel1.setText("Search catalog");
 
         searchBtn.setText("Search");
+        searchBtn.addActionListener(this::searchBtnActionPerformed);
 
         applyFiltersBtn.setText("Apply Filters");
+        applyFiltersBtn.addActionListener(this::applyFiltersBtnActionPerformed);
 
         statusCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Available", "Unavailable" }));
 
@@ -100,12 +104,14 @@ public class StaffPanel extends javax.swing.JPanel {
         bottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         editStaffBtn.setText("Edit");
+        editStaffBtn.addActionListener(this::editStaffBtnActionPerformed);
 
         deleteStaffBtn.setText("Delete");
+        deleteStaffBtn.addActionListener(this::deleteStaffBtnActionPerformed);
 
-        paginateLeft1.setText("<");
+        staffPaginationLeft.setText("<");
 
-        paginateRight1.setText(">");
+        staffPaginationRight.setText(">");
 
         pageNumber2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber2.setText("Page 1 of 5");
@@ -125,9 +131,9 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRecords1)
                 .addGap(18, 18, 18)
-                .addComponent(paginateLeft1)
+                .addComponent(staffPaginationLeft)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paginateRight1)
+                .addComponent(staffPaginationRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pageNumber2)
                 .addContainerGap())
@@ -140,8 +146,8 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addComponent(editStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageNumber2)
-                    .addComponent(paginateLeft1)
-                    .addComponent(paginateRight1)
+                    .addComponent(staffPaginationLeft)
+                    .addComponent(staffPaginationRight)
                     .addComponent(totalRecords1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -245,6 +251,30 @@ public class StaffPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void editStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStaffBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editStaffBtnActionPerformed
+
+    private void deleteStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStaffBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteStaffBtnActionPerformed
+
+    private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addStaffBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_applyFiltersBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStaffBtn;
@@ -262,14 +292,14 @@ public class StaffPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel pageNumber2;
-    private javax.swing.JButton paginateLeft1;
-    private javax.swing.JButton paginateRight1;
     private javax.swing.JComboBox<String> positionCmb;
     private javax.swing.JSeparator room_seperator_1;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
     private javax.swing.JTable staffDirectoryTable;
+    private javax.swing.JButton staffPaginationLeft;
+    private javax.swing.JButton staffPaginationRight;
     private javax.swing.JPanel staffPanelGroup;
     private javax.swing.JComboBox<String> statusCmb;
     private javax.swing.JLabel totalRecords1;

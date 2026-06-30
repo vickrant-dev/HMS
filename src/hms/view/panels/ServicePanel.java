@@ -47,13 +47,14 @@ public class ServicePanel extends javax.swing.JPanel {
         editServiceBtn = new javax.swing.JButton();
         deleteServiceBtn = new javax.swing.JButton();
         toggleAvailBtn = new javax.swing.JButton();
-        paginateLeft1 = new javax.swing.JButton();
-        paginateRight1 = new javax.swing.JButton();
+        serviceCatalogPaginationLeft = new javax.swing.JButton();
+        serviceCatalogPaginationRight = new javax.swing.JButton();
         pageNumber2 = new javax.swing.JLabel();
         totalRecords1 = new javax.swing.JLabel();
         bookServiceBtn = new javax.swing.JButton();
 
         addServiceBtn.setText("Add Service");
+        addServiceBtn.addActionListener(this::addServiceBtnActionPerformed);
 
         description.setText("Manage property-wide amenities and additional guest services.");
 
@@ -63,12 +64,15 @@ public class ServicePanel extends javax.swing.JPanel {
         jLabel1.setText("Search catalog");
 
         searchBtn.setText("Search");
+        searchBtn.addActionListener(this::searchBtnActionPerformed);
 
         applyFiltersBtn.setText("Apply Filters");
+        applyFiltersBtn.addActionListener(this::applyFiltersBtnActionPerformed);
 
         searchBox.setToolTipText("Search by room no.");
 
         clearBtn.setText("Clear");
+        clearBtn.addActionListener(this::clearBtnActionPerformed);
 
         availabilityCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Available", "Unavailable" }));
 
@@ -96,14 +100,20 @@ public class ServicePanel extends javax.swing.JPanel {
         bottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         editServiceBtn.setText("Edit");
+        editServiceBtn.addActionListener(this::editServiceBtnActionPerformed);
 
         deleteServiceBtn.setText("Delete");
+        deleteServiceBtn.addActionListener(this::deleteServiceBtnActionPerformed);
 
         toggleAvailBtn.setText("Toggle Availability");
+        toggleAvailBtn.addActionListener(this::toggleAvailBtnActionPerformed);
 
-        paginateLeft1.setText("<");
+        serviceCatalogPaginationLeft.setText("<");
+        serviceCatalogPaginationLeft.setActionCommand("");
+        serviceCatalogPaginationLeft.addActionListener(this::serviceCatalogPaginationLeftActionPerformed);
 
-        paginateRight1.setText(">");
+        serviceCatalogPaginationRight.setText(">");
+        serviceCatalogPaginationRight.addActionListener(this::serviceCatalogPaginationRightActionPerformed);
 
         pageNumber2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber2.setText("Page 1 of 5");
@@ -113,6 +123,7 @@ public class ServicePanel extends javax.swing.JPanel {
 
         bookServiceBtn.setText("Book for Reservation");
         bookServiceBtn.setToolTipText("");
+        bookServiceBtn.addActionListener(this::bookServiceBtnActionPerformed);
 
         javax.swing.GroupLayout bottomBarLayout = new javax.swing.GroupLayout(bottomBar);
         bottomBar.setLayout(bottomBarLayout);
@@ -130,9 +141,9 @@ public class ServicePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRecords1)
                 .addGap(18, 18, 18)
-                .addComponent(paginateLeft1)
+                .addComponent(serviceCatalogPaginationLeft)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paginateRight1)
+                .addComponent(serviceCatalogPaginationRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pageNumber2)
                 .addContainerGap())
@@ -146,8 +157,8 @@ public class ServicePanel extends javax.swing.JPanel {
                     .addComponent(deleteServiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toggleAvailBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageNumber2)
-                    .addComponent(paginateLeft1)
-                    .addComponent(paginateRight1)
+                    .addComponent(serviceCatalogPaginationLeft)
+                    .addComponent(serviceCatalogPaginationRight)
                     .addComponent(totalRecords1)
                     .addComponent(bookServiceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -248,6 +259,46 @@ public class ServicePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void editServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editServiceBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editServiceBtnActionPerformed
+
+    private void addServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addServiceBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addServiceBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_applyFiltersBtnActionPerformed
+
+    private void deleteServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteServiceBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteServiceBtnActionPerformed
+
+    private void toggleAvailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAvailBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toggleAvailBtnActionPerformed
+
+    private void bookServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookServiceBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bookServiceBtnActionPerformed
+
+    private void serviceCatalogPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCatalogPaginationLeftActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serviceCatalogPaginationLeftActionPerformed
+
+    private void serviceCatalogPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCatalogPaginationRightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serviceCatalogPaginationRightActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addServiceBtn;
@@ -265,12 +316,12 @@ public class ServicePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel pageNumber2;
-    private javax.swing.JButton paginateLeft1;
-    private javax.swing.JButton paginateRight1;
     private javax.swing.JSeparator room_seperator_1;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
+    private javax.swing.JButton serviceCatalogPaginationLeft;
+    private javax.swing.JButton serviceCatalogPaginationRight;
     private javax.swing.JTable serviceCatalogTable;
     private javax.swing.JPanel servicePanelGroup;
     private javax.swing.JComboBox<String> serviceTypeCmb;
