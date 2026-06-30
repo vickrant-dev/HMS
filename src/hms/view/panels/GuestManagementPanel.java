@@ -39,8 +39,8 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         editGuestBtn = new javax.swing.JButton();
         deleteGuestBtn = new javax.swing.JButton();
         viewHistoryBtn = new javax.swing.JButton();
-        paginateLeft = new javax.swing.JButton();
-        paginateRight = new javax.swing.JButton();
+        guestPaginationLeft = new javax.swing.JButton();
+        guestPaginationRight = new javax.swing.JButton();
         pageNumber = new javax.swing.JLabel();
         totalRecords = new javax.swing.JLabel();
 
@@ -50,10 +50,20 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         description.setText("Manage guest records, identities, and visit history");
 
         addGuestBtn.setText("Add Guest");
+        addGuestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addGuestBtnActionPerformed(evt);
+            }
+        });
 
         searchBox.setToolTipText("Search by name, email or phone...");
 
         searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         guestManagementTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -79,14 +89,29 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         bottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         editGuestBtn.setText("Edit");
+        editGuestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editGuestBtnActionPerformed(evt);
+            }
+        });
 
         deleteGuestBtn.setText("Delete");
+        deleteGuestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteGuestBtnActionPerformed(evt);
+            }
+        });
 
         viewHistoryBtn.setText("View History");
+        viewHistoryBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewHistoryBtnActionPerformed(evt);
+            }
+        });
 
-        paginateLeft.setText("<");
+        guestPaginationLeft.setText("<");
 
-        paginateRight.setText(">");
+        guestPaginationRight.setText(">");
 
         pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber.setText("Page 1 of 5");
@@ -108,9 +133,9 @@ public class GuestManagementPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRecords)
                 .addGap(18, 18, 18)
-                .addComponent(paginateLeft)
+                .addComponent(guestPaginationLeft)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paginateRight)
+                .addComponent(guestPaginationRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pageNumber)
                 .addContainerGap())
@@ -125,8 +150,8 @@ public class GuestManagementPanel extends javax.swing.JPanel {
                     .addComponent(viewHistoryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(pageNumber)
-                        .addComponent(paginateLeft)
-                        .addComponent(paginateRight)
+                        .addComponent(guestPaginationLeft)
+                        .addComponent(guestPaginationRight)
                         .addComponent(totalRecords)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -195,6 +220,26 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void editGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editGuestBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editGuestBtnActionPerformed
+
+    private void deleteGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteGuestBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteGuestBtnActionPerformed
+
+    private void viewHistoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewHistoryBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewHistoryBtnActionPerformed
+
+    private void addGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGuestBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addGuestBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGuestBtn;
@@ -204,12 +249,12 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     private javax.swing.JButton editGuestBtn;
     private javax.swing.JPanel guestManagementPanelGroup;
     private javax.swing.JTable guestManagementTable;
+    private javax.swing.JButton guestPaginationLeft;
+    private javax.swing.JButton guestPaginationRight;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JScrollPane guest_table;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel pageNumber;
-    private javax.swing.JButton paginateLeft;
-    private javax.swing.JButton paginateRight;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
     private javax.swing.JLabel totalRecords;

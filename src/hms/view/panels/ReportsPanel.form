@@ -277,6 +277,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Generate Report"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generateReportBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -317,6 +320,9 @@
             <Property name="text" type="java.lang.String" value="Export PDF"/>
             <Property name="actionCommand" type="java.lang.String" value=""/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportPdfBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

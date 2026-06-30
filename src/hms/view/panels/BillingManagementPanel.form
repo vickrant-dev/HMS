@@ -143,6 +143,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Export"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="guest_seperator_1">
     </Component>
@@ -150,6 +153,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="New Invoice"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newInvoiceBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="dateRangeTo">
     </Component>
@@ -321,9 +327,9 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="totalRecords8" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="paginateLeft8" min="-2" max="-2" attributes="0"/>
+                  <Component id="billingPaginationLeft" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="paginateRight8" min="-2" max="-2" attributes="0"/>
+                  <Component id="billingPaginationRight" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="pageNumber9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -339,8 +345,8 @@
                       <Component id="recordPaymentBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="adjustBillBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="pageNumber9" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="paginateLeft8" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="paginateRight8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="billingPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="billingPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="totalRecords8" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -353,26 +359,41 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="View Details"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewDetailsBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="recordPaymentBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Record Payment"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="recordPaymentBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="adjustBillBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Adjust Bill"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="adjustBillBtnActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="paginateLeft8">
+        <Component class="javax.swing.JButton" name="billingPaginationLeft">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="billingPaginationLeftActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="paginateRight8">
+        <Component class="javax.swing.JButton" name="billingPaginationRight">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="billingPaginationRightActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="pageNumber9">
           <Properties>

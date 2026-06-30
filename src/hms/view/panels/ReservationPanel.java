@@ -44,12 +44,12 @@ public class ReservationPanel extends javax.swing.JPanel {
         dateRangeTo = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         reservationsTable = new javax.swing.JTable();
-        bottomBar3 = new javax.swing.JPanel();
+        reservationBottomBar = new javax.swing.JPanel();
         checkInBtn = new javax.swing.JButton();
         checkOutBtn = new javax.swing.JButton();
         modifyResBtn = new javax.swing.JButton();
-        paginateLeft8 = new javax.swing.JButton();
-        paginateRight8 = new javax.swing.JButton();
+        reservationPaginationLeft = new javax.swing.JButton();
+        reservationPaginationRight = new javax.swing.JButton();
         pageNumber9 = new javax.swing.JLabel();
         totalRecords8 = new javax.swing.JLabel();
         cancelResBtn = new javax.swing.JButton();
@@ -60,8 +60,18 @@ public class ReservationPanel extends javax.swing.JPanel {
         description.setText("View reservations and manage them.");
 
         addReservationBtn.setText("Add Reservation");
+        addReservationBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addReservationBtnActionPerformed(evt);
+            }
+        });
 
         applyFiltersBtn.setText("Apply Filters");
+        applyFiltersBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyFiltersBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Search by room no.");
 
@@ -76,8 +86,18 @@ public class ReservationPanel extends javax.swing.JPanel {
         searchBox.setToolTipText("Search by room no.");
 
         clearBtn.setText("Clear");
+        clearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBtnActionPerformed(evt);
+            }
+        });
 
         searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         reservationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,17 +120,42 @@ public class ReservationPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(reservationsTable);
 
-        bottomBar3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+        reservationBottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         checkInBtn.setText("Check-In");
+        checkInBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkInBtnActionPerformed(evt);
+            }
+        });
 
         checkOutBtn.setText("Check-Out");
+        checkOutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkOutBtnActionPerformed(evt);
+            }
+        });
 
         modifyResBtn.setText("Modify");
+        modifyResBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyResBtnActionPerformed(evt);
+            }
+        });
 
-        paginateLeft8.setText("<");
+        reservationPaginationLeft.setText("<");
+        reservationPaginationLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reservationPaginationLeftActionPerformed(evt);
+            }
+        });
 
-        paginateRight8.setText(">");
+        reservationPaginationRight.setText(">");
+        reservationPaginationRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reservationPaginationRightActionPerformed(evt);
+            }
+        });
 
         pageNumber9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber9.setText("Page 1 of 5");
@@ -119,12 +164,17 @@ public class ReservationPanel extends javax.swing.JPanel {
         totalRecords8.setText("Records: 10");
 
         cancelResBtn.setText("Cancel");
+        cancelResBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelResBtnActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout bottomBar3Layout = new javax.swing.GroupLayout(bottomBar3);
-        bottomBar3.setLayout(bottomBar3Layout);
-        bottomBar3Layout.setHorizontalGroup(
-            bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bottomBar3Layout.createSequentialGroup()
+        javax.swing.GroupLayout reservationBottomBarLayout = new javax.swing.GroupLayout(reservationBottomBar);
+        reservationBottomBar.setLayout(reservationBottomBarLayout);
+        reservationBottomBarLayout.setHorizontalGroup(
+            reservationBottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reservationBottomBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(checkInBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -136,24 +186,24 @@ public class ReservationPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRecords8)
                 .addGap(18, 18, 18)
-                .addComponent(paginateLeft8)
+                .addComponent(reservationPaginationLeft)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paginateRight8)
+                .addComponent(reservationPaginationRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pageNumber9)
                 .addContainerGap())
         );
-        bottomBar3Layout.setVerticalGroup(
-            bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bottomBar3Layout.createSequentialGroup()
+        reservationBottomBarLayout.setVerticalGroup(
+            reservationBottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reservationBottomBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(bottomBar3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(reservationBottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkInBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(modifyResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageNumber9)
-                    .addComponent(paginateLeft8)
-                    .addComponent(paginateRight8)
+                    .addComponent(reservationPaginationLeft)
+                    .addComponent(reservationPaginationRight)
                     .addComponent(totalRecords8)
                     .addComponent(cancelResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -199,7 +249,7 @@ public class ReservationPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applyFiltersBtn)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(bottomBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(reservationBottomBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         reservationGroupPanelLayout.setVerticalGroup(
@@ -237,7 +287,7 @@ public class ReservationPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bottomBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(reservationBottomBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -255,98 +305,74 @@ public class ReservationPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addReservationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addReservationBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addReservationBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_applyFiltersBtnActionPerformed
+
+    private void checkInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkInBtnActionPerformed
+
+    private void checkOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkOutBtnActionPerformed
+
+    private void modifyResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyResBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modifyResBtnActionPerformed
+
+    private void cancelResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelResBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelResBtnActionPerformed
+
+    private void reservationPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationLeftActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reservationPaginationLeftActionPerformed
+
+    private void reservationPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationRightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reservationPaginationRightActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addReservationBtn;
     private javax.swing.JButton applyFiltersBtn;
-    private javax.swing.JPanel bottomBar;
-    private javax.swing.JPanel bottomBar1;
-    private javax.swing.JPanel bottomBar2;
-    private javax.swing.JPanel bottomBar3;
     private javax.swing.JButton cancelResBtn;
     private javax.swing.JButton checkInBtn;
     private javax.swing.JButton checkOutBtn;
     private javax.swing.JButton clearBtn;
     private com.toedter.calendar.JDateChooser dateRangeFrom;
     private com.toedter.calendar.JDateChooser dateRangeTo;
-    private javax.swing.JButton deleteGuestBtn;
-    private javax.swing.JButton deleteGuestBtn1;
-    private javax.swing.JButton deleteGuestBtn2;
-    private javax.swing.JButton deleteGuestBtn3;
-    private javax.swing.JButton deleteGuestBtn4;
-    private javax.swing.JButton deleteGuestBtn5;
-    private javax.swing.JButton deleteGuestBtn6;
-    private javax.swing.JButton deleteGuestBtn7;
     private javax.swing.JLabel description;
-    private javax.swing.JButton editGuestBtn;
-    private javax.swing.JButton editGuestBtn1;
-    private javax.swing.JButton editGuestBtn2;
-    private javax.swing.JButton editGuestBtn3;
-    private javax.swing.JButton editGuestBtn4;
-    private javax.swing.JButton editGuestBtn5;
-    private javax.swing.JButton editGuestBtn6;
-    private javax.swing.JButton editGuestBtn7;
     private javax.swing.JSeparator guest_seperator_1;
     private javax.swing.JLabel heading;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton modifyResBtn;
-    private javax.swing.JLabel pageNumber1;
-    private javax.swing.JLabel pageNumber2;
-    private javax.swing.JLabel pageNumber3;
-    private javax.swing.JLabel pageNumber4;
-    private javax.swing.JLabel pageNumber5;
-    private javax.swing.JLabel pageNumber6;
-    private javax.swing.JLabel pageNumber7;
-    private javax.swing.JLabel pageNumber8;
     private javax.swing.JLabel pageNumber9;
-    private javax.swing.JButton paginateLeft;
-    private javax.swing.JButton paginateLeft1;
-    private javax.swing.JButton paginateLeft2;
-    private javax.swing.JButton paginateLeft3;
-    private javax.swing.JButton paginateLeft4;
-    private javax.swing.JButton paginateLeft5;
-    private javax.swing.JButton paginateLeft6;
-    private javax.swing.JButton paginateLeft7;
-    private javax.swing.JButton paginateLeft8;
-    private javax.swing.JButton paginateRight;
-    private javax.swing.JButton paginateRight1;
-    private javax.swing.JButton paginateRight2;
-    private javax.swing.JButton paginateRight3;
-    private javax.swing.JButton paginateRight4;
-    private javax.swing.JButton paginateRight5;
-    private javax.swing.JButton paginateRight6;
-    private javax.swing.JButton paginateRight7;
-    private javax.swing.JButton paginateRight8;
+    private javax.swing.JPanel reservationBottomBar;
     private javax.swing.JPanel reservationGroupPanel;
+    private javax.swing.JButton reservationPaginationLeft;
+    private javax.swing.JButton reservationPaginationRight;
     private javax.swing.JTable reservationsTable;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;
     private javax.swing.JButton searchBtn;
     private javax.swing.JComboBox<String> statusCmb;
-    private javax.swing.JLabel totalRecords;
-    private javax.swing.JLabel totalRecords1;
-    private javax.swing.JLabel totalRecords2;
-    private javax.swing.JLabel totalRecords3;
-    private javax.swing.JLabel totalRecords4;
-    private javax.swing.JLabel totalRecords5;
-    private javax.swing.JLabel totalRecords6;
-    private javax.swing.JLabel totalRecords7;
     private javax.swing.JLabel totalRecords8;
-    private javax.swing.JButton viewHistoryBtn;
-    private javax.swing.JButton viewHistoryBtn1;
-    private javax.swing.JButton viewHistoryBtn2;
-    private javax.swing.JButton viewHistoryBtn3;
-    private javax.swing.JButton viewHistoryBtn4;
-    private javax.swing.JButton viewHistoryBtn5;
-    private javax.swing.JButton viewHistoryBtn6;
-    private javax.swing.JButton viewHistoryBtn7;
     // End of variables declaration//GEN-END:variables
 }

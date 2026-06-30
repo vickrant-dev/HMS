@@ -141,6 +141,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Service"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addServiceBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="description">
           <Properties>
@@ -164,11 +167,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="applyFiltersBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apply Filters"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="applyFiltersBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="searchBox">
           <Properties>
@@ -179,6 +188,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="availabilityCmb">
           <Properties>
@@ -310,9 +322,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="totalRecords1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="paginateLeft1" min="-2" max="-2" attributes="0"/>
+                      <Component id="serviceCatalogPaginationLeft" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="paginateRight1" min="-2" max="-2" attributes="0"/>
+                      <Component id="serviceCatalogPaginationRight" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pageNumber2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -328,8 +340,8 @@
                           <Component id="deleteServiceBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="toggleAvailBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="pageNumber2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateLeft1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateRight1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="serviceCatalogPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="serviceCatalogPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="totalRecords1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bookServiceBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
@@ -343,26 +355,42 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editServiceBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteServiceBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteServiceBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="toggleAvailBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Toggle Availability"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleAvailBtnActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateLeft1">
+            <Component class="javax.swing.JButton" name="serviceCatalogPaginationLeft">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
+                <Property name="actionCommand" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serviceCatalogPaginationLeftActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateRight1">
+            <Component class="javax.swing.JButton" name="serviceCatalogPaginationRight">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serviceCatalogPaginationRightActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="pageNumber2">
               <Properties>
@@ -385,6 +413,9 @@
                 <Property name="text" type="java.lang.String" value="Book for Reservation"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bookServiceBtnActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -50,8 +50,8 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         editRoomBtn = new javax.swing.JButton();
         deleteRoomBtn = new javax.swing.JButton();
         markMaintBtn = new javax.swing.JButton();
-        paginateLeft1 = new javax.swing.JButton();
-        paginateRight1 = new javax.swing.JButton();
+        roomManagementPaginationLeft = new javax.swing.JButton();
+        roomManagementPaginationRight = new javax.swing.JButton();
         pageNumber2 = new javax.swing.JLabel();
         totalRecords1 = new javax.swing.JLabel();
         markAvailBtn = new javax.swing.JButton();
@@ -62,10 +62,20 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         description.setText("Manage property inventory, pricing and operational status");
 
         addRoomBtn.setText("Add Room");
+        addRoomBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addRoomBtnActionPerformed(evt);
+            }
+        });
 
         searchBox.setToolTipText("Search by room no.");
 
         searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Search by room no.");
 
@@ -86,8 +96,18 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         jLabel4.setText("Capacity");
 
         clearBtn.setText("Clear");
+        clearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBtnActionPerformed(evt);
+            }
+        });
 
         applyFiltersBtn.setText("Apply Filters");
+        applyFiltersBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyFiltersBtnActionPerformed(evt);
+            }
+        });
 
         roomManagementTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,14 +133,29 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         bottomBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         editRoomBtn.setText("Edit");
+        editRoomBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editRoomBtnActionPerformed(evt);
+            }
+        });
 
         deleteRoomBtn.setText("Delete");
+        deleteRoomBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteRoomBtnActionPerformed(evt);
+            }
+        });
 
         markMaintBtn.setText("Mark Maintenance");
+        markMaintBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                markMaintBtnActionPerformed(evt);
+            }
+        });
 
-        paginateLeft1.setText("<");
+        roomManagementPaginationLeft.setText("<");
 
-        paginateRight1.setText(">");
+        roomManagementPaginationRight.setText(">");
 
         pageNumber2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber2.setText("Page 1 of 5");
@@ -130,6 +165,11 @@ public class RoomManagementPanel extends javax.swing.JPanel {
 
         markAvailBtn.setText("Mark Available");
         markAvailBtn.setToolTipText("");
+        markAvailBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                markAvailBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout bottomBarLayout = new javax.swing.GroupLayout(bottomBar);
         bottomBar.setLayout(bottomBarLayout);
@@ -147,9 +187,9 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(totalRecords1)
                 .addGap(18, 18, 18)
-                .addComponent(paginateLeft1)
+                .addComponent(roomManagementPaginationLeft)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paginateRight1)
+                .addComponent(roomManagementPaginationRight)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pageNumber2)
                 .addContainerGap())
@@ -163,8 +203,8 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                     .addComponent(deleteRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(markMaintBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pageNumber2)
-                    .addComponent(paginateLeft1)
-                    .addComponent(paginateRight1)
+                    .addComponent(roomManagementPaginationLeft)
+                    .addComponent(roomManagementPaginationRight)
                     .addComponent(totalRecords1)
                     .addComponent(markAvailBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -273,6 +313,38 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void editRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRoomBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editRoomBtnActionPerformed
+
+    private void addRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoomBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addRoomBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_applyFiltersBtnActionPerformed
+
+    private void deleteRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRoomBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteRoomBtnActionPerformed
+
+    private void markMaintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markMaintBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_markMaintBtnActionPerformed
+
+    private void markAvailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAvailBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_markAvailBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addRoomBtn;
@@ -292,10 +364,10 @@ public class RoomManagementPanel extends javax.swing.JPanel {
     private javax.swing.JButton markAvailBtn;
     private javax.swing.JButton markMaintBtn;
     private javax.swing.JLabel pageNumber2;
-    private javax.swing.JButton paginateLeft1;
-    private javax.swing.JButton paginateRight1;
     private javax.swing.JTextField priceRangeFrom;
     private javax.swing.JTextField priceRangeTo;
+    private javax.swing.JButton roomManagementPaginationLeft;
+    private javax.swing.JButton roomManagementPaginationRight;
     private javax.swing.JPanel roomManagementPanelGroup;
     private javax.swing.JTable roomManagementTable;
     private javax.swing.JSeparator room_seperator_1;

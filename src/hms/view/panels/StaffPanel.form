@@ -145,6 +145,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Staff"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addStaffBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="description">
           <Properties>
@@ -168,6 +171,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="positionCmb">
           <Properties>
@@ -222,11 +228,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="applyFiltersBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apply Filters"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="applyFiltersBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="statusCmb">
           <Properties>
@@ -341,9 +353,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="totalRecords1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="paginateLeft1" min="-2" max="-2" attributes="0"/>
+                      <Component id="staffPaginationLeft" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="paginateRight1" min="-2" max="-2" attributes="0"/>
+                      <Component id="staffPaginationRight" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pageNumber2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -358,8 +370,8 @@
                           <Component id="editStaffBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="deleteStaffBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="pageNumber2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateLeft1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="paginateRight1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="staffPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="staffPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="totalRecords1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -372,18 +384,24 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editStaffBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteStaffBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteStaffBtnActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateLeft1">
+            <Component class="javax.swing.JButton" name="staffPaginationLeft">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateRight1">
+            <Component class="javax.swing.JButton" name="staffPaginationRight">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>

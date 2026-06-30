@@ -110,6 +110,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Guest"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addGuestBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="guest_seperator_1">
         </Component>
@@ -122,6 +125,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="guest_table">
           <AuxValues>
@@ -177,9 +183,9 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="totalRecords" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="paginateLeft" min="-2" max="-2" attributes="0"/>
+                      <Component id="guestPaginationLeft" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="paginateRight" min="-2" max="-2" attributes="0"/>
+                      <Component id="guestPaginationRight" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pageNumber" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -196,8 +202,8 @@
                           <Component id="viewHistoryBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Group type="103" alignment="3" groupAlignment="3" attributes="0">
                               <Component id="pageNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="paginateLeft" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="paginateRight" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="guestPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="guestPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="totalRecords" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -211,23 +217,32 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editGuestBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteGuestBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteGuestBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="viewHistoryBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="View History"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewHistoryBtnActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateLeft">
+            <Component class="javax.swing.JButton" name="guestPaginationLeft">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="paginateRight">
+            <Component class="javax.swing.JButton" name="guestPaginationRight">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>
