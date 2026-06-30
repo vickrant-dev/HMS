@@ -26,7 +26,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        room_management_panel_grp = new javax.swing.JPanel();
+        roomManagementPanelGroup = new javax.swing.JPanel();
         heading = new javax.swing.JLabel();
         description = new javax.swing.JLabel();
         addRoomBtn = new javax.swing.JButton();
@@ -105,47 +105,47 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         pageNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pageNumber.setText("Page 1 of 5");
 
-        javax.swing.GroupLayout room_management_panel_grpLayout = new javax.swing.GroupLayout(room_management_panel_grp);
-        room_management_panel_grp.setLayout(room_management_panel_grpLayout);
-        room_management_panel_grpLayout.setHorizontalGroup(
-            room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(room_management_panel_grpLayout.createSequentialGroup()
+        javax.swing.GroupLayout roomManagementPanelGroupLayout = new javax.swing.GroupLayout(roomManagementPanelGroup);
+        roomManagementPanelGroup.setLayout(roomManagementPanelGroupLayout);
+        roomManagementPanelGroupLayout.setHorizontalGroup(
+            roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addComponent(room_seperator_1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, room_management_panel_grpLayout.createSequentialGroup()
-                        .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roomManagementPanelGroupLayout.createSequentialGroup()
+                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(heading)
                             .addComponent(description))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(room_management_panel_grpLayout.createSequentialGroup()
-                        .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(room_management_panel_grpLayout.createSequentialGroup()
-                                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
+                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
+                                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addGroup(room_management_panel_grpLayout.createSequentialGroup()
+                                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                                         .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(searchBtn)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(room_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(statusCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(room_management_panel_grpLayout.createSequentialGroup()
+                                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                                         .addComponent(priceRangeFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(priceRangeTo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
-                                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addGroup(room_management_panel_grpLayout.createSequentialGroup()
+                                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                                         .addComponent(capacityCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(41, 41, 41)
                                         .addComponent(clearBtn)
@@ -155,34 +155,34 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        room_management_panel_grpLayout.setVerticalGroup(
-            room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(room_management_panel_grpLayout.createSequentialGroup()
+        roomManagementPanelGroupLayout.setVerticalGroup(
+            roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(room_management_panel_grpLayout.createSequentialGroup()
+                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                         .addComponent(heading)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(description)))
                 .addGap(18, 18, 18)
                 .addComponent(room_seperator_1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, room_management_panel_grpLayout.createSequentialGroup()
+                .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roomManagementPanelGroupLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(room_seperator_2)
-                    .addGroup(room_management_panel_grpLayout.createSequentialGroup()
-                        .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
+                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(room_management_panel_grpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(statusCmb)
                             .addComponent(capacityCmb, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                             .addComponent(priceRangeFrom)
@@ -200,11 +200,11 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(room_management_panel_grp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(roomManagementPanelGroup, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(room_management_panel_grp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(roomManagementPanelGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -224,8 +224,8 @@ public class RoomManagementPanel extends javax.swing.JPanel {
     private javax.swing.JLabel pageNumber;
     private javax.swing.JTextField priceRangeFrom;
     private javax.swing.JTextField priceRangeTo;
+    private javax.swing.JPanel roomManagementPanelGroup;
     private javax.swing.JTable roomManagementTable;
-    private javax.swing.JPanel room_management_panel_grp;
     private javax.swing.JSeparator room_seperator_1;
     private javax.swing.JSeparator room_seperator_2;
     private javax.swing.JTextField searchBox;

@@ -18,7 +18,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="guest_management_panel_grp" max="32767" attributes="0"/>
+              <Component id="guestManagementPanelGroup" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -27,14 +27,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="guest_management_panel_grp" max="32767" attributes="0"/>
+              <Component id="guestManagementPanelGroup" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="guest_management_panel_grp">
+    <Container class="javax.swing.JPanel" name="guestManagementPanelGroup">
 
       <Layout>
         <DimensionLayout dim="0">
