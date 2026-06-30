@@ -4,9 +4,13 @@
  */
 package hms.view.panels;
 
+import hms.controller.StaffController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
 import hms.model.Staff;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewStaffDialog;
@@ -17,7 +21,10 @@ import hms.view.dialogs.AddNewStaffDialog;
  */
 public class StaffPanel extends javax.swing.JPanel {
 
+    private final StaffController staffController = new StaffController();
     private List<Staff> filteredStaff;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form StaffPanel
@@ -25,6 +32,63 @@ public class StaffPanel extends javax.swing.JPanel {
     public StaffPanel() {
         initComponents();
         setupTable();
+        setupPaginationListeners();
+        loadStaff();
+    }
+
+    private void setupPaginationListeners() {
+        staffPaginationLeft.addActionListener(e -> {
+            if (currentPage > 0) { currentPage--; applyPagination(); }
+        });
+        staffPaginationRight.addActionListener(e -> {
+            int totalPages = Math.max(1, (int) Math.ceil((double) filteredStaff.size() / PAGE_SIZE));
+            if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
+        });
+    }
+
+    private void loadStaff() {
+        try {
+            filteredStaff = staffController.getAllStaff();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load staff: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredStaff.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<Staff> page = from < total ? filteredStaff.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][8];
+        for (int i = 0; i < page.size(); i++) {
+            Staff s = page.get(i);
+            data[i][0] = String.valueOf(s.getStaffId());
+            data[i][1] = s.getFirstName();
+            data[i][2] = s.getLastName();
+            data[i][3] = s.getEmail();
+            data[i][4] = s.getPhone();
+            data[i][5] = s.getPosition();
+            data[i][6] = s.getDepartment();
+            data[i][7] = String.format("%.2f", s.getSalary());
+        }
+
+        staffDirectoryTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "First Name", "Last Name", "Email", "Phone", "Position", "Department", "Salary"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, false, false, false};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber2.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords1.setText("Records: " + total);
     }
 
     private Staff getSelectedStaff() {
@@ -283,6 +347,7 @@ public class StaffPanel extends javax.swing.JPanel {
         AddNewStaffDialog d = new AddNewStaffDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Edit Staff: " + selected.getFirstName() + " " + selected.getLastName());
         d.setVisible(true);
+        loadStaff();
     }//GEN-LAST:event_editStaffBtnActionPerformed
 
     private void deleteStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStaffBtnActionPerformed
@@ -292,17 +357,39 @@ public class StaffPanel extends javax.swing.JPanel {
             "Delete staff " + selected.getFirstName() + " " + selected.getLastName() + "?",
             "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
-            // TODO: staffController.deleteStaff(selected.getStaffId()); refreshTable();
+            try {
+                staffController.deleteStaff(selected.getStaffId());
+                loadStaff();
+            } catch (DatabaseException e) {
+                JOptionPane.showMessageDialog(this, "Delete failed: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_deleteStaffBtnActionPerformed
 
     private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
         AddNewStaffDialog d = new AddNewStaffDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setVisible(true);
+        loadStaff();
     }//GEN-LAST:event_addStaffBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO: staffController.search(searchBox.getText()); refreshTable();
+        String keyword = searchBox.getText().trim().toLowerCase();
+        try {
+            filteredStaff = keyword.isEmpty()
+                ? staffController.getAllStaff()
+                : staffController.getAllStaff().stream()
+                    .filter(s -> s.getFirstName().toLowerCase().contains(keyword)
+                        || s.getLastName().toLowerCase().contains(keyword)
+                        || s.getEmail().toLowerCase().contains(keyword)
+                        || s.getPhone().contains(keyword))
+                    .collect(Collectors.toList());
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -310,10 +397,30 @@ public class StaffPanel extends javax.swing.JPanel {
         departmentCmb.setSelectedIndex(0);
         positionCmb.setSelectedIndex(0);
         statusCmb.setSelectedIndex(0);
+        loadStaff();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO: staffController.applyFilters(departmentCmb, positionCmb, statusCmb); refreshTable();
+        try {
+            List<Staff> all = staffController.getAllStaff();
+            String dept = (String) departmentCmb.getSelectedItem();
+            String pos = (String) positionCmb.getSelectedItem();
+            String status = (String) statusCmb.getSelectedItem();
+
+            filteredStaff = all.stream()
+                .filter(s -> dept == null || dept.equals("All") || s.getDepartment().equalsIgnoreCase(dept))
+                .filter(s -> pos == null || pos.equals("All") || s.getPosition().equalsIgnoreCase(pos))
+                .filter(s -> status == null || status.equals("All")
+                    || (status.equals("Available") && "Active".equalsIgnoreCase(s.getStatus()))
+                    || (status.equals("Unavailable") && !"Active".equalsIgnoreCase(s.getStatus())))
+                .collect(Collectors.toList());
+
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Filter failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
 

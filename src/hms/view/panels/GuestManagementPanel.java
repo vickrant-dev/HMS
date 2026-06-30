@@ -4,9 +4,12 @@
  */
 package hms.view.panels;
 
+import hms.controller.GuestController;
+import hms.exception.DatabaseException;
 import hms.model.Guest;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddGuestDialog;
@@ -17,7 +20,10 @@ import hms.view.dialogs.AddGuestDialog;
  */
 public class GuestManagementPanel extends javax.swing.JPanel {
 
+    private final GuestController guestController = new GuestController();
     private List<Guest> filteredGuests;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form GuestManagementPanel2
@@ -25,6 +31,55 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     public GuestManagementPanel() {
         initComponents();
         setupTable();
+        setupPaginationListeners();
+        loadGuests();
+    }
+
+    private void loadGuests() {
+        try {
+            filteredGuests = guestController.getAllGuests();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load guests: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredGuests.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<Guest> page = from < total ? filteredGuests.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][10];
+        for (int i = 0; i < page.size(); i++) {
+            Guest g = page.get(i);
+            data[i][0] = String.valueOf(g.getGuestId());
+            data[i][1] = g.getFirstName();
+            data[i][2] = g.getLastName();
+            data[i][3] = g.getEmail();
+            data[i][4] = g.getPhone();
+            data[i][5] = g.getIdProofType() != null ? g.getIdProofType() : "";
+            data[i][6] = g.getIdProofNumber() != null ? g.getIdProofNumber() : "";
+            data[i][7] = g.getDateOfBirth() != null ? g.getDateOfBirth().toString() : "";
+            data[i][8] = g.getCreatedAt() != null ? g.getCreatedAt().toLocalDate().toString() : "";
+            data[i][9] = "Active";
+        }
+
+        guestManagementTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "FIRST NAME", "LAST NAME", "EMAIL", "PHONE", "ID TYPE", "ID NUMBER", "DOB", "CREATED AT", "STATUS"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, false, false, false, false, false};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords.setText("Records: " + total);
     }
 
     private Guest getSelectedGuest() {
@@ -43,6 +98,16 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         editGuestBtn.setEnabled(false);
         deleteGuestBtn.setEnabled(false);
         viewHistoryBtn.setEnabled(false);
+    }
+
+    private void setupPaginationListeners() {
+        guestPaginationLeft.addActionListener(e -> {
+            if (currentPage > 0) { currentPage--; applyPagination(); }
+        });
+        guestPaginationRight.addActionListener(e -> {
+            int totalPages = Math.max(1, (int) Math.ceil((double) filteredGuests.size() / PAGE_SIZE));
+            if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
+        });
     }
 
     /**
@@ -254,6 +319,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         AddGuestDialog d = new AddGuestDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Edit Guest: " + selected.getFirstName() + " " + selected.getLastName());
         d.setVisible(true);
+        loadGuests();
     }//GEN-LAST:event_editGuestBtnActionPerformed
 
     private void deleteGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteGuestBtnActionPerformed
@@ -263,7 +329,13 @@ public class GuestManagementPanel extends javax.swing.JPanel {
             "Delete guest " + selected.getFirstName() + " " + selected.getLastName() + "?",
             "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
-            // TODO: guestController.deleteGuest(selected.getGuestId()); refreshTable();
+            try {
+                guestController.deleteGuest(selected.getGuestId());
+                loadGuests();
+            } catch (DatabaseException e) {
+                JOptionPane.showMessageDialog(this, "Failed to delete guest: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_deleteGuestBtnActionPerformed
 
@@ -277,11 +349,21 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     private void addGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGuestBtnActionPerformed
         AddGuestDialog d = new AddGuestDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setVisible(true);
-        // TODO: refresh table on close if guest was saved
+        loadGuests();
     }//GEN-LAST:event_addGuestBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO: guestController.searchGuests(searchBox.getText()); refreshTable();
+        String keyword = searchBox.getText().trim();
+        try {
+            filteredGuests = keyword.isEmpty()
+                ? guestController.getAllGuests()
+                : guestController.searchGuests(keyword);
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
 

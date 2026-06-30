@@ -4,9 +4,13 @@
  */
 package hms.view.panels;
 
+import hms.controller.ReservationController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
 import hms.model.Reservation;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.NewReservationDialog;
@@ -20,7 +24,10 @@ import hms.view.dialogs.CancellationDialog;
  */
 public class ReservationPanel extends javax.swing.JPanel {
 
+    private final ReservationController reservationController = new ReservationController();
     private List<Reservation> filteredReservations;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form ReservationPanel
@@ -28,6 +35,53 @@ public class ReservationPanel extends javax.swing.JPanel {
     public ReservationPanel() {
         initComponents();
         setupTable();
+        loadReservations();
+    }
+
+    private void loadReservations() {
+        try {
+            filteredReservations = reservationController.getAllReservations();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load reservations: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredReservations.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<Reservation> page = from < total ? filteredReservations.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][9];
+        for (int i = 0; i < page.size(); i++) {
+            Reservation r = page.get(i);
+            data[i][0] = String.valueOf(r.getReservationId());
+            data[i][1] = r.getDisplayId();
+            data[i][2] = r.getGuest().getFirstName() + " " + r.getGuest().getLastName();
+            data[i][3] = r.getRoom().getRoomNumber();
+            data[i][4] = r.getCheckInDate().toString();
+            data[i][5] = r.getCheckOutDate().toString();
+            data[i][6] = String.format("%.2f", r.getTotalAmount());
+            data[i][7] = r.getStatus();
+            data[i][8] = r.getCreatedAt().toLocalDate().toString();
+        }
+
+        reservationsTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "RES ID", "GUEST NAME", "ROOM", "CHECK-IN", "CHECK-OUT", "AMOUNT", "STATUS", "CREATED"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, false, false, true, false};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber9.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords8.setText("Records: " + total);
     }
 
     private Reservation getSelectedReservation() {
@@ -341,10 +395,26 @@ public class ReservationPanel extends javax.swing.JPanel {
     private void addReservationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addReservationBtnActionPerformed
         NewReservationDialog d = new NewReservationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_addReservationBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO: reservationController.search(searchBox.getText()); refreshTable();
+        String keyword = searchBox.getText().trim().toLowerCase();
+        try {
+            filteredReservations = keyword.isEmpty()
+                ? reservationController.getAllReservations()
+                : reservationController.getAllReservations().stream()
+                    .filter(r -> r.getDisplayId().toLowerCase().contains(keyword)
+                        || r.getGuest().getFirstName().toLowerCase().contains(keyword)
+                        || r.getGuest().getLastName().toLowerCase().contains(keyword)
+                        || r.getRoom().getRoomNumber().contains(keyword))
+                    .collect(Collectors.toList());
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -352,26 +422,55 @@ public class ReservationPanel extends javax.swing.JPanel {
         statusCmb.setSelectedIndex(0);
         dateRangeFrom.setDate(null);
         dateRangeTo.setDate(null);
+        loadReservations();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO: reservationController.applyFilters(statusCmb, dateRangeFrom, dateRangeTo); refreshTable();
+        try {
+            List<Reservation> all = reservationController.getAllReservations();
+            String status = (String) statusCmb.getSelectedItem();
+            java.util.Date from = dateRangeFrom.getDate();
+            java.util.Date to = dateRangeTo.getDate();
+
+            filteredReservations = all.stream()
+                .filter(r -> status == null || status.equals("All Types")
+                    || r.getStatus().equalsIgnoreCase(status.replace(" ", "_")))
+                .filter(r -> from == null || !r.getCheckInDate()
+                    .isBefore(from.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()))
+                .filter(r -> to == null || !r.getCheckOutDate()
+                    .isAfter(to.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()))
+                .collect(Collectors.toList());
+
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Filter failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void checkInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        GuestCheckInDialog d = new GuestCheckInDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
-        d.setTitle("Check-In: " + selected.getDisplayId());
-        d.setVisible(true);
+        try {
+            reservationController.checkIn(selected.getReservationId());
+            loadReservations();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Check-in failed: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_checkInBtnActionPerformed
 
     private void checkOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        GuestCheckOutDialog d = new GuestCheckOutDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
-        d.setTitle("Check-Out: " + selected.getDisplayId());
-        d.setVisible(true);
+        try {
+            reservationController.checkOut(selected.getReservationId());
+            loadReservations();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Check-out failed: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_checkOutBtnActionPerformed
 
     private void modifyResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyResBtnActionPerformed
@@ -380,22 +479,28 @@ public class ReservationPanel extends javax.swing.JPanel {
         NewReservationDialog d = new NewReservationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Modify Reservation: " + selected.getDisplayId());
         d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_modifyResBtnActionPerformed
 
     private void cancelResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelResBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        CancellationDialog d = new CancellationDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
-        d.setTitle("Cancel: " + selected.getDisplayId());
-        d.setVisible(true);
+        try {
+            reservationController.cancelReservation(selected.getReservationId());
+            loadReservations();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Cancel failed: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_cancelResBtnActionPerformed
 
     private void reservationPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationLeftActionPerformed
-        // TODO: loadPreviousPage();
+        if (currentPage > 0) { currentPage--; applyPagination(); }
     }//GEN-LAST:event_reservationPaginationLeftActionPerformed
 
     private void reservationPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationRightActionPerformed
-        // TODO: loadNextPage();
+        int totalPages = Math.max(1, (int) Math.ceil((double) filteredReservations.size() / PAGE_SIZE));
+        if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_reservationPaginationRightActionPerformed
 
 

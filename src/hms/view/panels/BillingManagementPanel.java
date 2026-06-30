@@ -4,9 +4,13 @@
  */
 package hms.view.panels;
 
+import hms.controller.BillingController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
 import hms.model.Billing;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AdjustmentDialog;
@@ -18,7 +22,10 @@ import hms.view.dialogs.PaymentDialog;
  */
 public class BillingManagementPanel extends javax.swing.JPanel {
 
+    private final BillingController billingController = new BillingController();
     private List<Billing> filteredBills;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form BillingManagement
@@ -26,6 +33,53 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     public BillingManagementPanel() {
         initComponents();
         setupTable();
+        loadBills();
+    }
+
+    private void loadBills() {
+        try {
+            filteredBills = billingController.getAllBills();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load bills: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredBills.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<Billing> page = from < total ? filteredBills.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][8];
+        for (int i = 0; i < page.size(); i++) {
+            Billing b = page.get(i);
+            data[i][0] = String.valueOf(b.getBillingId());
+            data[i][1] = String.valueOf(b.getReservationId());
+            data[i][2] = String.valueOf(b.getReservationId());
+            data[i][3] = b.getReservation().getGuest().getFirstName() + " " + b.getReservation().getGuest().getLastName();
+            data[i][4] = String.format("%.2f", b.getTotalBill());
+            data[i][5] = b.getPaymentStatus().equalsIgnoreCase("paid") || b.getPaymentStatus().equalsIgnoreCase("partial")
+                ? String.format("%.2f", b.getTotalBill()) : "0.00";
+            data[i][6] = b.getPaymentStatus();
+            data[i][7] = b.getPaymentDate() != null ? b.getPaymentDate().toLocalDate().toString() : "-";
+        }
+
+        billingManagementTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "BILL ID", "RESERVATION ID", "GUEST NAME", "TOTAL AMOUNT", "AMOUNT PAID", "STATUS", "DATE"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, false, false, false};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber9.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords8.setText("Records: " + total);
     }
 
     private Billing getSelectedBill() {
@@ -335,7 +389,6 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         if (selected == null) return;
         JOptionPane.showMessageDialog(this, "Bill Details for Bill #" + selected.getBillingId()
             + "\nTotal: LKR " + selected.getTotalBill()
-            + "\nPaid: LKR " + (selected.getTotalBill() - (selected.getRoomCharge() + selected.getServiceCharge() + selected.getOtherCharges() + selected.getTaxAmount() - selected.getTotalBill()))
             + "\nStatus: " + selected.getPaymentStatus());
     }//GEN-LAST:event_viewDetailsBtnActionPerformed
 
@@ -345,6 +398,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         PaymentDialog d = new PaymentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Record Payment - Bill #" + selected.getBillingId());
         d.setVisible(true);
+        loadBills();
     }//GEN-LAST:event_recordPaymentBtnActionPerformed
 
     private void adjustBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustBillBtnActionPerformed
@@ -353,14 +407,16 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         AdjustmentDialog d = new AdjustmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Adjust Bill #" + selected.getBillingId());
         d.setVisible(true);
+        loadBills();
     }//GEN-LAST:event_adjustBillBtnActionPerformed
 
     private void billingPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationLeftActionPerformed
-        // TODO: loadPreviousPage();
+        if (currentPage > 0) { currentPage--; applyPagination(); }
     }//GEN-LAST:event_billingPaginationLeftActionPerformed
 
     private void billingPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationRightActionPerformed
-        // TODO: loadNextPage();
+        int totalPages = Math.max(1, (int) Math.ceil((double) filteredBills.size() / PAGE_SIZE));
+        if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_billingPaginationRightActionPerformed
 
     private void newInvoiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newInvoiceBtnActionPerformed
@@ -373,15 +429,53 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_exportBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+        String keyword = searchBox.getText().trim().toLowerCase();
+        try {
+            filteredBills = keyword.isEmpty()
+                ? billingController.getAllBills()
+                : billingController.getAllBills().stream()
+                    .filter(b -> String.valueOf(b.getBillingId()).contains(keyword)
+                        || b.getReservation().getGuest().getFirstName().toLowerCase().contains(keyword)
+                        || b.getReservation().getGuest().getLastName().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList());
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+        searchBox.setText("");
+        paymentStatusCmb.setSelectedIndex(0);
+        dateRangeFrom.setDate(null);
+        dateRangeTo.setDate(null);
+        loadBills();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            List<Billing> all = billingController.getAllBills();
+            String status = (String) paymentStatusCmb.getSelectedItem();
+            java.util.Date from = dateRangeFrom.getDate();
+            java.util.Date to = dateRangeTo.getDate();
+
+            filteredBills = all.stream()
+                .filter(b -> status == null || status.equals("All Types")
+                    || b.getPaymentStatus().equalsIgnoreCase(status.replace(" ", "_")))
+                .filter(b -> from == null || !b.getPaymentDate().toLocalDate()
+                    .isBefore(from.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()))
+                .filter(b -> to == null || !b.getPaymentDate().toLocalDate()
+                    .isAfter(to.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()))
+                .collect(Collectors.toList());
+
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Filter failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
 

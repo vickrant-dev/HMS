@@ -4,9 +4,13 @@
  */
 package hms.view.panels;
 
+import hms.controller.StaffController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
 import hms.model.RoomAssignment;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.NewRoomAssignmentDialog;
@@ -17,7 +21,10 @@ import hms.view.dialogs.NewRoomAssignmentDialog;
  */
 public class RoomAssignmentPanel extends javax.swing.JPanel {
 
+    private final StaffController staffController = new StaffController();
     private List<RoomAssignment> filteredAssignments;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form RoomAssignmentPanel
@@ -25,6 +32,62 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     public RoomAssignmentPanel() {
         initComponents();
         setupTable();
+        setupPaginationListeners();
+        loadAssignments();
+    }
+
+    private void setupPaginationListeners() {
+        roomAssignmentPaginationLeft.addActionListener(e -> {
+            if (currentPage > 0) { currentPage--; applyPagination(); }
+        });
+        roomAssignmentPaginationRight.addActionListener(e -> {
+            int totalPages = Math.max(1, (int) Math.ceil((double) filteredAssignments.size() / PAGE_SIZE));
+            if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
+        });
+    }
+
+    private void loadAssignments() {
+        try {
+            filteredAssignments = staffController.getAllAssignments();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load assignments: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredAssignments.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<RoomAssignment> page = from < total ? filteredAssignments.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][7];
+        for (int i = 0; i < page.size(); i++) {
+            RoomAssignment a = page.get(i);
+            data[i][0] = String.valueOf(a.getAssignmentId());
+            data[i][1] = a.getRoom().getRoomNumber();
+            data[i][2] = a.getStaff().getFirstName() + " " + a.getStaff().getLastName();
+            data[i][3] = a.getAssignmentType();
+            data[i][4] = a.getAssignmentDate().toString();
+            data[i][5] = a.getStatus();
+            data[i][6] = a.getNotes() != null ? a.getNotes() : "";
+        }
+
+        roomAssignmentsTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "ROOM NO", "STAFF NAME", "ASSIGNMENT TYPE", "DATE", "STATUS", "NOTES"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, false, false};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber3.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords2.setText("Records: " + total);
     }
 
     private RoomAssignment getSelectedAssignment() {
@@ -286,10 +349,26 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     private void addAssignmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAssignmentBtnActionPerformed
         NewRoomAssignmentDialog d = new NewRoomAssignmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setVisible(true);
+        loadAssignments();
     }//GEN-LAST:event_addAssignmentBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO: assignmentController.search(searchBox.getText()); refreshTable();
+        String keyword = searchBox.getText().trim().toLowerCase();
+        try {
+            filteredAssignments = keyword.isEmpty()
+                ? staffController.getAllAssignments()
+                : staffController.getAllAssignments().stream()
+                    .filter(a -> a.getRoom().getRoomNumber().contains(keyword)
+                        || a.getStaff().getFirstName().toLowerCase().contains(keyword)
+                        || a.getStaff().getLastName().toLowerCase().contains(keyword)
+                        || a.getAssignmentType().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList());
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -297,10 +376,30 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         statusCmb.setSelectedIndex(0);
         staffCmb.setSelectedIndex(0);
         dateChooser.setDate(null);
+        loadAssignments();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO: assignmentController.applyFilters(statusCmb, staffCmb, dateChooser); refreshTable();
+        try {
+            List<RoomAssignment> all = staffController.getAllAssignments();
+            String status = (String) statusCmb.getSelectedItem();
+            String staffName = (String) staffCmb.getSelectedItem();
+            java.util.Date date = dateChooser.getDate();
+
+            filteredAssignments = all.stream()
+                .filter(a -> status == null || status.equals("All") || a.getStatus().equalsIgnoreCase(status.replace(" ", "_")))
+                .filter(a -> staffName == null || staffName.equals("All")
+                    || (a.getStaff().getFirstName() + " " + a.getStaff().getLastName()).equalsIgnoreCase(staffName))
+                .filter(a -> date == null || a.getAssignmentDate().equals(
+                    date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()))
+                .collect(Collectors.toList());
+
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Filter failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void editAssignBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAssignBtnActionPerformed
@@ -309,18 +408,31 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         NewRoomAssignmentDialog d = new NewRoomAssignmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Edit Assignment #" + selected.getAssignmentId());
         d.setVisible(true);
+        loadAssignments();
     }//GEN-LAST:event_editAssignBtnActionPerformed
 
     private void markInProgressBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markInProgressBtnActionPerformed
         RoomAssignment selected = getSelectedAssignment();
         if (selected == null) return;
-        // TODO: assignmentController.updateStatus(selected.getAssignmentId(), "IN_PROGRESS"); refreshTable();
+        try {
+            staffController.updateAssignmentStatus(selected.getAssignmentId(), "IN_PROGRESS");
+            loadAssignments();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to update status: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_markInProgressBtnActionPerformed
 
     private void markCompletedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markCompletedBtnActionPerformed
         RoomAssignment selected = getSelectedAssignment();
         if (selected == null) return;
-        // TODO: assignmentController.updateStatus(selected.getAssignmentId(), "COMPLETED"); refreshTable();
+        try {
+            staffController.updateAssignmentStatus(selected.getAssignmentId(), "COMPLETED");
+            loadAssignments();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to update status: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_markCompletedBtnActionPerformed
 
     private void deleteAssignBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAssignBtnActionPerformed
@@ -330,7 +442,13 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
             "Delete assignment #" + selected.getAssignmentId() + "?",
             "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
-            // TODO: assignmentController.deleteAssignment(selected.getAssignmentId()); refreshTable();
+            try {
+                staffController.deleteAssignment(selected.getAssignmentId());
+                loadAssignments();
+            } catch (DatabaseException e) {
+                JOptionPane.showMessageDialog(this, "Delete failed: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_deleteAssignBtnActionPerformed
 

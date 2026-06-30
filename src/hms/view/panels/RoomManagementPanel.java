@@ -4,9 +4,14 @@
  */
 package hms.view.panels;
 
+import hms.config.Constants;
+import hms.controller.RoomController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
 import hms.model.Room;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewRoomDialog;
@@ -17,7 +22,10 @@ import hms.view.dialogs.AddNewRoomDialog;
  */
 public class RoomManagementPanel extends javax.swing.JPanel {
 
+    private final RoomController roomController = new RoomController();
     private List<Room> filteredRooms;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form RoomManagementPanel
@@ -25,12 +33,68 @@ public class RoomManagementPanel extends javax.swing.JPanel {
     public RoomManagementPanel() {
         initComponents();
         setupTable();
+        setupPaginationListeners();
+        loadRooms();
     }
 
     private Room getSelectedRoom() {
         int viewRow = roomManagementTable.getSelectedRow();
         if (viewRow == -1 || filteredRooms == null) return null;
         return filteredRooms.get(roomManagementTable.convertRowIndexToModel(viewRow));
+    }
+
+    private void loadRooms() {
+        try {
+            filteredRooms = roomController.getAllRooms();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load rooms: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredRooms.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<Room> page = from < total ? filteredRooms.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][7];
+        for (int i = 0; i < page.size(); i++) {
+            Room r = page.get(i);
+            data[i][0] = String.valueOf(r.getRoomId());
+            data[i][1] = r.getRoomNumber();
+            data[i][2] = r.getRoomType();
+            data[i][3] = String.valueOf(r.getFloor());
+            data[i][4] = String.format("%.2f", r.getBasePrice());
+            data[i][5] = String.valueOf(r.getCapacity());
+            data[i][6] = r.getStatus();
+        }
+
+        roomManagementTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "Room No.", "Room Type", "Floor", "Base Price", "Capacity", "Status"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, true, true};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber2.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords1.setText("Records: " + total);
+    }
+
+    private void setupPaginationListeners() {
+        roomManagementPaginationLeft.addActionListener(e -> {
+            if (currentPage > 0) { currentPage--; applyPagination(); }
+        });
+        roomManagementPaginationRight.addActionListener(e -> {
+            int totalPages = Math.max(1, (int) Math.ceil((double) filteredRooms.size() / PAGE_SIZE));
+            if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
+        });
     }
 
     private void setupTable() {
@@ -349,15 +413,27 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         AddNewRoomDialog d = new AddNewRoomDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Edit Room: " + selected.getRoomNumber());
         d.setVisible(true);
+        loadRooms();
     }//GEN-LAST:event_editRoomBtnActionPerformed
 
     private void addRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoomBtnActionPerformed
         AddNewRoomDialog d = new AddNewRoomDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setVisible(true);
+        loadRooms();
     }//GEN-LAST:event_addRoomBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO: roomController.searchRooms(searchBox.getText()); refreshTable();
+        String keyword = searchBox.getText().trim();
+        try {
+            filteredRooms = keyword.isEmpty()
+                ? roomController.getAllRooms()
+                : roomController.searchRooms(keyword);
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -366,10 +442,31 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         priceRangeFrom.setText("");
         priceRangeTo.setText("");
         capacityCmb.setSelectedIndex(0);
+        loadRooms();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO: roomController.applyFilters(statusCmb, priceRangeFrom, priceRangeTo, capacityCmb); refreshTable();
+        try {
+            List<Room> all = roomController.getAllRooms();
+            String status = (String) statusCmb.getSelectedItem();
+            String capacity = (String) capacityCmb.getSelectedItem();
+            String priceFrom = priceRangeFrom.getText().trim();
+            String priceTo = priceRangeTo.getText().trim();
+
+            filteredRooms = all.stream()
+                .filter(r -> status == null || status.equals("All Types") || r.getRoomType().equals(status))
+                .filter(r -> capacity == null || capacity.equals("Any") || capacity.isEmpty()
+                    || r.getCapacity() == Integer.parseInt(capacity))
+                .filter(r -> priceFrom.isEmpty() || r.getBasePrice() >= Double.parseDouble(priceFrom))
+                .filter(r -> priceTo.isEmpty() || r.getBasePrice() <= Double.parseDouble(priceTo))
+                .collect(Collectors.toList());
+
+            currentPage = 0;
+            applyPagination();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Filter error: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void deleteRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRoomBtnActionPerformed
@@ -379,20 +476,38 @@ public class RoomManagementPanel extends javax.swing.JPanel {
             "Delete room " + selected.getRoomNumber() + "?",
             "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
-            // TODO: roomController.deleteRoom(selected.getRoomId()); refreshTable();
+            try {
+                roomController.deleteRoom(selected.getRoomId());
+                loadRooms();
+            } catch (DatabaseException e) {
+                JOptionPane.showMessageDialog(this, "Failed to delete room: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_deleteRoomBtnActionPerformed
 
     private void markMaintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markMaintBtnActionPerformed
         Room selected = getSelectedRoom();
         if (selected == null) return;
-        // TODO: roomController.updateStatus(selected.getRoomId(), "MAINTENANCE"); refreshTable();
+        try {
+            roomController.markForMaintenance(selected.getRoomId());
+            loadRooms();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to update status: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_markMaintBtnActionPerformed
 
     private void markAvailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAvailBtnActionPerformed
         Room selected = getSelectedRoom();
         if (selected == null) return;
-        // TODO: roomController.updateStatus(selected.getRoomId(), "AVAILABLE"); refreshTable();
+        try {
+            roomController.updateRoomStatus(selected.getRoomId(), Constants.ROOM_STATUS_AVAILABLE);
+            loadRooms();
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to update status: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_markAvailBtnActionPerformed
 
 

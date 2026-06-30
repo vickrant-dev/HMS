@@ -4,9 +4,13 @@
  */
 package hms.view.panels;
 
+import hms.controller.ServiceController;
+import hms.exception.DatabaseException;
+import hms.exception.ValidationException;
 import hms.model.Service;
 import java.awt.Frame;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewService;
@@ -18,7 +22,10 @@ import hms.view.dialogs.ServiceBookingDialog;
  */
 public class ServicePanel extends javax.swing.JPanel {
 
+    private final ServiceController serviceController = new ServiceController();
     private List<Service> filteredServices;
+    private int currentPage = 0;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * Creates new form ServicePanel
@@ -26,6 +33,50 @@ public class ServicePanel extends javax.swing.JPanel {
     public ServicePanel() {
         initComponents();
         setupTable();
+        loadServices();
+    }
+
+    private void loadServices() {
+        try {
+            filteredServices = serviceController.getAllServices();
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load services: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void applyPagination() {
+        int total = filteredServices.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) total / PAGE_SIZE));
+        if (currentPage >= totalPages) currentPage = totalPages - 1;
+        if (currentPage < 0) currentPage = 0;
+
+        int from = currentPage * PAGE_SIZE;
+        int to = Math.min(from + PAGE_SIZE, total);
+        List<Service> page = from < total ? filteredServices.subList(from, to) : List.of();
+
+        String[][] data = new String[page.size()][6];
+        for (int i = 0; i < page.size(); i++) {
+            Service s = page.get(i);
+            data[i][0] = String.valueOf(s.getServiceId());
+            data[i][1] = s.getServiceName();
+            data[i][2] = s.getServiceType();
+            data[i][3] = String.format("%.2f", s.getPrice());
+            data[i][4] = s.isAvailable() ? "Yes" : "No";
+            data[i][5] = "-";
+        }
+
+        serviceCatalogTable.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{
+            "#", "SERVICE NAME", "SERVICE TYPE", "PRICE", "AVAILABLE", "TOTAL BOOKINGS"
+        }) {
+            boolean[] canEdit = {false, false, false, false, false, false};
+            @Override public boolean isCellEditable(int row, int col) { return canEdit[col]; }
+        });
+
+        pageNumber2.setText("Page " + (currentPage + 1) + " of " + totalPages);
+        totalRecords1.setText("Records: " + total);
     }
 
     private Service getSelectedService() {
@@ -296,25 +347,58 @@ public class ServicePanel extends javax.swing.JPanel {
         AddNewService d = new AddNewService((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Edit Service: " + selected.getServiceName());
         d.setVisible(true);
+        loadServices();
     }//GEN-LAST:event_editServiceBtnActionPerformed
 
     private void addServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addServiceBtnActionPerformed
         AddNewService d = new AddNewService((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setVisible(true);
+        loadServices();
     }//GEN-LAST:event_addServiceBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO: serviceController.search(searchBox.getText()); refreshTable();
+        String keyword = searchBox.getText().trim().toLowerCase();
+        try {
+            filteredServices = keyword.isEmpty()
+                ? serviceController.getAllServices()
+                : serviceController.getAllServices().stream()
+                    .filter(s -> s.getServiceName().toLowerCase().contains(keyword)
+                        || s.getServiceType().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList());
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Search failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
         searchBox.setText("");
         serviceTypeCmb.setSelectedIndex(0);
         availabilityCmb.setSelectedIndex(0);
+        loadServices();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
-        // TODO: serviceController.applyFilters(serviceTypeCmb, availabilityCmb); refreshTable();
+        try {
+            List<Service> all = serviceController.getAllServices();
+            String type = (String) serviceTypeCmb.getSelectedItem();
+            String avail = (String) availabilityCmb.getSelectedItem();
+
+            filteredServices = all.stream()
+                .filter(s -> type == null || type.equals("All") || s.getServiceType().equals(type))
+                .filter(s -> avail == null || avail.equals("All")
+                    || (avail.equals("Available") && s.isAvailable())
+                    || (avail.equals("Unavailable") && !s.isAvailable()))
+                .collect(Collectors.toList());
+
+            currentPage = 0;
+            applyPagination();
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Filter failed: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
     private void deleteServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteServiceBtnActionPerformed
@@ -324,17 +408,29 @@ public class ServicePanel extends javax.swing.JPanel {
             "Delete service " + selected.getServiceName() + "?",
             "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
-            // TODO: serviceController.deleteService(selected.getServiceId()); refreshTable();
+            try {
+                serviceController.deleteService(selected.getServiceId());
+                loadServices();
+            } catch (DatabaseException e) {
+                JOptionPane.showMessageDialog(this, "Delete failed: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_deleteServiceBtnActionPerformed
 
     private void toggleAvailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAvailBtnActionPerformed
         Service selected = getSelectedService();
         if (selected == null) return;
-        boolean newState = !selected.isAvailable();
-        // TODO: serviceController.toggleAvailability(selected.getServiceId(), newState); refreshTable();
-        JOptionPane.showMessageDialog(this, selected.getServiceName()
-            + " toggled to " + (newState ? "Available" : "Unavailable"));
+        try {
+            boolean newState = !selected.isAvailable();
+            serviceController.toggleAvailability(selected.getServiceId());
+            loadServices();
+            JOptionPane.showMessageDialog(this, selected.getServiceName()
+                + " toggled to " + (newState ? "Available" : "Unavailable"));
+        } catch (ValidationException | DatabaseException e) {
+            JOptionPane.showMessageDialog(this, "Toggle failed: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_toggleAvailBtnActionPerformed
 
     private void bookServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookServiceBtnActionPerformed
@@ -343,14 +439,16 @@ public class ServicePanel extends javax.swing.JPanel {
         ServiceBookingDialog d = new ServiceBookingDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
         d.setTitle("Book Service: " + selected.getServiceName());
         d.setVisible(true);
+        loadServices();
     }//GEN-LAST:event_bookServiceBtnActionPerformed
 
     private void serviceCatalogPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCatalogPaginationLeftActionPerformed
-        // TODO: loadPreviousPage();
+        if (currentPage > 0) { currentPage--; applyPagination(); }
     }//GEN-LAST:event_serviceCatalogPaginationLeftActionPerformed
 
     private void serviceCatalogPaginationRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceCatalogPaginationRightActionPerformed
-        // TODO: loadNextPage();
+        int totalPages = Math.max(1, (int) Math.ceil((double) filteredServices.size() / PAGE_SIZE));
+        if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_serviceCatalogPaginationRightActionPerformed
 
 
