@@ -35,33 +35,35 @@ public class CancellationDialog extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         room_no_box = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        roomNumber = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        roomType = new javax.swing.JLabel();
         stay_period_box = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        stayPeriodRange = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        duration = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         guest_name_box = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        guestFullName = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
+        cancellationReason_1 = new javax.swing.JCheckBox();
+        cancellationReason_2 = new javax.swing.JCheckBox();
+        cancellationReason_3 = new javax.swing.JCheckBox();
+        cancellationReason_4 = new javax.swing.JCheckBox();
+        cancellationReason_4_description = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        cancellationNotes = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        confirmCancellationBtn = new javax.swing.JButton();
+        cancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jScrollPane2.setBorder(null);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Cancel Reservation - RES-20260625-001");
@@ -70,8 +72,8 @@ public class CancellationDialog extends javax.swing.JDialog {
 
         jLabel5.setText("Room");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("402");
+        roomNumber.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        roomNumber.setText("402");
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 0));
 
@@ -86,8 +88,8 @@ public class CancellationDialog extends javax.swing.JDialog {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("EXECUTIVE SUIT");
+        roomType.setBackground(new java.awt.Color(0, 0, 0));
+        roomType.setText("EXECUTIVE SUIT");
 
         javax.swing.GroupLayout room_no_boxLayout = new javax.swing.GroupLayout(room_no_box);
         room_no_box.setLayout(room_no_boxLayout);
@@ -101,9 +103,9 @@ public class CancellationDialog extends javax.swing.JDialog {
                         .addComponent(jLabel5)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(room_no_boxLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(roomNumber)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel7)))
+                        .addComponent(roomType)))
                 .addContainerGap())
         );
         room_no_boxLayout.setVerticalGroup(
@@ -113,8 +115,8 @@ public class CancellationDialog extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(room_no_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(roomNumber)
+                    .addComponent(roomType))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -123,13 +125,13 @@ public class CancellationDialog extends javax.swing.JDialog {
 
         jLabel12.setText("Stay Period");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel13.setText("Oct 12 2026 - Oct 14 2026");
+        stayPeriodRange.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        stayPeriodRange.setText("Oct 12 2026 - Oct 14 2026");
 
         jLabel14.setText("Duration");
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel15.setText("3 Nights");
+        duration.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        duration.setText("3 Nights");
 
         javax.swing.GroupLayout stay_period_boxLayout = new javax.swing.GroupLayout(stay_period_box);
         stay_period_box.setLayout(stay_period_boxLayout);
@@ -143,9 +145,9 @@ public class CancellationDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel14))
                     .addGroup(stay_period_boxLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
+                        .addComponent(stayPeriodRange)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel15)))
+                        .addComponent(duration)))
                 .addContainerGap())
         );
         stay_period_boxLayout.setVerticalGroup(
@@ -157,8 +159,8 @@ public class CancellationDialog extends javax.swing.JDialog {
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(stay_period_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel15))
+                    .addComponent(stayPeriodRange)
+                    .addComponent(duration))
                 .addContainerGap())
         );
 
@@ -169,8 +171,8 @@ public class CancellationDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Guest Name");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Alexander Sterling");
+        guestFullName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        guestFullName.setText("Alexander Sterling");
 
         javax.swing.GroupLayout guest_name_boxLayout = new javax.swing.GroupLayout(guest_name_box);
         guest_name_box.setLayout(guest_name_boxLayout);
@@ -180,8 +182,8 @@ public class CancellationDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(guest_name_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addContainerGap(51, Short.MAX_VALUE))
+                    .addComponent(guestFullName))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         guest_name_boxLayout.setVerticalGroup(
             guest_name_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +191,7 @@ public class CancellationDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jLabel4)
+                .addComponent(guestFullName)
                 .addContainerGap())
         );
 
@@ -198,23 +200,23 @@ public class CancellationDialog extends javax.swing.JDialog {
 
         jLabel9.setText("Cancellation Reason");
 
-        jCheckBox1.setText("Guest Request");
+        cancellationReason_1.setText("Guest Request");
 
-        jCheckBox2.setText("No Show");
+        cancellationReason_2.setText("No Show");
 
-        jCheckBox3.setText("Adminstrative");
+        cancellationReason_3.setText("Adminstrative");
 
-        jCheckBox4.setText("Other");
+        cancellationReason_4.setText("Other");
 
         jLabel10.setText("Cancellation Notes");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        cancellationNotes.setColumns(20);
+        cancellationNotes.setRows(5);
+        jScrollPane1.setViewportView(cancellationNotes);
 
-        jButton1.setText("Confirm Cancellation");
+        confirmCancellationBtn.setText("Confirm Cancellation");
 
-        jButton2.setText("Cancel");
+        cancelBtn.setText("Cancel");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -228,28 +230,28 @@ public class CancellationDialog extends javax.swing.JDialog {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jCheckBox4)
+                        .addComponent(cancellationReason_4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1))
+                        .addComponent(cancellationReason_4_description))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel9)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox3)
+                            .addComponent(cancellationReason_1)
+                            .addComponent(cancellationReason_2)
+                            .addComponent(cancellationReason_3)
                             .addComponent(jLabel10))
-                        .addGap(116, 127, Short.MAX_VALUE))
+                        .addGap(116, 133, Short.MAX_VALUE))
                     .addComponent(jSeparator2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(cancelBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(confirmCancellationBtn))
                     .addComponent(stay_period_box, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(guest_name_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addComponent(guest_name_box, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(room_no_box, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -273,15 +275,15 @@ public class CancellationDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addComponent(cancellationReason_1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox2)
+                .addComponent(cancellationReason_2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox3)
+                .addComponent(cancellationReason_3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cancellationReason_4)
+                    .addComponent(cancellationReason_4_description, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -290,8 +292,8 @@ public class CancellationDialog extends javax.swing.JDialog {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(confirmCancellationBtn)
+                    .addComponent(cancelBtn))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -305,7 +307,7 @@ public class CancellationDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
         );
 
         pack();
@@ -349,25 +351,24 @@ public class CancellationDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelBtn;
+    private javax.swing.JTextArea cancellationNotes;
+    private javax.swing.JCheckBox cancellationReason_1;
+    private javax.swing.JCheckBox cancellationReason_2;
+    private javax.swing.JCheckBox cancellationReason_3;
+    private javax.swing.JCheckBox cancellationReason_4;
+    private javax.swing.JTextField cancellationReason_4_description;
+    private javax.swing.JButton confirmCancellationBtn;
+    private javax.swing.JLabel duration;
+    private javax.swing.JLabel guestFullName;
     private javax.swing.JPanel guest_name_box;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -376,9 +377,10 @@ public class CancellationDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel roomNumber;
+    private javax.swing.JLabel roomType;
     private javax.swing.JPanel room_no_box;
+    private javax.swing.JLabel stayPeriodRange;
     private javax.swing.JPanel stay_period_box;
     // End of variables declaration//GEN-END:variables
 }

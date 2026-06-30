@@ -36,32 +36,32 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         guest_name_box = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        guestFullName = new javax.swing.JLabel();
         room_no_box = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        roomNumber = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        roomType = new javax.swing.JLabel();
         stay_period_box = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        stayPeriodRange = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        duration = new javax.swing.JLabel();
         status_box = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        checkInStatus = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         verification_checklist_1 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        verificationChecklist_1 = new javax.swing.JCheckBox();
         verification_checklist_2 = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        verificationChecklist_2 = new javax.swing.JCheckBox();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        checkInNotes = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        confirmCheckInBtn = new javax.swing.JButton();
+        cancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -75,8 +75,8 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Guest Name");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Alexander Sterling");
+        guestFullName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        guestFullName.setText("Alexander Sterling");
 
         javax.swing.GroupLayout guest_name_boxLayout = new javax.swing.GroupLayout(guest_name_box);
         guest_name_box.setLayout(guest_name_boxLayout);
@@ -86,7 +86,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(guest_name_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(guestFullName))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
         guest_name_boxLayout.setVerticalGroup(
@@ -95,7 +95,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
+                .addComponent(guestFullName)
                 .addContainerGap())
         );
 
@@ -103,8 +103,8 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         jLabel5.setText("Room");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("402");
+        roomNumber.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        roomNumber.setText("402");
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 0));
 
@@ -119,8 +119,8 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("EXECUTIVE SUIT");
+        roomType.setBackground(new java.awt.Color(0, 0, 0));
+        roomType.setText("EXECUTIVE SUIT");
 
         javax.swing.GroupLayout room_no_boxLayout = new javax.swing.GroupLayout(room_no_box);
         room_no_box.setLayout(room_no_boxLayout);
@@ -134,9 +134,9 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                         .addComponent(jLabel5)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(room_no_boxLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(roomNumber)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                        .addComponent(jLabel7)))
+                        .addComponent(roomType)))
                 .addContainerGap())
         );
         room_no_boxLayout.setVerticalGroup(
@@ -146,8 +146,8 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(room_no_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(roomNumber)
+                    .addComponent(roomType))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -156,13 +156,13 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         jLabel12.setText("Stay Period");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel13.setText("Oct 12 2026 - Oct 14 2026");
+        stayPeriodRange.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        stayPeriodRange.setText("Oct 12 2026 - Oct 14 2026");
 
         jLabel14.setText("Duration");
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel15.setText("3 Nights");
+        duration.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        duration.setText("3 Nights");
 
         javax.swing.GroupLayout stay_period_boxLayout = new javax.swing.GroupLayout(stay_period_box);
         stay_period_box.setLayout(stay_period_boxLayout);
@@ -176,9 +176,9 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel14))
                     .addGroup(stay_period_boxLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
+                        .addComponent(stayPeriodRange)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel15)))
+                        .addComponent(duration)))
                 .addContainerGap())
         );
         stay_period_boxLayout.setVerticalGroup(
@@ -190,8 +190,8 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(stay_period_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel15))
+                    .addComponent(stayPeriodRange)
+                    .addComponent(duration))
                 .addContainerGap())
         );
 
@@ -199,9 +199,9 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         jLabel16.setText("Status");
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(51, 204, 0));
-        jLabel17.setText("Confirmed");
+        checkInStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        checkInStatus.setForeground(new java.awt.Color(51, 204, 0));
+        checkInStatus.setText("Confirmed");
 
         javax.swing.GroupLayout status_boxLayout = new javax.swing.GroupLayout(status_box);
         status_box.setLayout(status_boxLayout);
@@ -211,7 +211,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel17)
+                .addComponent(checkInStatus)
                 .addContainerGap())
         );
         status_boxLayout.setVerticalGroup(
@@ -220,7 +220,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(status_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jLabel17))
+                    .addComponent(checkInStatus))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -229,7 +229,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         verification_checklist_1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(76, 76, 76)));
 
-        jCheckBox1.setText("Reservation details verified with guest");
+        verificationChecklist_1.setText("Reservation details verified with guest");
 
         javax.swing.GroupLayout verification_checklist_1Layout = new javax.swing.GroupLayout(verification_checklist_1);
         verification_checklist_1.setLayout(verification_checklist_1Layout);
@@ -237,20 +237,20 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
             verification_checklist_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(verification_checklist_1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(verificationChecklist_1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         verification_checklist_1Layout.setVerticalGroup(
             verification_checklist_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(verification_checklist_1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(verificationChecklist_1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         verification_checklist_2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(76, 76, 76)));
 
-        jCheckBox2.setText("Room 402 is inspected and ready");
+        verificationChecklist_2.setText("Room 402 is inspected and ready");
 
         javax.swing.GroupLayout verification_checklist_2Layout = new javax.swing.GroupLayout(verification_checklist_2);
         verification_checklist_2.setLayout(verification_checklist_2Layout);
@@ -258,14 +258,14 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
             verification_checklist_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(verification_checklist_2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox2)
+                .addComponent(verificationChecklist_2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         verification_checklist_2Layout.setVerticalGroup(
             verification_checklist_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(verification_checklist_2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox2)
+                .addComponent(verificationChecklist_2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -274,13 +274,13 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
 
         jLabel20.setText("Check-in Notes");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        checkInNotes.setColumns(20);
+        checkInNotes.setRows(5);
+        jScrollPane1.setViewportView(checkInNotes);
 
-        jButton1.setText("Confirm Check-in");
+        confirmCheckInBtn.setText("Confirm Check-in");
 
-        jButton2.setText("Cancel");
+        cancelBtn.setText("Cancel");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -300,16 +300,16 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                     .addComponent(jSeparator2)
                     .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(guest_name_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(guest_name_box, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(12, 12, 12)
                         .addComponent(room_no_box, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(stay_period_box, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel20)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(cancelBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(confirmCheckInBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -345,8 +345,8 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(confirmCheckInBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -404,37 +404,37 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelBtn;
+    private javax.swing.JTextArea checkInNotes;
+    private javax.swing.JLabel checkInStatus;
+    private javax.swing.JButton confirmCheckInBtn;
+    private javax.swing.JLabel duration;
+    private javax.swing.JLabel guestFullName;
     private javax.swing.JPanel guest_name_box;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel roomNumber;
+    private javax.swing.JLabel roomType;
     private javax.swing.JPanel room_no_box;
     private javax.swing.JPanel status_box;
+    private javax.swing.JLabel stayPeriodRange;
     private javax.swing.JPanel stay_period_box;
+    private javax.swing.JCheckBox verificationChecklist_1;
+    private javax.swing.JCheckBox verificationChecklist_2;
     private javax.swing.JPanel verification_checklist_1;
     private javax.swing.JPanel verification_checklist_2;
     // End of variables declaration//GEN-END:variables
