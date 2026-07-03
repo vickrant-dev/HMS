@@ -37,6 +37,14 @@ public class MainWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         setupTabs();
+        setAppIcon();
+    }
+
+    private void setAppIcon() {
+        java.net.URL url = getClass().getResource("/hms/resources/icons/app.png");
+        if (url != null) {
+            setIconImage(new javax.swing.ImageIcon(url).getImage());
+        }
     }
     
     private void setupTabs() {
