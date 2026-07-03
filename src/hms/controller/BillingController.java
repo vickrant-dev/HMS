@@ -6,9 +6,12 @@ import hms.dao.ServiceBookingDAO;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
 import hms.model.Billing;
+import hms.model.Guest;
 import hms.model.Reservation;
+import hms.service.CorporatePricingStrategy;
 import hms.service.NormalPricingStrategy;
 import hms.service.PricingStrategy;
+import hms.service.SeasonalPricingStrategy;
 import hms.util.DateUtil;
 import hms.util.ValidationUtil;
 
@@ -39,7 +42,18 @@ public class BillingController {
             throw new ValidationException("Invalid reservation dates");
         }
 
-        PricingStrategy strategy = new NormalPricingStrategy();
+        PricingStrategy strategy;
+        Guest guest = reservation.getGuest();
+        if (guest != null && "Corporate".equals(guest.getGuestType())) {
+            strategy = new CorporatePricingStrategy(0.15);
+        } else {
+            int month = reservation.getCheckInDate().getMonthValue();
+            if (month >= 6 && month <= 8 || month == 12) {
+                strategy = new SeasonalPricingStrategy(1.5);
+            } else {
+                strategy = new NormalPricingStrategy();
+            }
+        }
         double roomCharge = strategy.calculatePrice(reservation.getRoom(), (int) nights);
 
         double serviceCharge = serviceBookingDAO.calculateServiceCharges(
