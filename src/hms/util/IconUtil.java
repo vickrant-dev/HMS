@@ -1,10 +1,13 @@
 package hms.util;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -18,16 +21,30 @@ public final class IconUtil {
     }
 
     /**
+     * Loads an SVG icon from the classpath by name.
+     * Falls back to a letter icon if no resource file is found.
+     */
+    public static Icon loadIcon(String name) {
+        if (name == null || name.isBlank()) {
+            return null;
+        }
+        URL svgResource = IconUtil.class.getResource(ICON_PATH + name + ".svg");
+        if (svgResource != null) {
+            return new FlatSVGIcon(svgResource);
+        }
+        return createLetterIcon(name.substring(0, 1).toUpperCase());
+    }
+
+    /**
      * Loads an icon from the classpath by name and extension.
      * Falls back to a letter icon if no resource file is found.
-     *
-     * @param name The icon filename without extension
-     * @param ext The file extension (e.g., "png", "svg")
-     * @return The loaded ImageIcon, or a fallback letter icon if not found
      */
-    public static ImageIcon loadIcon(String name, String ext) {
+    public static Icon loadIcon(String name, String ext) {
         URL resource = IconUtil.class.getResource(ICON_PATH + name + "." + ext);
         if (resource != null) {
+            if ("svg".equalsIgnoreCase(ext)) {
+                return new FlatSVGIcon(resource);
+            }
             return new ImageIcon(resource);
         }
         if (name == null || name.isBlank()) {
@@ -36,67 +53,71 @@ public final class IconUtil {
         return createLetterIcon(name.substring(0, 1).toUpperCase());
     }
 
-    /**
-     * Loads a PNG icon from the classpath by name.
-     * Falls back to a letter icon if no resource file is found.
-     */
-    public static ImageIcon loadIcon(String name) {
-        return loadIcon(name, "png");
-    }
-
-    /** Returns the add icon. */
-    public static ImageIcon getAddIcon() {
+    public static Icon getAddIcon() {
         return loadIcon("add");
     }
 
-    /** Returns the edit icon. */
-    public static ImageIcon getEditIcon() {
+    public static Icon getEditIcon() {
         return loadIcon("edit");
     }
 
-    /** Returns the delete icon. */
-    public static ImageIcon getDeleteIcon() {
+    public static Icon getDeleteIcon() {
         return loadIcon("delete");
     }
 
-    /** Returns the save icon. */
-    public static ImageIcon getSaveIcon() {
+    public static Icon getSaveIcon() {
         return loadIcon("save");
     }
 
-    /** Returns the search icon. */
-    public static ImageIcon getSearchIcon() {
+    public static Icon getSearchIcon() {
         return loadIcon("search");
     }
 
-    /** Returns the refresh icon. */
-    public static ImageIcon getRefreshIcon() {
+    public static Icon getRefreshIcon() {
         return loadIcon("refresh");
     }
 
-    /** Returns the print icon. */
-    public static ImageIcon getPrintIcon() {
+    public static Icon getPrintIcon() {
         return loadIcon("print");
     }
 
-    public static ImageIcon getBookIcon() {
+    public static Icon getBookIcon() {
         return loadIcon("book");
     }
 
-    public static ImageIcon getCheckIcon() {
+    public static Icon getCheckIcon() {
         return loadIcon("check");
     }
 
-    public static ImageIcon getEyeIcon() {
+    public static Icon getEyeIcon() {
         return loadIcon("eye");
     }
 
-    public static ImageIcon getInvoiceIcon() {
+    public static Icon getInvoiceIcon() {
         return loadIcon("invoice");
     }
 
-    public static ImageIcon getWrenchIcon() {
+    public static Icon getWrenchIcon() {
         return loadIcon("wrench");
+    }
+
+    /**
+     * Loads the app window icon from an SVG file.
+     * Renders the SVG to a BufferedImage for use with setIconImage().
+     */
+    public static Image getAppIcon() {
+        URL svgResource = IconUtil.class.getResource(ICON_PATH + "app.svg");
+        if (svgResource == null) {
+            return null;
+        }
+        FlatSVGIcon svgIcon = new FlatSVGIcon(svgResource);
+        BufferedImage image = new BufferedImage(
+            svgIcon.getIconWidth(), svgIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        svgIcon.paintIcon(null, g2d, 0, 0);
+        g2d.dispose();
+        return image;
     }
 
     /**

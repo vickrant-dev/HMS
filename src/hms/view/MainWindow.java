@@ -5,6 +5,7 @@
 package hms.view;
 
 import hms.config.Constants;
+import hms.util.IconUtil;
 import hms.view.panels.BillingManagementPanel;
 import hms.view.panels.DashboardPanel;
 import hms.view.panels.GuestManagementPanel;
@@ -41,9 +42,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void setAppIcon() {
-        java.net.URL url = getClass().getResource("/hms/resources/icons/app.png");
-        if (url != null) {
-            setIconImage(new javax.swing.ImageIcon(url).getImage());
+        java.awt.Image icon = IconUtil.getAppIcon();
+        if (icon != null) {
+            setIconImage(icon);
         }
     }
     
