@@ -30,7 +30,8 @@ public final class ValidationUtil {
         if (phone == null || phone.trim().isEmpty()) {
             return false;
         }
-        return phone.replaceAll("[^0-9]", "").length() <= Constants.MAX_PHONE_LENGTH;
+        int digitCount = phone.replaceAll("[^0-9]", "").length();
+        return digitCount > 0 && digitCount <= Constants.MAX_PHONE_LENGTH;
     }
 
     /**
