@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AdjustmentDialog;
 import hms.view.dialogs.PaymentDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -33,6 +34,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     public BillingManagementPanel() {
         initComponents();
         setupTable();
+        setupIcons();
         loadBills();
     }
 
@@ -479,6 +481,16 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
 
+
+    private void setupIcons() {
+        newInvoiceBtn.setIcon(IconUtil.getInvoiceIcon());
+        adjustBillBtn.setIcon(IconUtil.getEditIcon());
+        recordPaymentBtn.setIcon(IconUtil.getSaveIcon());
+        viewDetailsBtn.setIcon(IconUtil.getEyeIcon());
+        exportBtn.setIcon(IconUtil.getPrintIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adjustBillBtn;

@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewService;
 import hms.view.dialogs.ServiceBookingDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ServicePanel extends javax.swing.JPanel {
     public ServicePanel() {
         initComponents();
         setupTable();
+        setupIcons();
         loadServices();
     }
 
@@ -463,6 +465,16 @@ public class ServicePanel extends javax.swing.JPanel {
         if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_serviceCatalogPaginationRightActionPerformed
 
+
+    private void setupIcons() {
+        addServiceBtn.setIcon(IconUtil.getAddIcon());
+        editServiceBtn.setIcon(IconUtil.getEditIcon());
+        deleteServiceBtn.setIcon(IconUtil.getDeleteIcon());
+        toggleAvailBtn.setIcon(IconUtil.getCheckIcon());
+        bookServiceBtn.setIcon(IconUtil.getBookIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addServiceBtn;

@@ -17,6 +17,7 @@ import hms.view.dialogs.NewReservationDialog;
 import hms.view.dialogs.GuestCheckInDialog;
 import hms.view.dialogs.GuestCheckOutDialog;
 import hms.view.dialogs.CancellationDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -35,6 +36,7 @@ public class ReservationPanel extends javax.swing.JPanel {
     public ReservationPanel() {
         initComponents();
         setupTable();
+        setupIcons();
         loadReservations();
     }
 
@@ -491,6 +493,16 @@ public class ReservationPanel extends javax.swing.JPanel {
         if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_reservationPaginationRightActionPerformed
 
+
+    private void setupIcons() {
+        addReservationBtn.setIcon(IconUtil.getAddIcon());
+        modifyResBtn.setIcon(IconUtil.getEditIcon());
+        cancelResBtn.setIcon(IconUtil.getDeleteIcon());
+        checkInBtn.setIcon(IconUtil.getCheckIcon());
+        checkOutBtn.setIcon(IconUtil.getInvoiceIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addReservationBtn;

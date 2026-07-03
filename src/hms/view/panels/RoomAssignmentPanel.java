@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.NewRoomAssignmentDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -33,6 +34,7 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadAssignments();
     }
 
@@ -452,6 +454,16 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteAssignBtnActionPerformed
 
+
+    private void setupIcons() {
+        addAssignmentBtn.setIcon(IconUtil.getAddIcon());
+        editAssignBtn.setIcon(IconUtil.getEditIcon());
+        deleteAssignBtn.setIcon(IconUtil.getDeleteIcon());
+        markCompletedBtn.setIcon(IconUtil.getCheckIcon());
+        markInProgressBtn.setIcon(IconUtil.getWrenchIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAssignmentBtn;

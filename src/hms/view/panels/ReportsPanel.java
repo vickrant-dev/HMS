@@ -4,6 +4,7 @@
  */
 package hms.view.panels;
 
+import hms.util.IconUtil;
 import hms.util.ReportUtil;
 import java.io.File;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class ReportsPanel extends javax.swing.JPanel {
      */
     public ReportsPanel() {
         initComponents();
+        setupIcons();
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files (*.pdf)", "pdf"));
         reportTypeCmb.removeAllItems();
@@ -321,6 +323,12 @@ public class ReportsPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_exportPdfBtnActionPerformed
 
+
+    private void setupIcons() {
+        generateReportBtn.setIcon(IconUtil.getRefreshIcon());
+        exportPdfBtn.setIcon(IconUtil.getPrintIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser dateRangeFrom;

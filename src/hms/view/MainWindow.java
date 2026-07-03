@@ -5,6 +5,7 @@
 package hms.view;
 
 import hms.config.Constants;
+import hms.util.IconUtil;
 import hms.view.panels.BillingManagementPanel;
 import hms.view.panels.DashboardPanel;
 import hms.view.panels.GuestManagementPanel;
@@ -44,6 +45,14 @@ public class MainWindow extends javax.swing.JFrame {
         
         setupTabs();
         setupMenuBar();
+        setAppIcon();
+    }
+
+    private void setAppIcon() {
+        java.awt.Image icon = IconUtil.getAppIcon();
+        if (icon != null) {
+            setIconImage(icon);
+        }
     }
     
     private void setupTabs() {
