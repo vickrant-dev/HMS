@@ -452,25 +452,17 @@ public class ReservationPanel extends javax.swing.JPanel {
     private void checkInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        try {
-            reservationController.checkIn(selected.getReservationId());
-            loadReservations();
-        } catch (ValidationException | DatabaseException e) {
-            JOptionPane.showMessageDialog(this, "Check-in failed: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        GuestCheckInDialog d = new GuestCheckInDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
+        d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_checkInBtnActionPerformed
 
     private void checkOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        try {
-            reservationController.checkOut(selected.getReservationId());
-            loadReservations();
-        } catch (ValidationException | DatabaseException e) {
-            JOptionPane.showMessageDialog(this, "Check-out failed: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        GuestCheckOutDialog d = new GuestCheckOutDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
+        d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_checkOutBtnActionPerformed
 
     private void modifyResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyResBtnActionPerformed
@@ -485,13 +477,9 @@ public class ReservationPanel extends javax.swing.JPanel {
     private void cancelResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelResBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        try {
-            reservationController.cancelReservation(selected.getReservationId());
-            loadReservations();
-        } catch (ValidationException | DatabaseException e) {
-            JOptionPane.showMessageDialog(this, "Cancel failed: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        CancellationDialog d = new CancellationDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
+        d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_cancelResBtnActionPerformed
 
     private void reservationPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationLeftActionPerformed
