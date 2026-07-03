@@ -7,8 +7,10 @@ import hms.exception.ValidationException;
 import hms.model.Guest;
 import hms.model.Reservation;
 import hms.model.Room;
+import hms.service.CorporatePricingStrategy;
 import hms.service.NormalPricingStrategy;
 import hms.service.PricingStrategy;
+import hms.service.SeasonalPricingStrategy;
 import hms.util.DateUtil;
 import hms.util.StringUtil;
 import hms.util.ValidationUtil;
@@ -56,7 +58,7 @@ public class ReservationController {
             throw new ValidationException(Constants.ERROR_ROOM_NOT_AVAILABLE);
         }
 
-        double totalAmount = calculateTotalAmount(room, checkInDate, checkOutDate);
+        double totalAmount = calculateTotalAmount(guest, room, checkInDate, checkOutDate);
 
         String displayId = StringUtil.generateReservationId();
         Reservation reservation = new Reservation(
@@ -230,12 +232,24 @@ public class ReservationController {
         }
     }
 
-    private double calculateTotalAmount(Room room, LocalDate checkIn, LocalDate checkOut) {
+    private PricingStrategy selectPricingStrategy(Guest guest, LocalDate checkIn) {
+        if (guest == null) return new NormalPricingStrategy();
+        if ("Corporate".equals(guest.getGuestType())) {
+            return new CorporatePricingStrategy(0.15);
+        }
+        int month = checkIn.getMonthValue();
+        if (month >= 6 && month <= 8 || month == 12) {
+            return new SeasonalPricingStrategy(1.5);
+        }
+        return new NormalPricingStrategy();
+    }
+
+    private double calculateTotalAmount(Guest guest, Room room, LocalDate checkIn, LocalDate checkOut) {
         long nights = DateUtil.calculateNights(checkIn, checkOut);
         if (nights <= 0) {
             return 0.0;
         }
-        PricingStrategy strategy = new NormalPricingStrategy();
+        PricingStrategy strategy = selectPricingStrategy(guest, checkIn);
         return strategy.calculatePrice(room, (int) nights);
     }
 
