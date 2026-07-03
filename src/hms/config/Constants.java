@@ -90,6 +90,7 @@ public final class Constants {
 
     // Report Paths
     public static final String JASPER_REPORT_PATH = "/hms/reports/";
+    public static final String REPORT_OUTPUT_DIR = "reports/";
 
     // Error Messages
     public static final String ERROR_DB_CONNECTION = "Failed to connect to database. Please ensure XAMPP is running.";

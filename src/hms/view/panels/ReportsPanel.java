@@ -4,17 +4,47 @@
  */
 package hms.view.panels;
 
+import hms.util.ReportUtil;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.swing.JRViewer;
+
 /**
  *
  * @author vickrant-dev
  */
 public class ReportsPanel extends javax.swing.JPanel {
 
+    private JasperPrint currentJasperPrint;
+    private final JFileChooser fileChooser;
+
     /**
      * Creates new form ReportsPanel1
      */
     public ReportsPanel() {
         initComponents();
+        fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files (*.pdf)", "pdf"));
+        reportTypeCmb.removeAllItems();
+        reportTypeCmb.addItem("Occupancy & Revenue Report");
+        reportTypeCmb.addItem("Guest Invoice Report");
+        roomTypeCmb.removeAllItems();
+        roomTypeCmb.addItem("All");
+        for (String type : new String[]{"Single Economy", "Standard Double", "Deluxe King Suite"}) {
+            roomTypeCmb.addItem(type);
+        }
+        statusCmb.removeAllItems();
+        statusCmb.addItem("All");
+        statusCmb.addItem("Paid");
+        statusCmb.addItem("Pending");
+        reportPreviewPanel.setLayout(new java.awt.BorderLayout());
     }
 
     /**
@@ -47,8 +77,8 @@ public class ReportsPanel extends javax.swing.JPanel {
         statusCmb = new javax.swing.JComboBox<>();
         guest_seperator_2 = new javax.swing.JSeparator();
         generateReportBtn = new javax.swing.JButton();
-        reportPreviewPanel = new javax.swing.JPanel();
         exportPdfBtn = new javax.swing.JButton();
+        reportPreviewPanel = new javax.swing.JPanel();
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Reports");
@@ -85,6 +115,10 @@ public class ReportsPanel extends javax.swing.JPanel {
         generateReportBtn.setText("Generate Report");
         generateReportBtn.addActionListener(this::generateReportBtnActionPerformed);
 
+        exportPdfBtn.setText("Export PDF");
+        exportPdfBtn.setActionCommand("");
+        exportPdfBtn.addActionListener(this::exportPdfBtnActionPerformed);
+
         javax.swing.GroupLayout filtersPanelLayout = new javax.swing.GroupLayout(filtersPanel);
         filtersPanel.setLayout(filtersPanelLayout);
         filtersPanelLayout.setHorizontalGroup(
@@ -115,7 +149,10 @@ public class ReportsPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(filtersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(guest_seperator_2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(generateReportBtn, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, filtersPanelLayout.createSequentialGroup()
+                                .addComponent(generateReportBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(exportPdfBtn)))))
                 .addContainerGap())
         );
         filtersPanelLayout.setVerticalGroup(
@@ -150,31 +187,23 @@ public class ReportsPanel extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addComponent(guest_seperator_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(filtersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exportPdfBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         reportPreviewPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
-        exportPdfBtn.setText("Export PDF");
-        exportPdfBtn.setActionCommand("");
-        exportPdfBtn.addActionListener(this::exportPdfBtnActionPerformed);
-
         javax.swing.GroupLayout reportPreviewPanelLayout = new javax.swing.GroupLayout(reportPreviewPanel);
         reportPreviewPanel.setLayout(reportPreviewPanelLayout);
         reportPreviewPanelLayout.setHorizontalGroup(
             reportPreviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportPreviewPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(exportPdfBtn)
-                .addContainerGap())
+            .addGap(0, 614, Short.MAX_VALUE)
         );
         reportPreviewPanelLayout.setVerticalGroup(
             reportPreviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, reportPreviewPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(exportPdfBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 609, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -222,11 +251,74 @@ public class ReportsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void generateReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportBtnActionPerformed
-        // TODO add your handling code here:
+        int reportIndex = reportTypeCmb.getSelectedIndex();
+        if (reportIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a report type.",
+                "No Report Selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String reportName = reportIndex == 0 ? "occupancy_report" : "invoice_report";
+        java.util.Date fromDate = dateRangeFrom.getDate();
+        java.util.Date toDate = dateRangeTo.getDate();
+        Map<String, Object> params = new HashMap<>();
+        if (fromDate != null) {
+            params.put("start_date", fromDate);
+        }
+        if (toDate != null) {
+            params.put("end_date", toDate);
+        }
+        if (reportIndex == 0) {
+            String roomType = (String) roomTypeCmb.getSelectedItem();
+            if (roomType == null || roomType.equals("All")) {
+                params.put("room_type", "");
+            } else {
+                params.put("room_type", roomType);
+            }
+        }
+        try {
+            JasperReport report = ReportUtil.loadReport(reportName);
+            currentJasperPrint = ReportUtil.fillReport(report, params);
+            reportPreviewPanel.removeAll();
+            JRViewer viewer = new JRViewer(currentJasperPrint);
+            reportPreviewPanel.add(viewer, java.awt.BorderLayout.CENTER);
+            reportPreviewPanel.revalidate();
+            reportPreviewPanel.repaint();
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(this,
+                "Failed to generate report: " + e.getMessage(),
+                "Report Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Unexpected error: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_generateReportBtnActionPerformed
 
     private void exportPdfBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPdfBtnActionPerformed
-        // TODO add your handling code here:
+        if (currentJasperPrint == null) {
+            JOptionPane.showMessageDialog(this,
+                "No report generated yet. Please generate a report first.",
+                "No Report", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            if (!path.toLowerCase().endsWith(".pdf")) {
+                path += ".pdf";
+            }
+            try {
+                ReportUtil.exportToPdf(currentJasperPrint, path);
+                JOptionPane.showMessageDialog(this,
+                    "PDF exported to: " + path,
+                    "Export Successful", JOptionPane.INFORMATION_MESSAGE);
+            } catch (JRException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Failed to export PDF: " + e.getMessage(),
+                    "Export Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_exportPdfBtnActionPerformed
 
 
