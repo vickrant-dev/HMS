@@ -21,7 +21,7 @@ public class ServiceBookingDAO {
 
     private static final String SELECT_JOIN =
             "SELECT sb.service_booking_id, sb.reservation_id, sb.service_id, "
-          + "sb.booking_date, sb.quantity, sb.total_price, sb.status, "
+          + "sb.booking_date AS svc_booking_date, sb.quantity, sb.total_price, sb.status, "
            + "r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
           + "r.number_of_guests, r.status, r.total_amount, r.notes, "
@@ -268,7 +268,7 @@ public class ServiceBookingDAO {
                 rs.getInt("service_booking_id"),
                 reservation,
                 service,
-                rs.getTimestamp("booking_date").toLocalDateTime(),
+                rs.getTimestamp("svc_booking_date").toLocalDateTime(),
                 rs.getInt("quantity"),
                 rs.getObject("total_price", Double.class),
                 rs.getString("status")

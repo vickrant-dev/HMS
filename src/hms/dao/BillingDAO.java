@@ -22,7 +22,7 @@ public class BillingDAO {
     private static final String SELECT_JOIN =
             "SELECT b.billing_id, b.reservation_id, b.room_charge, "
           + "b.service_charge, b.other_charges, b.tax_amount, "
-          + "b.total_bill, b.payment_status, b.payment_date, b.notes, "
+          + "b.total_bill, b.discount_amount, b.late_charge, b.payment_status, b.payment_date, b.notes AS billing_notes, "
            + "r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
           + "r.number_of_guests, r.status, r.total_amount, r.notes, "
@@ -75,6 +75,8 @@ public class BillingDAO {
                             billing.getOtherCharges(),
                             billing.getTaxAmount(),
                             billing.getTotalBill(),
+                            billing.getDiscountAmount(),
+                            billing.getLateCharge(),
                             billing.getPaymentStatus(),
                             billing.getPaymentDate(),
                             billing.getNotes()
@@ -285,9 +287,11 @@ public class BillingDAO {
                 rs.getDouble("other_charges"),
                 rs.getDouble("tax_amount"),
                 rs.getDouble("total_bill"),
+                rs.getDouble("discount_amount"),
+                rs.getDouble("late_charge"),
                 rs.getString("payment_status"),
                 paymentDate,
-                rs.getString("notes")
+                rs.getString("billing_notes")
         );
     }
 }
