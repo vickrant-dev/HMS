@@ -81,14 +81,14 @@ public class GuestController {
         return guestDAO.searchByName(name.trim());
     }
 
-    public Guest searchByEmail(String email) throws DatabaseException {
+    private Guest searchByEmail(String email) throws DatabaseException {
         if (email == null || email.isBlank()) {
             return null;
         }
         return guestDAO.searchByEmail(email.trim());
     }
 
-    public List<Guest> searchByPhone(String phone) throws DatabaseException {
+    private List<Guest> searchByPhone(String phone) throws DatabaseException {
         if (phone == null || phone.isBlank()) {
             return guestDAO.getAll();
         }
