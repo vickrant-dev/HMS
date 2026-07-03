@@ -19,6 +19,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -177,8 +178,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void setupMenuBar() {
         JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.setHorizontalAlignment(SwingConstants.LEFT);
         exitItem.addActionListener(e -> dispose());
-        file_menu.add(new JSeparator());
         file_menu.add(exitItem);
 
         JMenu navigateMenu = new JMenu("Navigate");
@@ -189,12 +190,14 @@ public class MainWindow extends javax.swing.JFrame {
         for (int i = 0; i < tabNames.length; i++) {
             final int index = i;
             JMenuItem item = new JMenuItem(tabNames[i]);
+            item.setHorizontalAlignment(SwingConstants.LEFT);
             item.addActionListener(e -> main_tab.setSelectedIndex(index));
             navigateMenu.add(item);
         }
         menu_bar.add(navigateMenu, menu_bar.getMenuCount() - 1);
 
         JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.setHorizontalAlignment(SwingConstants.LEFT);
         aboutItem.addActionListener(e ->
             JOptionPane.showMessageDialog(this,
                 "Hotel Management System\nVersion 1.0\n\nBuilt with Java Swing",
