@@ -335,7 +335,8 @@ public class PaymentDialog extends javax.swing.JDialog {
         String paymentNotes = notes.getText().trim();
 
         try {
-            billingController.recordPayment(billing.getBillingId(), "paid");
+            billingController.recordPayment(billing.getBillingId(), "paid",
+                    amount, paymentMethod, txnId, paymentNotes);
             JOptionPane.showMessageDialog(this,
                 "Payment of LKR " + String.format("%.2f", amount)
                 + " recorded via " + paymentMethod + ".",

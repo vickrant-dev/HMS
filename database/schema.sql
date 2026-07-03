@@ -113,6 +113,10 @@ CREATE TABLE billing (
     tax_amount DECIMAL(12, 2) DEFAULT 0,
     total_bill DECIMAL(12, 2) NOT NULL,
     payment_status ENUM('pending', 'partial', 'paid', 'refunded') NOT NULL DEFAULT 'pending',
+    amount_paid DECIMAL(12, 2) DEFAULT 0,
+    payment_method VARCHAR(50),
+    transaction_id VARCHAR(100),
+    payment_notes TEXT,
     payment_date TIMESTAMP NULL,
     notes TEXT,
 
