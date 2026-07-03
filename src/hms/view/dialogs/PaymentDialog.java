@@ -42,7 +42,7 @@ public class PaymentDialog extends javax.swing.JDialog {
             guestFullName.setText(billing.getReservation().getGuest().getFirstName()
                 + " " + billing.getReservation().getGuest().getLastName());
             totalBillAmount.setText(String.format("LKR %.2f", billing.getTotalBill()));
-            alreadyPaidAmount.setText(String.format("LKR %.2f", billing.getTotalBill())); // total due
+            alreadyPaidAmount.setText(String.format("LKR %.2f", 0.0));
             balanceDueAmount.setText(String.format("LKR %.2f", billing.getTotalBill()));
         }
     }
@@ -335,7 +335,8 @@ public class PaymentDialog extends javax.swing.JDialog {
         String paymentNotes = notes.getText().trim();
 
         try {
-            billingController.recordPayment(billing.getBillingId(), "paid");
+            billingController.recordPayment(billing.getBillingId(), "paid",
+                    amount, paymentMethod, txnId, paymentNotes);
             JOptionPane.showMessageDialog(this,
                 "Payment of LKR " + String.format("%.2f", amount)
                 + " recorded via " + paymentMethod + ".",

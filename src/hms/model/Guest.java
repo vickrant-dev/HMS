@@ -2,6 +2,7 @@ package hms.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Represents a guest in the hotel management system.
@@ -145,5 +146,18 @@ public final class Guest {
     /** Returns the timestamp when the record was created. */
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Guest)) return false;
+        Guest guest = (Guest) o;
+        return guestId == guest.guestId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(guestId);
     }
 }

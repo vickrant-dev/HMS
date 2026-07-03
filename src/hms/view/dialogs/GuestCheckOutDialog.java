@@ -516,7 +516,9 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
         try {
             reservationController.checkOut(reservation.getReservationId());
             if (billing != null) {
-                billingController.recordPayment(billing.getBillingId(), "paid");
+                String checkoutPaymentMethod = (String) paymentMethodCmb.getSelectedItem();
+                billingController.recordPayment(billing.getBillingId(), "paid",
+                        received, checkoutPaymentMethod, "", "");
             }
             double change = received - total;
             changeDueAmount.setText(String.format("%.2f", change));

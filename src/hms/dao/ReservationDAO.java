@@ -214,17 +214,14 @@ public class ReservationDAO {
     public List<Reservation> getByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         String sql = SELECT_JOIN
-                   + "WHERE (r.check_in_date BETWEEN ? AND ? "
-                   + "OR r.check_out_date BETWEEN ? AND ?) "
+                   + "WHERE r.check_in_date < ? AND r.check_out_date > ? "
                    + "ORDER BY r.check_in_date";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setDate(1, java.sql.Date.valueOf(start));
-            pstmt.setDate(2, java.sql.Date.valueOf(end));
-            pstmt.setDate(3, java.sql.Date.valueOf(start));
-            pstmt.setDate(4, java.sql.Date.valueOf(end));
+            pstmt.setDate(1, java.sql.Date.valueOf(end));
+            pstmt.setDate(2, java.sql.Date.valueOf(start));
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 List<Reservation> reservations = new ArrayList<>();

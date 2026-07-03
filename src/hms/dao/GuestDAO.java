@@ -107,8 +107,8 @@ public class GuestDAO {
     }
 
     public void update(Guest guest) throws DatabaseException {
-        String sql = "UPDATE guests SET first_name = ?, last_name = ?, phone = ?, "
-                   + "address = ?, id_proof_type = ?, id_proof_number = ?, "
+        String sql = "UPDATE guests SET first_name = ?, last_name = ?, email = ?, "
+                   + "phone = ?, address = ?, id_proof_type = ?, id_proof_number = ?, "
                    + "date_of_birth = ?, guest_type = ?, nationality = ? "
                    + "WHERE guest_id = ?";
 
@@ -117,16 +117,17 @@ public class GuestDAO {
 
             pstmt.setString(1, guest.getFirstName());
             pstmt.setString(2, guest.getLastName());
-            pstmt.setString(3, guest.getPhone());
-            pstmt.setString(4, guest.getAddress());
-            pstmt.setString(5, guest.getIdProofType());
-            pstmt.setString(6, guest.getIdProofNumber());
-            pstmt.setDate(7, guest.getDateOfBirth() != null
+            pstmt.setString(3, guest.getEmail());
+            pstmt.setString(4, guest.getPhone());
+            pstmt.setString(5, guest.getAddress());
+            pstmt.setString(6, guest.getIdProofType());
+            pstmt.setString(7, guest.getIdProofNumber());
+            pstmt.setDate(8, guest.getDateOfBirth() != null
                     ? java.sql.Date.valueOf(guest.getDateOfBirth())
                     : null);
-            pstmt.setString(8, guest.getGuestType());
-            pstmt.setString(9, guest.getNationality());
-            pstmt.setInt(10, guest.getGuestId());
+            pstmt.setString(9, guest.getGuestType());
+            pstmt.setString(10, guest.getNationality());
+            pstmt.setInt(11, guest.getGuestId());
 
             pstmt.executeUpdate();
 

@@ -152,11 +152,16 @@ public class BillingDAO {
         }
     }
 
-    public void updatePaymentStatus(int billingId, String status,
+    public void updatePaymentRecord(int billingId, String status,
+                                     double amountPaid,
+                                     String paymentMethod,
+                                     String transactionId,
+                                     String paymentNotes,
                                      LocalDateTime paymentDate)
             throws DatabaseException {
-        String sql = "UPDATE billing SET payment_status = ?, payment_date = ? "
-                   + "WHERE billing_id = ?";
+        String sql = "UPDATE billing SET payment_status = ?, payment_date = ?, "
+                   + "amount_paid = ?, payment_method = ?, transaction_id = ?, "
+                   + "payment_notes = ? WHERE billing_id = ?";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -165,13 +170,17 @@ public class BillingDAO {
             pstmt.setTimestamp(2, paymentDate != null
                     ? java.sql.Timestamp.valueOf(paymentDate)
                     : null);
-            pstmt.setInt(3, billingId);
+            pstmt.setDouble(3, amountPaid);
+            pstmt.setString(4, paymentMethod);
+            pstmt.setString(5, transactionId);
+            pstmt.setString(6, paymentNotes);
+            pstmt.setInt(7, billingId);
 
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
             throw new DatabaseException(
-                    "Failed to update payment status: " + e.getMessage(), e);
+                    "Failed to update payment record: " + e.getMessage(), e);
         }
     }
 

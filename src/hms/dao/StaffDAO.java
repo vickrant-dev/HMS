@@ -104,23 +104,25 @@ public class StaffDAO {
     }
 
     public void update(Staff staff) throws DatabaseException {
-        String sql = "UPDATE staff SET first_name = ?, last_name = ?, phone = ?, "
-                   + "position = ?, department = ?, salary = ?, joining_date = ?, "
-                   + "status = ?, password_hash = ? WHERE staff_id = ?";
+        String sql = "UPDATE staff SET first_name = ?, last_name = ?, email = ?, "
+                   + "phone = ?, position = ?, department = ?, salary = ?, "
+                   + "joining_date = ?, status = ?, password_hash = ? "
+                   + "WHERE staff_id = ?";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, staff.getFirstName());
             pstmt.setString(2, staff.getLastName());
-            pstmt.setString(3, staff.getPhone());
-            pstmt.setString(4, staff.getPosition());
-            pstmt.setString(5, staff.getDepartment());
-            pstmt.setObject(6, staff.getSalary());
-            pstmt.setDate(7, java.sql.Date.valueOf(staff.getJoiningDate()));
-            pstmt.setString(8, staff.getStatus());
-            pstmt.setString(9, staff.getPasswordHash());
-            pstmt.setInt(10, staff.getStaffId());
+            pstmt.setString(3, staff.getEmail());
+            pstmt.setString(4, staff.getPhone());
+            pstmt.setString(5, staff.getPosition());
+            pstmt.setString(6, staff.getDepartment());
+            pstmt.setObject(7, staff.getSalary());
+            pstmt.setDate(8, java.sql.Date.valueOf(staff.getJoiningDate()));
+            pstmt.setString(9, staff.getStatus());
+            pstmt.setString(10, staff.getPasswordHash());
+            pstmt.setInt(11, staff.getStaffId());
 
             pstmt.executeUpdate();
 

@@ -133,7 +133,7 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
         notes.setRows(5);
         jScrollPane2.setViewportView(notes);
 
-        saveStaffProfileBtn.setText("Save Staff Profile");
+        saveStaffProfileBtn.setText("Save Assignment");
         saveStaffProfileBtn.setActionCommand("");
         saveStaffProfileBtn.addActionListener(this::saveStaffProfileBtnActionPerformed);
 

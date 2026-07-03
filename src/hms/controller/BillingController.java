@@ -91,11 +91,16 @@ public class BillingController {
         return billingDAO.getAll();
     }
 
-    public void recordPayment(int billingId, String paymentStatus)
+    public void recordPayment(int billingId, String paymentStatus,
+                               double amountPaid, String paymentMethod,
+                               String transactionId, String paymentNotes)
             throws ValidationException, DatabaseException {
 
         if (!isValidPaymentStatus(paymentStatus)) {
             throw new ValidationException("Invalid payment status");
+        }
+        if (amountPaid <= 0) {
+            throw new ValidationException("Payment amount must be positive");
         }
 
         Billing billing = billingDAO.getById(billingId);
@@ -103,7 +108,8 @@ public class BillingController {
             throw new ValidationException("Billing record not found");
         }
 
-        billingDAO.updatePaymentStatus(billingId, paymentStatus, LocalDateTime.now());
+        billingDAO.updatePaymentRecord(billingId, paymentStatus, amountPaid,
+                paymentMethod, transactionId, paymentNotes, LocalDateTime.now());
     }
 
     public Billing adjustBill(int billingId, double otherCharges,

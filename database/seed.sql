@@ -113,16 +113,16 @@ INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, numb
 --   Services: none
 --   Tax: 260 * 0.10 = 26.00
 --   Total: 260.00 + 26.00 = 286.00
-INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, payment_date, notes)
-VALUES (1, 260.00, 0.00, 0.00, 26.00, 286.00, 'paid', '2026-06-12 10:30:00', 'Paid via credit card');
+INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, amount_paid, payment_method, transaction_id, payment_notes, payment_date, notes)
+VALUES (1, 260.00, 0.00, 0.00, 26.00, 286.00, 'paid', 286.00, 'Credit Card', 'TXN001', 'Full payment at check-out', '2026-06-12 10:30:00', 'Paid via credit card');
 
 -- Res 2: Sarah Johnson — 3 nights Double (Room 202, $170/night)
 --   Room: 170 * 3 = 510.00
 --   Services: Breakfast * 3 = 45.00
 --   Tax: (510 + 45) * 0.10 = 55.50
 --   Total: 510.00 + 45.00 + 55.50 = 610.50
-INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, payment_date, notes)
-VALUES (2, 510.00, 45.00, 0.00, 55.50, 610.50, 'paid', '2026-06-15 09:15:00', 'Paid via bank transfer');
+INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, amount_paid, payment_method, transaction_id, payment_notes, payment_date, notes)
+VALUES (2, 510.00, 45.00, 0.00, 55.50, 610.50, 'paid', 610.50, 'Bank Transfer', 'TXN002', 'Full payment', '2026-06-15 09:15:00', 'Paid via bank transfer');
 
 -- Res 3: Michael Chen — 2 nights Suite (Room 302, $350/night)
 --   Room: 350 * 2 = 700.00
@@ -130,8 +130,8 @@ VALUES (2, 510.00, 45.00, 0.00, 55.50, 610.50, 'paid', '2026-06-15 09:15:00', 'P
 --   Other: Late checkout charge = 50.00
 --   Tax: (700 + 80 + 50) * 0.10 = 83.00
 --   Total: 700.00 + 80.00 + 50.00 + 83.00 = 913.00
-INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, payment_date, notes)
-VALUES (3, 700.00, 80.00, 50.00, 83.00, 913.00, 'partial', '2026-06-16 11:45:00', 'Partial payment of 500.00 received, balance pending');
+INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, amount_paid, payment_method, transaction_id, payment_notes, payment_date, notes)
+VALUES (3, 700.00, 80.00, 50.00, 83.00, 913.00, 'partial', 500.00, 'Cash', 'TXN003', 'Partial payment of 500.00 received, balance pending', '2026-06-16 11:45:00', 'Partial payment of 500.00 received, balance pending');
 
 -- ============================================
 -- 7. service_bookings (5)
