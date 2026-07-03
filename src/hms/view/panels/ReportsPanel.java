@@ -4,6 +4,8 @@
  */
 package hms.view.panels;
 
+import hms.util.IconUtil;
+
 /**
  *
  * @author vickrant-dev
@@ -15,6 +17,7 @@ public class ReportsPanel extends javax.swing.JPanel {
      */
     public ReportsPanel() {
         initComponents();
+        setupIcons();
     }
 
     /**
@@ -229,6 +232,12 @@ public class ReportsPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_exportPdfBtnActionPerformed
 
+
+    private void setupIcons() {
+        generateReportBtn.setIcon(IconUtil.getRefreshIcon());
+        exportPdfBtn.setIcon(IconUtil.getPrintIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser dateRangeFrom;

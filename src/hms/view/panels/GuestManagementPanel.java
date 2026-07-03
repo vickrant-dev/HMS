@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddGuestDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -32,6 +33,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadGuests();
     }
 
@@ -366,6 +368,14 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
+
+    private void setupIcons() {
+        addGuestBtn.setIcon(IconUtil.getAddIcon());
+        editGuestBtn.setIcon(IconUtil.getEditIcon());
+        deleteGuestBtn.setIcon(IconUtil.getDeleteIcon());
+        viewHistoryBtn.setIcon(IconUtil.getEyeIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGuestBtn;

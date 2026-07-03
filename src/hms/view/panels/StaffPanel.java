@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewStaffDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -33,6 +34,7 @@ public class StaffPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadStaff();
     }
 
@@ -423,6 +425,14 @@ public class StaffPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
+
+    private void setupIcons() {
+        addStaffBtn.setIcon(IconUtil.getAddIcon());
+        editStaffBtn.setIcon(IconUtil.getEditIcon());
+        deleteStaffBtn.setIcon(IconUtil.getDeleteIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStaffBtn;

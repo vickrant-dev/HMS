@@ -79,6 +79,26 @@ public final class IconUtil {
         return loadIcon("print");
     }
 
+    public static ImageIcon getBookIcon() {
+        return loadIcon("book");
+    }
+
+    public static ImageIcon getCheckIcon() {
+        return loadIcon("check");
+    }
+
+    public static ImageIcon getEyeIcon() {
+        return loadIcon("eye");
+    }
+
+    public static ImageIcon getInvoiceIcon() {
+        return loadIcon("invoice");
+    }
+
+    public static ImageIcon getWrenchIcon() {
+        return loadIcon("wrench");
+    }
+
     /**
      * Creates a simple letter icon as a fallback when no image file is available.
      */

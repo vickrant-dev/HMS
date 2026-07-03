@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewRoomDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -34,6 +35,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadRooms();
     }
 
@@ -510,6 +512,16 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_markAvailBtnActionPerformed
 
+
+    private void setupIcons() {
+        addRoomBtn.setIcon(IconUtil.getAddIcon());
+        editRoomBtn.setIcon(IconUtil.getEditIcon());
+        deleteRoomBtn.setIcon(IconUtil.getDeleteIcon());
+        markMaintBtn.setIcon(IconUtil.getWrenchIcon());
+        markAvailBtn.setIcon(IconUtil.getCheckIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addRoomBtn;
