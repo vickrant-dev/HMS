@@ -4,17 +4,37 @@
  */
 package hms.view.panels;
 
+import hms.controller.ReservationController;
+import hms.exception.DatabaseException;
+import hms.model.Guest;
+import hms.model.Reservation;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vickrant
  */
 public class GuestHistorySubPanel extends javax.swing.JPanel {
 
+    private Guest guest;
+    private final ReservationController reservationController = new ReservationController();
+
     /**
      * Creates new form GuestHistorySubPanel
      */
     public GuestHistorySubPanel() {
         initComponents();
+    }
+
+    public GuestHistorySubPanel(Guest guest) {
+        initComponents();
+        this.guest = guest;
+        loadHistory();
     }
 
     /**
@@ -276,9 +296,57 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backToGuestListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToGuestListBtnActionPerformed
-        // TODO add your handling code here:
+        java.awt.Window parent = SwingUtilities.getWindowAncestor(this);
+        if (parent instanceof JDialog) {
+            ((JDialog) parent).dispose();
+        }
     }//GEN-LAST:event_backToGuestListBtnActionPerformed
 
+    private void loadHistory() {
+        if (guest == null) return;
+        jLabel1.setText("Guest History: " + guest.getFirstName() + " " + guest.getLastName());
+        try {
+            List<Reservation> reservations = reservationController.getByGuestId(guest.getGuestId());
+            int totalStays = reservations.size();
+            long totalNights = 0;
+            double totalSpent = 0.0;
+            for (Reservation r : reservations) {
+                long nights = ChronoUnit.DAYS.between(r.getCheckInDate(), r.getCheckOutDate());
+                if (nights > 0) totalNights += nights;
+                totalSpent += r.getTotalAmount();
+            }
+            double avgPerNight = totalNights > 0 ? totalSpent / totalNights : 0.0;
+
+            totalStaysValue.setText(String.valueOf(totalStays));
+            totalNightsValue.setText(String.valueOf(totalNights));
+            totalSpentValue.setText("$" + String.format("%.2f", totalSpent));
+            averageSpentNightValue.setText("$" + String.format("%.2f", avgPerNight));
+            pageNumber.setText("Page 1 of " + Math.max(1, (int) Math.ceil(totalStays / 10.0)));
+
+            DefaultTableModel model = new DefaultTableModel(
+                new String[]{"RESERVATION #", "CHECK-IN", "CHECK-OUT", "ROOM", "TOTAL AMOUNT", "STATUS"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int col) { return false; }
+            };
+            for (Reservation r : reservations) {
+                model.addRow(new Object[]{
+                    r.getDisplayId(),
+                    r.getCheckInDate().toString(),
+                    r.getCheckOutDate().toString(),
+                    r.getRoom().getRoomNumber() + " (" + r.getRoom().getRoomType() + ")",
+                    String.format("%.2f", r.getTotalAmount()),
+                    r.getStatus().toUpperCase()
+                });
+            }
+            recordsTable.setModel(model);
+        } catch (DatabaseException e) {
+            totalStaysValue.setText("0");
+            totalNightsValue.setText("0");
+            totalSpentValue.setText("$0.00");
+            averageSpentNightValue.setText("$0.00");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel averageSpentNightValue;

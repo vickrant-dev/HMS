@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddGuestDialog;
+import javax.swing.JDialog;
 
 /**
  *
@@ -342,8 +343,14 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     private void viewHistoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewHistoryBtnActionPerformed
         Guest selected = getSelectedGuest();
         if (selected == null) return;
-        JOptionPane.showMessageDialog(this, "Guest history for " + selected.getFirstName()
-            + " " + selected.getLastName() + " will be shown here.");
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
+            "Guest History: " + selected.getFirstName() + " " + selected.getLastName(), true);
+        GuestHistorySubPanel historyPanel = new GuestHistorySubPanel(selected);
+        dialog.add(historyPanel);
+        dialog.pack();
+        dialog.setSize(1000, 680);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_viewHistoryBtnActionPerformed
 
     private void addGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGuestBtnActionPerformed
