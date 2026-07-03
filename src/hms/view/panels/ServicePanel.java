@@ -162,7 +162,7 @@ public class ServicePanel extends javax.swing.JPanel {
 
         jLabel2.setText("Service type");
 
-        serviceTypeCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Deluxe King Suite", "Standard Double", "Single Economy" }));
+        serviceTypeCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Food", "Laundry", "Spa", "Conference" }));
 
         room_seperator_2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -382,17 +382,29 @@ public class ServicePanel extends javax.swing.JPanel {
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
         try {
-            List<Service> all = serviceController.getAllServices();
             String type = (String) serviceTypeCmb.getSelectedItem();
             String avail = (String) availabilityCmb.getSelectedItem();
 
-            filteredServices = all.stream()
-                .filter(s -> type == null || type.equals("All") || s.getServiceType().equals(type))
-                .filter(s -> avail == null || avail.equals("All")
-                    || (avail.equals("Available") && s.isAvailable())
-                    || (avail.equals("Unavailable") && !s.isAvailable()))
-                .collect(Collectors.toList());
+            boolean typeActive = type != null && !type.equals("All");
+            boolean availActive = avail != null && !avail.equals("All");
 
+            List<Service> filtered;
+            if (typeActive) {
+                filtered = serviceController.filterByType(type);
+            } else if (availActive) {
+                filtered = serviceController.filterByAvailability(avail.equals("Available"));
+            } else {
+                filtered = serviceController.getAllServices();
+            }
+
+            if (typeActive && availActive) {
+                boolean available = avail.equals("Available");
+                filtered = filtered.stream()
+                    .filter(s -> available == s.isAvailable())
+                    .collect(Collectors.toList());
+            }
+
+            filteredServices = filtered;
             currentPage = 0;
             applyPagination();
         } catch (DatabaseException e) {

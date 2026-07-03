@@ -143,6 +143,7 @@ public class BillingController {
         return billingDAO.getById(billingId);
     }
 
+    @Deprecated
     public double getRevenueByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         return billingDAO.getRevenueByDateRange(start, end);

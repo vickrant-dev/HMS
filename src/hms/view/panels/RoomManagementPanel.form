@@ -227,13 +227,12 @@
         <Component class="javax.swing.JComboBox" name="capacityCmb">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
+              <StringArray count="5">
                 <StringItem index="0" value="Any"/>
                 <StringItem index="1" value="1"/>
                 <StringItem index="2" value="2"/>
                 <StringItem index="3" value="3"/>
                 <StringItem index="4" value="4"/>
-                <StringItem index="5" value=" "/>
               </StringArray>
             </Property>
           </Properties>

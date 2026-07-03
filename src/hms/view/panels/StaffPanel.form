@@ -178,10 +178,12 @@
         <Component class="javax.swing.JComboBox" name="positionCmb">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
+              <StringArray count="5">
                 <StringItem index="0" value="All"/>
-                <StringItem index="1" value="Available"/>
-                <StringItem index="2" value="Unavailable"/>
+                <StringItem index="1" value="Manager"/>
+                <StringItem index="2" value="Receptionist"/>
+                <StringItem index="3" value="Housekeeper"/>
+                <StringItem index="4" value="Maintenance"/>
               </StringArray>
             </Property>
           </Properties>
@@ -202,11 +204,12 @@
         <Component class="javax.swing.JComboBox" name="departmentCmb">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
+              <StringArray count="5">
                 <StringItem index="0" value="All"/>
-                <StringItem index="1" value="Deluxe King Suite"/>
-                <StringItem index="2" value="Standard Double"/>
-                <StringItem index="3" value="Single Economy"/>
+                <StringItem index="1" value="Administration"/>
+                <StringItem index="2" value="Front Desk"/>
+                <StringItem index="3" value="Housekeeping"/>
+                <StringItem index="4" value="Maintenance"/>
               </StringArray>
             </Property>
           </Properties>

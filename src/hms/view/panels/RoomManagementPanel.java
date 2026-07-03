@@ -185,7 +185,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
 
         priceRangeTo.setToolTipText("Max");
 
-        capacityCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "1", "2", "3", "4", " " }));
+        capacityCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "1", "2", "3", "4" }));
 
         jLabel4.setText("Capacity");
 
@@ -447,20 +447,29 @@ public class RoomManagementPanel extends javax.swing.JPanel {
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
         try {
-            List<Room> all = roomController.getAllRooms();
             String status = (String) statusCmb.getSelectedItem();
             String capacity = (String) capacityCmb.getSelectedItem();
             String priceFrom = priceRangeFrom.getText().trim();
             String priceTo = priceRangeTo.getText().trim();
 
-            filteredRooms = all.stream()
-                .filter(r -> status == null || status.equals("All Types") || r.getRoomType().equals(status))
-                .filter(r -> capacity == null || capacity.equals("Any") || capacity.isEmpty()
-                    || r.getCapacity() == Integer.parseInt(capacity))
+            boolean typeActive = status != null && !status.equals("All Types");
+
+            List<Room> filtered;
+            if (typeActive) {
+                filtered = roomController.filterByType(status);
+            } else {
+                filtered = roomController.getAllRooms();
+            }
+
+            String cap = capacity;
+            filtered = filtered.stream()
+                .filter(r -> cap == null || cap.equals("Any") || cap.isEmpty()
+                    || r.getCapacity() == Integer.parseInt(cap))
                 .filter(r -> priceFrom.isEmpty() || r.getBasePrice() >= Double.parseDouble(priceFrom))
                 .filter(r -> priceTo.isEmpty() || r.getBasePrice() <= Double.parseDouble(priceTo))
                 .collect(Collectors.toList());
 
+            filteredRooms = filtered;
             currentPage = 0;
             applyPagination();
         } catch (Exception e) {
