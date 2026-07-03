@@ -15,6 +15,7 @@ import hms.view.panels.RoomManagementPanel;
 import hms.view.panels.ServicePanel;
 import hms.view.panels.StaffPanel;
 import javax.swing.JFrame;
+import javax.swing.event.ChangeEvent;
 
 /**
  *
@@ -41,7 +42,8 @@ public class MainWindow extends javax.swing.JFrame {
     
     private void setupTabs() {
         main_tab.removeAll();
-        main_tab.addTab("Dashboard", new DashboardPanel());
+        DashboardPanel dashboardPanel = new DashboardPanel();
+        main_tab.addTab("Dashboard", dashboardPanel);
         main_tab.addTab("Guests", new GuestManagementPanel());
         main_tab.addTab("Rooms", new RoomManagementPanel());
         main_tab.addTab("Reservations", new ReservationPanel());
@@ -50,6 +52,12 @@ public class MainWindow extends javax.swing.JFrame {
         main_tab.addTab("Staff", new StaffPanel());
         main_tab.addTab("Room Assignments", new RoomAssignmentPanel());
         main_tab.addTab("Reports", new ReportsPanel());
+
+        main_tab.addChangeListener((ChangeEvent e) -> {
+            if (main_tab.getSelectedComponent() == dashboardPanel) {
+                dashboardPanel.loadDashboardData();
+            }
+        });
     }
 
     /**

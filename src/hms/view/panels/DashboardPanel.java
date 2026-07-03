@@ -4,17 +4,34 @@
  */
 package hms.view.panels;
 
+import hms.controller.BillingController;
+import hms.controller.DashboardObserver;
+import hms.controller.ReservationController;
+import hms.controller.RoomController;
+import hms.exception.DatabaseException;
+import hms.model.Reservation;
+import hms.model.Room;
+import java.time.LocalDate;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vickrant
  */
-public class DashboardPanel extends javax.swing.JPanel {
+public class DashboardPanel extends javax.swing.JPanel implements DashboardObserver {
 
     /**
      * Creates new form DashPanel
      */
+    private final ReservationController reservationController = new ReservationController();
+    private final RoomController roomController = new RoomController();
+    private final BillingController billingController = new BillingController();
+
     public DashboardPanel() {
         initComponents();
+        loadDashboardData();
     }
 
     /**
@@ -397,6 +414,109 @@ public class DashboardPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void loadDashboardData() {
+        try { loadOccupancy(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadDailyRevenue(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadPendingCheckIns(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadRecentCheckIns(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadHousekeepingAlerts(); } catch (Exception e) { /* degrade gracefully */ }
+    }
+
+    private void loadOccupancy() {
+        try {
+            List<Room> allRooms = roomController.getAllRooms();
+            long total = allRooms.size();
+            long occupied = allRooms.stream()
+                .filter(r -> !"available".equalsIgnoreCase(r.getStatus()))
+                .count();
+            double rate = total > 0 ? (occupied * 100.0 / total) : 0.0;
+            stat_card_val_1.setText(String.format("%.2f%%", rate));
+        } catch (DatabaseException e) {
+            stat_card_val_1.setText("N/A");
+        }
+    }
+
+    private void loadDailyRevenue() {
+        try {
+            LocalDate today = LocalDate.now();
+            double revenue = billingController.getRevenueByDateRange(today, today);
+            stat_card_val_2.setText(String.format("%.2f", revenue));
+        } catch (DatabaseException e) {
+            stat_card_val_2.setText("N/A");
+        }
+    }
+
+    private void loadPendingCheckIns() {
+        try {
+            List<Reservation> all = reservationController.getAllReservations();
+            long pending = all.stream()
+                .filter(r -> "confirmed".equalsIgnoreCase(r.getStatus()))
+                .count();
+            stat_card_val_3.setText(String.valueOf(pending));
+        } catch (DatabaseException e) {
+            stat_card_val_3.setText("N/A");
+        }
+    }
+
+    private void loadRecentCheckIns() {
+        try {
+            List<Reservation> all = reservationController.getAllReservations();
+            List<Reservation> recent = all.stream()
+                .filter(r -> "checked_in".equalsIgnoreCase(r.getStatus())
+                    || "confirmed".equalsIgnoreCase(r.getStatus()))
+                .sorted((a, b) -> b.getBookingDate().compareTo(a.getBookingDate()))
+                .limit(5)
+                .toList();
+
+            DefaultTableModel model = new DefaultTableModel(
+                new String[]{"Guest Name", "Room", "Duration", "Booking ID", "Status", "Balance"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int col) { return false; }
+            };
+
+            for (Reservation r : recent) {
+                String guestName = r.getGuest().getFirstName() + " " + r.getGuest().getLastName();
+                String room = r.getRoom().getRoomNumber() + " (" + r.getRoom().getRoomType() + ")";
+                String duration = r.getCheckInDate() + " - " + r.getCheckOutDate();
+                model.addRow(new Object[]{
+                    guestName, room, duration, r.getDisplayId(),
+                    r.getStatus().toUpperCase(), r.getTotalAmount()
+                });
+            }
+
+            jTable6.setModel(model);
+        } catch (DatabaseException e) {
+            // table stays empty
+        }
+    }
+
+    private void loadHousekeepingAlerts() {
+        try {
+            List<Room> allRooms = roomController.getAllRooms();
+            long maintenance = allRooms.stream()
+                .filter(r -> "maintenance".equalsIgnoreCase(r.getStatus()))
+                .count();
+            stat_card_val_4.setText(String.valueOf(maintenance));
+        } catch (DatabaseException e) {
+            stat_card_val_4.setText("N/A");
+        }
+    }
+
+    @Override
+    public void onReservationCreated(Reservation r) {
+        loadDashboardData();
+    }
+
+    @Override
+    public void onCheckIn(Reservation r) {
+        loadDashboardData();
+    }
+
+    @Override
+    public void onCheckOut(Reservation r) {
+        loadDashboardData();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane checkInsTable;
