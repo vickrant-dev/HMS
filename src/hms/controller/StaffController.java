@@ -52,7 +52,7 @@ public class StaffController {
     }
 
     public void updateStaff(Staff staff) throws ValidationException, DatabaseException {
-        if (staff.getStaffId() <= 0) {
+        if (staff == null || staff.getStaffId() <= 0) {
             throw new ValidationException("Invalid staff ID");
         }
 
@@ -194,6 +194,22 @@ public class StaffController {
 
         if (!ValidationUtil.isNotEmpty(staff.getStatus())) {
             throw new ValidationException("Status is required");
+        }
+
+        if (!ValidationUtil.isValidLength(staff.getFirstName(), 50)) {
+            throw new ValidationException("First name must not exceed 50 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(staff.getLastName(), 50)) {
+            throw new ValidationException("Last name must not exceed 50 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(staff.getPosition(), 50)) {
+            throw new ValidationException("Position must not exceed 50 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(staff.getDepartment(), 50)) {
+            throw new ValidationException("Department must not exceed 50 characters");
         }
     }
 }

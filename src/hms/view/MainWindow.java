@@ -30,6 +30,7 @@ import javax.swing.event.ChangeEvent;
 public class MainWindow extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainWindow.class.getName());
+    private final hms.controller.ReservationController reservationController = new hms.controller.ReservationController();
 
     /**
      * Creates new form dash
@@ -43,6 +44,7 @@ public class MainWindow extends javax.swing.JFrame {
         setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         setLocationRelativeTo(null);
         
+        setupStatusBar();
         setupTabs();
         setupMenuBar();
         setAppIcon();
@@ -58,6 +60,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void setupTabs() {
         main_tab.removeAll();
         DashboardPanel dashboardPanel = new DashboardPanel();
+        dashboardPanel.loadDashboardData();
+        reservationController.addObserver(dashboardPanel);
         main_tab.addTab("Dashboard", dashboardPanel);
         main_tab.addTab("Guests", new GuestManagementPanel());
         main_tab.addTab("Rooms", new RoomManagementPanel());
@@ -193,7 +197,54 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setupStatusBar() {
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jPanel1.removeAll();
+
+        javax.swing.JLabel statusLabel = new javax.swing.JLabel("STATUS:");
+        statusLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        statusLabel.setForeground(java.awt.Color.WHITE);
+        jPanel1.add(statusLabel);
+
+        javax.swing.JLabel dbStatusLabel = new javax.swing.JLabel();
+        dbStatusLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        try {
+            hms.database.DatabaseConnection.getInstance().getConnection();
+            dbStatusLabel.setForeground(new java.awt.Color(91, 183, 0));
+            dbStatusLabel.setText("\u25CF Connected");
+        } catch (Exception ex) {
+            dbStatusLabel.setForeground(java.awt.Color.RED);
+            dbStatusLabel.setText("\u25CF Disconnected");
+        }
+        jPanel1.add(dbStatusLabel);
+
+        javax.swing.JLabel separator = new javax.swing.JLabel("  |  ");
+        separator.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        separator.setForeground(java.awt.Color.LIGHT_GRAY);
+        jPanel1.add(separator);
+
+        javax.swing.JLabel clockLabel = new javax.swing.JLabel();
+        clockLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        clockLabel.setForeground(java.awt.Color.WHITE);
+        jPanel1.add(clockLabel);
+
+        javax.swing.Timer timer = new javax.swing.Timer(1000, e ->
+            clockLabel.setText(java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        );
+        timer.start();
+    }
+
     private void setupMenuBar() {
+        JMenuItem newResItem = new JMenuItem("New Reservation");
+        newResItem.setHorizontalAlignment(SwingConstants.LEFT);
+        newResItem.addActionListener(e -> {
+            main_tab.setSelectedIndex(3);
+        });
+        file_menu.add(newResItem);
+
+        file_menu.add(new JSeparator());
+
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.setHorizontalAlignment(SwingConstants.LEFT);
         exitItem.addActionListener(e -> dispose());

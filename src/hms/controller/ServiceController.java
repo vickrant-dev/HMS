@@ -43,7 +43,7 @@ public class ServiceController {
 
     public void updateService(Service service)
             throws ValidationException, DatabaseException {
-        if (service.getServiceId() <= 0) {
+        if (service == null || service.getServiceId() <= 0) {
             throw new ValidationException("Invalid service ID");
         }
 
@@ -175,6 +175,18 @@ public class ServiceController {
 
         if (!ValidationUtil.isPositive(service.getPrice())) {
             throw new ValidationException("Price must be positive");
+        }
+
+        if (!ValidationUtil.isValidLength(service.getServiceName(), 100)) {
+            throw new ValidationException("Service name must not exceed 100 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(service.getServiceType(), 50)) {
+            throw new ValidationException("Service type must not exceed 50 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(service.getDescription(), 500)) {
+            throw new ValidationException("Description must not exceed 500 characters");
         }
     }
 }
