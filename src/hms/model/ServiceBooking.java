@@ -12,7 +12,7 @@ public final class ServiceBooking {
     private final Service service;
     private final LocalDateTime bookingDate;
     private final int quantity;
-    private final Double totalPrice;
+    private final double totalPrice;
     private final String status;
     private final String notes;
 
@@ -27,7 +27,7 @@ public final class ServiceBooking {
      * @param notes       Additional notes for this service booking
      */
     public ServiceBooking(Reservation reservation, Service service,
-                          int quantity, Double totalPrice, String status,
+                          int quantity, double totalPrice, String status,
                           String notes) {
         this.serviceBookingId = 0;
         this.reservation = reservation;
@@ -53,7 +53,7 @@ public final class ServiceBooking {
      */
     public ServiceBooking(int serviceBookingId, Reservation reservation,
                           Service service, LocalDateTime bookingDate,
-                          int quantity, Double totalPrice, String status,
+                          int quantity, double totalPrice, String status,
                           String notes) {
         this.serviceBookingId = serviceBookingId;
         this.reservation = reservation;
@@ -91,7 +91,7 @@ public final class ServiceBooking {
     }
 
     /** Returns the total price for this service booking. */
-    public Double getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 

@@ -217,11 +217,11 @@ public class ReservationController {
         if (room == null) {
             throw new ValidationException("Room is required");
         }
-        if (!ValidationUtil.isFutureDate(checkInDate)) {
-            throw new ValidationException("Check-in must be a future date");
+        if (checkInDate == null || checkInDate.isBefore(LocalDate.now())) {
+            throw new ValidationException("Check-in must be today or a future date");
         }
-        if (!ValidationUtil.isFutureDate(checkOutDate)) {
-            throw new ValidationException("Check-out must be a future date");
+        if (checkOutDate == null || checkOutDate.isBefore(LocalDate.now())) {
+            throw new ValidationException("Check-out must be today or a future date");
         }
         if (checkOutDate != null && checkInDate != null
                 && !checkOutDate.isAfter(checkInDate)) {

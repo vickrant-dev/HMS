@@ -153,21 +153,6 @@ public class ReservationDAO {
         }
     }
 
-    public void delete(int id) throws DatabaseException {
-        String sql = "DELETE FROM reservations WHERE reservation_id = ?";
-
-        Connection conn = DatabaseConnection.getInstance().getConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DatabaseException(
-                    "Failed to delete reservation: " + e.getMessage(), e);
-        }
-    }
-
     public List<Reservation> getByGuestId(int guestId) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE r.guest_id = ? ORDER BY r.check_in_date DESC";
 
@@ -187,28 +172,6 @@ public class ReservationDAO {
         } catch (SQLException e) {
             throw new DatabaseException(
                     "Failed to retrieve reservations by guest: " + e.getMessage(), e);
-        }
-    }
-
-    public List<Reservation> getByRoomId(int roomId) throws DatabaseException {
-        String sql = SELECT_JOIN + "WHERE r.room_id = ? ORDER BY r.check_in_date DESC";
-
-        Connection conn = DatabaseConnection.getInstance().getConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, roomId);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                List<Reservation> reservations = new ArrayList<>();
-                while (rs.next()) {
-                    reservations.add(mapResultSetToReservation(rs));
-                }
-                return reservations;
-            }
-
-        } catch (SQLException e) {
-            throw new DatabaseException(
-                    "Failed to retrieve reservations by room: " + e.getMessage(), e);
         }
     }
 
