@@ -37,7 +37,7 @@ public class RoomController {
     }
 
     public void updateRoom(Room room) throws ValidationException, DatabaseException {
-        if (room.getRoomId() <= 0) {
+        if (room == null || room.getRoomId() <= 0) {
             throw new ValidationException("Invalid room ID");
         }
 

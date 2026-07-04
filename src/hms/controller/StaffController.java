@@ -52,7 +52,7 @@ public class StaffController {
     }
 
     public void updateStaff(Staff staff) throws ValidationException, DatabaseException {
-        if (staff.getStaffId() <= 0) {
+        if (staff == null || staff.getStaffId() <= 0) {
             throw new ValidationException("Invalid staff ID");
         }
 

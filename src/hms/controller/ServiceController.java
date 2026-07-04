@@ -43,7 +43,7 @@ public class ServiceController {
 
     public void updateService(Service service)
             throws ValidationException, DatabaseException {
-        if (service.getServiceId() <= 0) {
+        if (service == null || service.getServiceId() <= 0) {
             throw new ValidationException("Invalid service ID");
         }
 

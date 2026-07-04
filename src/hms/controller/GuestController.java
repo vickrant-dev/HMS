@@ -37,7 +37,7 @@ public class GuestController {
     }
 
     public void updateGuest(Guest guest) throws ValidationException, DatabaseException {
-        if (guest.getGuestId() <= 0) {
+        if (guest == null || guest.getGuestId() <= 0) {
             throw new ValidationException("Invalid guest ID");
         }
 
