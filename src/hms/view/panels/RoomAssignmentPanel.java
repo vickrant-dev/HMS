@@ -4,10 +4,12 @@
  */
 package hms.view.panels;
 
+import hms.config.Constants;
 import hms.controller.StaffController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
 import hms.model.RoomAssignment;
+import hms.model.Staff;
 import java.awt.Frame;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,12 +28,27 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     private List<RoomAssignment> filteredAssignments;
     private int currentPage = 0;
     private static final int PAGE_SIZE = 10;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RoomAssignmentPanel.class.getName());
 
     /**
      * Creates new form RoomAssignmentPanel
      */
     public RoomAssignmentPanel() {
         initComponents();
+        statusCmb.removeAllItems();
+        statusCmb.addItem("All");
+        statusCmb.addItem(Constants.ASSIGN_PENDING);
+        statusCmb.addItem(Constants.ASSIGN_IN_PROGRESS);
+        statusCmb.addItem(Constants.ASSIGN_COMPLETED);
+        staffCmb.removeAllItems();
+        staffCmb.addItem("All");
+        try {
+            for (Staff s : staffController.getAllStaff()) {
+                staffCmb.addItem(s.getFirstName() + " " + s.getLastName());
+            }
+        } catch (DatabaseException e) {
+            logger.log(java.util.logging.Level.SEVERE, "Failed to load staff for combo", e);
+        }
         setupTable();
         setupPaginationListeners();
         setupIcons();

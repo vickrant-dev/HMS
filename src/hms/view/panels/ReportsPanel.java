@@ -4,6 +4,7 @@
  */
 package hms.view.panels;
 
+import hms.config.Constants;
 import hms.util.IconUtil;
 import hms.util.ReportUtil;
 import java.io.File;
@@ -39,9 +40,10 @@ public class ReportsPanel extends javax.swing.JPanel {
         reportTypeCmb.addItem("Guest Invoice Report");
         roomTypeCmb.removeAllItems();
         roomTypeCmb.addItem("All");
-        for (String type : new String[]{"Single Economy", "Standard Double", "Deluxe King Suite"}) {
-            roomTypeCmb.addItem(type);
-        }
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_SINGLE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_DOUBLE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_SUITE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_DELUXE);
         statusCmb.removeAllItems();
         statusCmb.addItem("All");
         statusCmb.addItem("Paid");

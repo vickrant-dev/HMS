@@ -124,7 +124,7 @@ public class ReservationController {
         reservationDAO.update(reservation);
     }
 
-    public void cancelReservation(int reservationId)
+    public void cancelReservation(int reservationId, String cancellationNotes)
             throws ValidationException, DatabaseException {
 
         Reservation reservation = reservationDAO.getById(reservationId);
@@ -137,12 +137,12 @@ public class ReservationController {
             throw new ValidationException("Reservation already finalized or cancelled");
         }
 
-        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CANCELLED);
+        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CANCELLED, cancellationNotes);
         roomController.updateRoomStatus(
                 reservation.getRoomId(), Constants.ROOM_STATUS_AVAILABLE);
     }
 
-    public void checkIn(int reservationId)
+    public void checkIn(int reservationId, String checkInNotes)
             throws ValidationException, DatabaseException {
 
         Reservation reservation = reservationDAO.getById(reservationId);
@@ -155,7 +155,10 @@ public class ReservationController {
                     "Only confirmed reservations can be checked in");
         }
 
-        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CHECKED_IN);
+        String notes = checkInNotes != null && !checkInNotes.isEmpty()
+                ? (reservation.getNotes() != null ? reservation.getNotes() + "\n" : "") + "Check-in: " + checkInNotes
+                : reservation.getNotes();
+        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CHECKED_IN, notes);
         roomController.updateRoomStatus(
                 reservation.getRoomId(), Constants.ROOM_STATUS_OCCUPIED);
 

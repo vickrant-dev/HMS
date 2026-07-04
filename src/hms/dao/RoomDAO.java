@@ -17,8 +17,8 @@ public class RoomDAO {
 
     public Room save(Room room) throws DatabaseException {
         String sql = "INSERT INTO rooms (room_number, room_type, capacity, "
-                   + "base_price, status, floor) "
-                   + "VALUES (?, ?, ?, ?, ?, ?)";
+                   + "base_price, description, status, floor) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -27,8 +27,9 @@ public class RoomDAO {
             pstmt.setString(2, room.getRoomType());
             pstmt.setInt(3, room.getCapacity());
             pstmt.setDouble(4, room.getBasePrice());
-            pstmt.setString(5, room.getStatus());
-            pstmt.setInt(6, room.getFloor());
+            pstmt.setString(5, room.getDescription());
+            pstmt.setString(6, room.getStatus());
+            pstmt.setInt(7, room.getFloor());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -43,6 +44,7 @@ public class RoomDAO {
                             room.getRoomType(),
                             room.getCapacity(),
                             room.getBasePrice(),
+                            room.getDescription(),
                             room.getStatus(),
                             room.getFloor(),
                             room.getCreatedAt()
@@ -97,7 +99,7 @@ public class RoomDAO {
 
     public void update(Room room) throws DatabaseException {
         String sql = "UPDATE rooms SET room_type = ?, capacity = ?, base_price = ?, "
-                   + "status = ?, floor = ? WHERE room_id = ?";
+                   + "description = ?, status = ?, floor = ? WHERE room_id = ?";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -105,9 +107,10 @@ public class RoomDAO {
             pstmt.setString(1, room.getRoomType());
             pstmt.setInt(2, room.getCapacity());
             pstmt.setDouble(3, room.getBasePrice());
-            pstmt.setString(4, room.getStatus());
-            pstmt.setInt(5, room.getFloor());
-            pstmt.setInt(6, room.getRoomId());
+            pstmt.setString(4, room.getDescription());
+            pstmt.setString(5, room.getStatus());
+            pstmt.setInt(6, room.getFloor());
+            pstmt.setInt(7, room.getRoomId());
 
             pstmt.executeUpdate();
 
@@ -273,6 +276,7 @@ public class RoomDAO {
                 rs.getString("room_type"),
                 rs.getInt("capacity"),
                 rs.getDouble("base_price"),
+                rs.getString("description"),
                 rs.getString("status"),
                 rs.getInt("floor"),
                 rs.getTimestamp("created_at").toLocalDateTime()

@@ -33,6 +33,10 @@ public class BillingManagementPanel extends javax.swing.JPanel {
      */
     public BillingManagementPanel() {
         initComponents();
+        exportCmb.removeAllItems();
+        exportCmb.addItem("CSV");
+        exportCmb.addItem("PDF");
+        exportCmb.addItem("Excel");
         setupTable();
         setupIcons();
         loadBills();

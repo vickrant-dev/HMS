@@ -20,31 +20,31 @@ INSERT INTO guests (first_name, last_name, email, phone, address, id_proof_type,
 -- ============================================
 -- 2. rooms (24)
 -- ============================================
-INSERT INTO rooms (room_number, room_type, capacity, base_price, status, floor) VALUES
-('101', 'Single', 1, 100.00, 'available', 1),
-('102', 'Single', 1, 105.00, 'available', 1),
-('103', 'Single', 1, 110.00, 'maintenance', 1),
-('104', 'Single', 1, 100.00, 'available', 1),
-('105', 'Single', 1, 115.00, 'available', 1),
-('106', 'Single', 1, 130.00, 'occupied', 1),
-('201', 'Double', 2, 160.00, 'available', 2),
-('202', 'Double', 2, 170.00, 'occupied', 2),
-('203', 'Double', 2, 175.00, 'available', 2),
-('204', 'Double', 2, 180.00, 'occupied', 2),
-('205', 'Double', 2, 190.00, 'reserved', 2),
-('206', 'Double', 2, 200.00, 'available', 2),
-('207', 'Double', 2, 210.00, 'available', 2),
-('208', 'Double', 2, 195.00, 'occupied', 2),
-('301', 'Suite', 3, 320.00, 'available', 3),
-('302', 'Suite', 3, 350.00, 'occupied', 3),
-('303', 'Suite', 3, 380.00, 'available', 3),
-('304', 'Suite', 4, 400.00, 'occupied', 3),
-('305', 'Suite', 4, 420.00, 'reserved', 3),
-('306', 'Suite', 4, 450.00, 'available', 3),
-('401', 'Deluxe', 3, 220.00, 'occupied', 4),
-('402', 'Deluxe', 3, 250.00, 'available', 4),
-('501', 'Deluxe', 4, 280.00, 'available', 5),
-('502', 'Deluxe', 4, 300.00, 'reserved', 5);
+INSERT INTO rooms (room_number, room_type, capacity, base_price, description, status, floor) VALUES
+('101', 'Single', 1, 100.00, NULL, 'available', 1),
+('102', 'Single', 1, 105.00, NULL, 'available', 1),
+('103', 'Single', 1, 110.00, NULL, 'maintenance', 1),
+('104', 'Single', 1, 100.00, NULL, 'available', 1),
+('105', 'Single', 1, 115.00, NULL, 'available', 1),
+('106', 'Single', 1, 130.00, NULL, 'occupied', 1),
+('201', 'Double', 2, 160.00, NULL, 'available', 2),
+('202', 'Double', 2, 170.00, NULL, 'occupied', 2),
+('203', 'Double', 2, 175.00, NULL, 'available', 2),
+('204', 'Double', 2, 180.00, NULL, 'occupied', 2),
+('205', 'Double', 2, 190.00, NULL, 'reserved', 2),
+('206', 'Double', 2, 200.00, NULL, 'available', 2),
+('207', 'Double', 2, 210.00, NULL, 'available', 2),
+('208', 'Double', 2, 195.00, NULL, 'occupied', 2),
+('301', 'Suite', 3, 320.00, NULL, 'available', 3),
+('302', 'Suite', 3, 350.00, NULL, 'occupied', 3),
+('303', 'Suite', 3, 380.00, NULL, 'available', 3),
+('304', 'Suite', 4, 400.00, NULL, 'occupied', 3),
+('305', 'Suite', 4, 420.00, NULL, 'reserved', 3),
+('306', 'Suite', 4, 450.00, NULL, 'available', 3),
+('401', 'Deluxe', 3, 220.00, NULL, 'occupied', 4),
+('402', 'Deluxe', 3, 250.00, NULL, 'available', 4),
+('501', 'Deluxe', 4, 280.00, NULL, 'available', 5),
+('502', 'Deluxe', 4, 300.00, NULL, 'reserved', 5);
 
 -- ============================================
 -- 3. staff (6)
@@ -137,22 +137,22 @@ VALUES (3, 700.00, 80.00, 50.00, 83.00, 913.00, 'partial', 500.00, 'Cash', 'TXN0
 -- 7. service_bookings (5)
 -- ============================================
 -- Res 2 (Sarah Johnson, checked_out) — Breakfast x3
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (2, 1, 3, 45.00, 'completed');
+INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status, notes)
+VALUES (2, 1, 3, 45.00, 'completed', NULL);
 
 -- Res 3 (Michael Chen, checked_out) — Dinner x2
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (3, 3, 2, 80.00, 'completed');
+INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status, notes)
+VALUES (3, 3, 2, 80.00, 'completed', NULL);
 
 -- Res 4 (Emily Davis, checked_in) — Breakfast x3, Laundry x1, Spa Massage x1
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (4, 1, 3, 45.00, 'pending'),
-       (4, 4, 1, 10.00, 'pending'),
-       (4, 6, 1, 80.00, 'pending');
+INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status, notes)
+VALUES (4, 1, 3, 45.00, 'pending', NULL),
+       (4, 4, 1, 10.00, 'pending', NULL),
+       (4, 6, 1, 80.00, 'pending', NULL);
 
 -- Res 5 (James Wilson, checked_in) — Dinner x2
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (5, 3, 2, 80.00, 'pending');
+INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status, notes)
+VALUES (5, 3, 2, 80.00, 'pending', NULL);
 
 -- ============================================
 -- 8. room_assignments (4)

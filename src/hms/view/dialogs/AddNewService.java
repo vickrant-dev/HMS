@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.ServiceController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
@@ -28,6 +29,7 @@ public class AddNewService extends javax.swing.JDialog {
     public AddNewService(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setupServiceTypeCombo();
     }
 
     /**
@@ -36,6 +38,7 @@ public class AddNewService extends javax.swing.JDialog {
     public AddNewService(java.awt.Frame parent, boolean modal, Service service) {
         super(parent, modal);
         initComponents();
+        setupServiceTypeCombo();
         this.editingService = service;
         setTitle("Edit Service: " + service.getServiceName());
         serviceName.setText(service.getServiceName());
@@ -43,6 +46,14 @@ public class AddNewService extends javax.swing.JDialog {
         basePrice.setText(String.valueOf(service.getPrice()));
         description.setText(service.getDescription());
         availableForBooking.setSelected(service.isAvailable());
+    }
+
+    private void setupServiceTypeCombo() {
+        serviceTypeCmb.removeAllItems();
+        serviceTypeCmb.addItem(Constants.SERVICE_TYPE_FOOD);
+        serviceTypeCmb.addItem(Constants.SERVICE_TYPE_LAUNDRY);
+        serviceTypeCmb.addItem(Constants.SERVICE_TYPE_SPA);
+        serviceTypeCmb.addItem(Constants.SERVICE_TYPE_CONFERENCE);
     }
 
     /**

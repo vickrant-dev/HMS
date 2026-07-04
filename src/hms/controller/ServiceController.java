@@ -95,7 +95,8 @@ public class ServiceController {
     }
 
     public ServiceBooking createServiceBooking(Reservation reservation,
-                                               Service service, int quantity)
+                                               Service service, int quantity,
+                                               String notes)
             throws ValidationException, DatabaseException {
 
         if (reservation == null) {
@@ -115,7 +116,7 @@ public class ServiceController {
 
         ServiceBooking booking = new ServiceBooking(
                 reservation, service, quantity, totalPrice,
-                Constants.SVC_BOOKING_PENDING
+                Constants.SVC_BOOKING_PENDING, notes
         );
 
         return serviceBookingDAO.save(booking);
@@ -147,7 +148,8 @@ public class ServiceController {
                 existing.getBookingDate(),
                 existing.getQuantity(),
                 existing.getTotalPrice(),
-                Constants.SVC_BOOKING_CANCELLED
+                Constants.SVC_BOOKING_CANCELLED,
+                existing.getNotes()
         );
 
         serviceBookingDAO.update(cancelled);

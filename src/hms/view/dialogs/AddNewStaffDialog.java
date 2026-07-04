@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.StaffController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
@@ -29,6 +30,7 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
     public AddNewStaffDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setupStaffCombos();
     }
 
     /**
@@ -37,6 +39,7 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
     public AddNewStaffDialog(java.awt.Frame parent, boolean modal, Staff staff) {
         super(parent, modal);
         initComponents();
+        setupStaffCombos();
         this.editingStaff = staff;
         setTitle("Edit Staff: " + staff.getFirstName() + " " + staff.getLastName());
         firstName.setText(staff.getFirstName());
@@ -51,6 +54,26 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
                 .atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
         statusCmb.setSelectedItem(staff.getStatus());
+    }
+
+    private void setupStaffCombos() {
+        positionCmb.removeAllItems();
+        positionCmb.addItem("Receptionist");
+        positionCmb.addItem("Manager");
+        positionCmb.addItem("Housekeeper");
+        positionCmb.addItem("Maintenance");
+        positionCmb.addItem("Chef");
+        positionCmb.addItem("Security");
+        departmentCmb.removeAllItems();
+        departmentCmb.addItem("Front Desk");
+        departmentCmb.addItem("Kitchen");
+        departmentCmb.addItem("Housekeeping");
+        departmentCmb.addItem("Maintenance");
+        departmentCmb.addItem("Security");
+        statusCmb.removeAllItems();
+        statusCmb.addItem(Constants.STAFF_ACTIVE);
+        statusCmb.addItem(Constants.STAFF_INACTIVE);
+        statusCmb.addItem(Constants.STAFF_ON_LEAVE);
     }
 
     /**

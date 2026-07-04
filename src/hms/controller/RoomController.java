@@ -97,6 +97,7 @@ public class RoomController {
                 existing.getRoomType(),
                 existing.getCapacity(),
                 existing.getBasePrice(),
+                existing.getDescription(),
                 newStatus,
                 existing.getFloor(),
                 existing.getCreatedAt()

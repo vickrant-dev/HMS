@@ -20,9 +20,10 @@ public class RoomAssignmentDAO {
     private static final String SELECT_JOIN =
             "SELECT ra.assignment_id, ra.room_id, ra.staff_id, "
           + "ra.assignment_date, ra.assignment_type, ra.status, ra.notes, "
-          + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
-          + "rm.capacity, rm.base_price, rm.status AS rm_status, "
-          + "rm.floor, rm.created_at AS rm_created_at, "
+           + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
+           + "rm.capacity, rm.base_price, rm.description AS rm_description, "
+           + "rm.status AS rm_status, "
+           + "rm.floor, rm.created_at AS rm_created_at, "
           + "st.staff_id AS st_staff_id, st.first_name, st.last_name, "
           + "st.email, st.phone, st.position, st.department, "
           + "st.salary, st.joining_date, st.status AS st_status, "
@@ -242,6 +243,7 @@ public class RoomAssignmentDAO {
                 rs.getString("room_type"),
                 rs.getInt("capacity"),
                 rs.getDouble("base_price"),
+                rs.getString("rm_description"),
                 rs.getString("rm_status"),
                 rs.getInt("floor"),
                 rs.getTimestamp("rm_created_at").toLocalDateTime()
