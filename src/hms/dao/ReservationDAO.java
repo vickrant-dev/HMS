@@ -275,6 +275,23 @@ public class ReservationDAO {
         }
     }
 
+    public void updateStatus(int reservationId, String status, String notes) throws DatabaseException {
+        String sql = "UPDATE reservations SET status = ?, notes = ? WHERE reservation_id = ?";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            pstmt.setString(2, notes);
+            pstmt.setInt(3, reservationId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DatabaseException(
+                    "Failed to update reservation status: " + e.getMessage(), e);
+        }
+    }
+
     public List<Reservation> getTodayCheckIns() throws DatabaseException {
         String sql = SELECT_JOIN
                    + "WHERE r.check_in_date = CURDATE() "

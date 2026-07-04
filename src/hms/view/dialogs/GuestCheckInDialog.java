@@ -417,7 +417,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
         }
 
         try {
-            reservationController.checkIn(reservation.getReservationId());
+            reservationController.checkIn(reservation.getReservationId(), checkInNotes.getText().trim());
             JOptionPane.showMessageDialog(this, "Check-in completed successfully.");
             dispose();
         } catch (ValidationException e) {

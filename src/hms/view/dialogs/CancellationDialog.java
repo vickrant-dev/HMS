@@ -369,8 +369,20 @@ public class CancellationDialog extends javax.swing.JDialog {
             return;
         }
 
+        StringBuilder reasons = new StringBuilder("Cancelled - ");
+        if (cancellationReason_1.isSelected()) reasons.append("Guest Request, ");
+        if (cancellationReason_2.isSelected()) reasons.append("No Show, ");
+        if (cancellationReason_3.isSelected()) reasons.append("Administrative, ");
+        if (cancellationReason_4.isSelected()) {
+            reasons.append("Other: ").append(cancellationReason_4_description.getText().trim()).append(", ");
+        }
+        if (reasons.length() > 12) reasons.setLength(reasons.length() - 2);
+        String cancelNotes = cancellationNotes.getText().trim();
+        String combined = reasons.toString();
+        if (!cancelNotes.isEmpty()) combined += "\nNotes: " + cancelNotes;
+
         try {
-            reservationController.cancelReservation(reservation.getReservationId());
+            reservationController.cancelReservation(reservation.getReservationId(), combined);
             JOptionPane.showMessageDialog(this, "Reservation cancelled successfully.");
             dispose();
         } catch (ValidationException e) {
