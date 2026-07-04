@@ -50,7 +50,6 @@ public class AddGuestDialog extends javax.swing.JDialog {
             dateOfBirth.setDate(java.util.Date.from(guest.getDateOfBirth()
                 .atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
-        nationality.getText();
     }
 
     /**

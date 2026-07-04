@@ -521,7 +521,6 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
                         received, checkoutPaymentMethod, "", notes.getText().trim());
             }
             double change = received - total;
-            changeDueAmount.setText(String.format("%.2f", change));
             JOptionPane.showMessageDialog(this, "Check-out completed. Change due: LKR " + String.format("%.2f", change));
             dispose();
         } catch (ValidationException e) {

@@ -136,8 +136,8 @@ public class RoomController {
             throw new ValidationException("Status is required");
         }
 
-        if (!ValidationUtil.isPositive(room.getFloor())) {
-            throw new ValidationException("Floor must be positive");
+        if (room.getFloor() < 0) {
+            throw new ValidationException("Floor must be zero or positive");
         }
     }
 }
