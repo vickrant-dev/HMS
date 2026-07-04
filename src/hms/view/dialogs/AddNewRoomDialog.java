@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.RoomController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
@@ -28,6 +29,7 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setupRoomTypeCombo();
     }
 
     /**
@@ -36,6 +38,7 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal, Room room) {
         super(parent, modal);
         initComponents();
+        setupRoomTypeCombo();
         this.editingRoom = room;
         setTitle("Edit Room: " + room.getRoomNumber());
         roomNumber.setText(room.getRoomNumber());
@@ -43,6 +46,14 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
         floor.setText(String.valueOf(room.getFloor()));
         basePrice.setText(String.valueOf(room.getBasePrice()));
         capacity.setText(String.valueOf(room.getCapacity()));
+    }
+
+    private void setupRoomTypeCombo() {
+        roomTypeCmb.removeAllItems();
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_SINGLE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_DOUBLE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_SUITE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_DELUXE);
     }
 
     /**
