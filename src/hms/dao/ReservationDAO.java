@@ -26,10 +26,11 @@ public class ReservationDAO {
           + "g.email, g.phone, g.address, g.id_proof_type, "
           + "g.id_proof_number, g.date_of_birth, g.guest_type, g.nationality, "
           + "g.created_at AS g_created_at, "
-          + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
-          + "rm.capacity, rm.base_price, rm.status AS rm_status, "
-          + "rm.floor, rm.created_at AS rm_created_at "
-          + "FROM reservations r "
+           + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
+           + "rm.capacity, rm.base_price, rm.description AS rm_description, "
+           + "rm.status AS rm_status, "
+           + "rm.floor, rm.created_at AS rm_created_at "
+           + "FROM reservations r "
           + "JOIN guests g ON r.guest_id = g.guest_id "
           + "JOIN rooms rm ON r.room_id = rm.room_id ";
 
@@ -368,6 +369,7 @@ public class ReservationDAO {
                 rs.getString("room_type"),
                 rs.getInt("capacity"),
                 rs.getDouble("base_price"),
+                rs.getString("rm_description"),
                 rs.getString("rm_status"),
                 rs.getInt("floor"),
                 rs.getTimestamp("rm_created_at").toLocalDateTime()

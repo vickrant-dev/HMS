@@ -376,8 +376,10 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
             return;
         }
 
+        String bookingNotes = jTextArea1.getText().trim();
+
         try {
-            serviceController.createServiceBooking(foundReservation, service, qty);
+            serviceController.createServiceBooking(foundReservation, service, qty, bookingNotes);
             JOptionPane.showMessageDialog(this, "Service booked successfully.");
             dispose();
         } catch (ValidationException e) {

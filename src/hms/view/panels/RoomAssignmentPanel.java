@@ -28,6 +28,7 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
     private List<RoomAssignment> filteredAssignments;
     private int currentPage = 0;
     private static final int PAGE_SIZE = 10;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RoomAssignmentPanel.class.getName());
 
     /**
      * Creates new form RoomAssignmentPanel

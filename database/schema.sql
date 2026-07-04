@@ -35,6 +35,7 @@ CREATE TABLE rooms (
     room_type VARCHAR(50) NOT NULL,
     capacity INT NOT NULL,
     base_price DECIMAL(10, 2) NOT NULL,
+    description TEXT,
     status ENUM('available', 'occupied', 'maintenance', 'reserved') NOT NULL DEFAULT 'available',
     floor INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -134,6 +135,7 @@ CREATE TABLE service_bookings (
     quantity INT DEFAULT 1,
     total_price DECIMAL(12, 2),
     status ENUM('pending', 'completed', 'cancelled') NOT NULL DEFAULT 'pending',
+    notes TEXT,
 
     FOREIGN KEY (reservation_id) REFERENCES reservations(reservation_id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (service_id) REFERENCES services(service_id) ON DELETE RESTRICT ON UPDATE CASCADE,

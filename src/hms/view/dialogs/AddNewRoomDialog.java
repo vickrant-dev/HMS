@@ -274,14 +274,16 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
             return;
         }
 
+        String roomDesc = description.getText().trim();
+
         try {
             if (editingRoom != null) {
                 Room updated = new Room(editingRoom.getRoomId(), roomNum, roomType,
-                    cap, price, editingRoom.getStatus(), floorVal, editingRoom.getCreatedAt());
+                    cap, price, roomDesc, editingRoom.getStatus(), floorVal, editingRoom.getCreatedAt());
                 roomController.updateRoom(updated);
                 JOptionPane.showMessageDialog(this, "Room updated successfully.");
             } else {
-                Room room = new Room(roomNum, roomType, cap, price, "available", floorVal);
+                Room room = new Room(roomNum, roomType, cap, price, roomDesc, "available", floorVal);
                 roomController.createRoom(room);
                 JOptionPane.showMessageDialog(this, "Room created successfully.");
             }
