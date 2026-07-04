@@ -202,8 +202,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         availableRoomsTable = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         availableRoomsText = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -389,27 +387,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(availableRoomsTable);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "ROOM #", "ROOM TYPE", "PRICE/NIGHT"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(jTable2);
 
         availableRoomsText.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         availableRoomsText.setText("12 ROOMS AVAILABLE");
@@ -831,13 +808,11 @@ public class NewReservationDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel left;
     private javax.swing.JPanel right;
     private javax.swing.JLabel roomCharge;
