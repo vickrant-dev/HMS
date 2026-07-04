@@ -6,7 +6,6 @@ package hms.view.panels;
 
 import hms.controller.BillingController;
 import hms.exception.DatabaseException;
-import hms.exception.ValidationException;
 import hms.model.Billing;
 import java.awt.Frame;
 import java.util.List;

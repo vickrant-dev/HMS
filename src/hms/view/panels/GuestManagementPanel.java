@@ -9,7 +9,6 @@ import hms.exception.DatabaseException;
 import hms.model.Guest;
 import java.awt.Frame;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddGuestDialog;

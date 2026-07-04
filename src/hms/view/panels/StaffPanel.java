@@ -6,7 +6,6 @@ package hms.view.panels;
 
 import hms.controller.StaffController;
 import hms.exception.DatabaseException;
-import hms.exception.ValidationException;
 import hms.model.Staff;
 import java.awt.Frame;
 import java.util.List;

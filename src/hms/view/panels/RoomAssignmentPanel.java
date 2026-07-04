@@ -7,7 +7,6 @@ package hms.view.panels;
 import hms.config.Constants;
 import hms.controller.StaffController;
 import hms.exception.DatabaseException;
-import hms.exception.ValidationException;
 import hms.model.RoomAssignment;
 import hms.model.Staff;
 import java.awt.Frame;

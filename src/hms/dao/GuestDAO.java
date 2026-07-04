@@ -1,6 +1,5 @@
 package hms.dao;
 
-import hms.config.Constants;
 import hms.database.DatabaseConnection;
 import hms.exception.DatabaseException;
 import hms.model.Guest;
