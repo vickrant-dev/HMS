@@ -139,5 +139,17 @@ public class RoomController {
         if (room.getFloor() < 0) {
             throw new ValidationException("Floor must be zero or positive");
         }
+
+        if (!ValidationUtil.isValidLength(room.getRoomNumber(), 10)) {
+            throw new ValidationException("Room number must not exceed 10 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(room.getRoomType(), 20)) {
+            throw new ValidationException("Room type must not exceed 20 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(room.getDescription(), 500)) {
+            throw new ValidationException("Description must not exceed 500 characters");
+        }
     }
 }
