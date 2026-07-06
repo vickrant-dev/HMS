@@ -44,20 +44,22 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="bottomBar" max="32767" attributes="0"/>
                       <Component id="guest_seperator_1" alignment="1" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="heading" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="description" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="addGuestBtn" min="-2" pref="108" max="-2" attributes="0"/>
-                      </Group>
                       <Component id="guest_table" alignment="0" pref="775" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="searchBox" min="-2" pref="250" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="heading" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="searchBox" min="-2" pref="250" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="description" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="addGuestBtn" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -196,15 +198,17 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="deleteGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="viewHistoryBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="pageNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="guestPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="guestPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="totalRecords" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="editGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="deleteGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="viewHistoryBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
