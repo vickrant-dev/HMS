@@ -344,6 +344,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new hms.theme.RoundedPanel(20)"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">

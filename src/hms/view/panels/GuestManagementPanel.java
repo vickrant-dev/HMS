@@ -131,7 +131,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         searchBtn = new javax.swing.JButton();
         guest_table = new javax.swing.JScrollPane();
         guestManagementTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editGuestBtn = new javax.swing.JButton();
         deleteGuestBtn = new javax.swing.JButton();
         viewHistoryBtn = new javax.swing.JButton();
@@ -240,16 +240,15 @@ public class GuestManagementPanel extends javax.swing.JPanel {
             bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bottomBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewHistoryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(pageNumber)
                         .addComponent(guestPaginationLeft)
                         .addComponent(guestPaginationRight)
-                        .addComponent(totalRecords))
-                    .addGroup(bottomBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(editGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(deleteGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(viewHistoryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(totalRecords)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

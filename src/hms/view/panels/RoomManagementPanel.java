@@ -142,7 +142,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         applyFiltersBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         roomManagementTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editRoomBtn = new javax.swing.JButton();
         deleteRoomBtn = new javax.swing.JButton();
         markMaintBtn = new javax.swing.JButton();

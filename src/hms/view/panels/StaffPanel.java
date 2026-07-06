@@ -137,7 +137,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         staffDirectoryTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editStaffBtn = new javax.swing.JButton();
         deleteStaffBtn = new javax.swing.JButton();
         staffPaginationLeft = new javax.swing.JButton();

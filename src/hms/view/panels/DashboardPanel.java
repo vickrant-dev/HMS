@@ -44,27 +44,27 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
     private void initComponents() {
 
         dashboardGroup = new javax.swing.JPanel();
-        stat_card_1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        stat_card_1 = new hms.theme.RoundedPanel(16);
+        jPanel3 = new hms.theme.RoundedPanel(10);
         jLabel1 = new javax.swing.JLabel();
         stat_card_val_1 = new javax.swing.JLabel();
-        stat_card_2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        stat_card_2 = new hms.theme.RoundedPanel(16);
+        jPanel4 = new hms.theme.RoundedPanel(10);
         jLabel2 = new javax.swing.JLabel();
         stat_card_val_2 = new javax.swing.JLabel();
-        stat_card_3 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        stat_card_3 = new hms.theme.RoundedPanel(16);
+        jPanel6 = new hms.theme.RoundedPanel(10);
         jLabel3 = new javax.swing.JLabel();
         stat_card_val_3 = new javax.swing.JLabel();
-        stat_card_4 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
+        stat_card_4 = new hms.theme.RoundedPanel(16);
+        jPanel11 = new hms.theme.RoundedPanel(10);
         jLabel4 = new javax.swing.JLabel();
         stat_card_val_4 = new javax.swing.JLabel();
-        revenue_summary_chart = new javax.swing.JPanel();
+        revenue_summary_chart = new hms.theme.RoundedPanel(16);
         jLabel9 = new javax.swing.JLabel();
         revenue_weekly_btn = new javax.swing.JLabel();
         revenue_daily_btn = new javax.swing.JLabel();
-        recent_checkins = new javax.swing.JPanel();
+        recent_checkins = new hms.theme.RoundedPanel(20);
         jLabel23 = new javax.swing.JLabel();
         viewAllReservationsBtn = new javax.swing.JLabel();
         checkInsTable = new javax.swing.JScrollPane();
@@ -272,12 +272,10 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         revenue_weekly_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         revenue_weekly_btn.setText("Weekly");
         revenue_weekly_btn.setToolTipText("");
-        revenue_weekly_btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         revenue_daily_btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         revenue_daily_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         revenue_daily_btn.setText("Daily");
-        revenue_daily_btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
 
         javax.swing.GroupLayout revenue_summary_chartLayout = new javax.swing.GroupLayout(revenue_summary_chart);
         revenue_summary_chart.setLayout(revenue_summary_chartLayout);
@@ -310,6 +308,8 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
 
         viewAllReservationsBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         viewAllReservationsBtn.setText("View all reservations");
+
+        checkInsTable.setBorder(null);
 
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

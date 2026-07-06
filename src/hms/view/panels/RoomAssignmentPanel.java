@@ -156,7 +156,7 @@ public class RoomAssignmentPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         roomAssignmentsTable = new javax.swing.JTable();
-        bottomBar1 = new javax.swing.JPanel();
+        bottomBar1 = new hms.theme.RoundedPanel(20);
         editAssignBtn = new javax.swing.JButton();
         markInProgressBtn = new javax.swing.JButton();
         markCompletedBtn = new javax.swing.JButton();

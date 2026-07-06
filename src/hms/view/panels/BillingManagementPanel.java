@@ -131,7 +131,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         billingManagementTable = new javax.swing.JTable();
         exportCmb = new javax.swing.JComboBox<>();
-        bottomBar3 = new javax.swing.JPanel();
+        bottomBar3 = new hms.theme.RoundedPanel(20);
         viewDetailsBtn = new javax.swing.JButton();
         recordPaymentBtn = new javax.swing.JButton();
         adjustBillBtn = new javax.swing.JButton();

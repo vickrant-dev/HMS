@@ -65,7 +65,7 @@ public class ReportsPanel extends javax.swing.JPanel {
         guest_seperator_1 = new javax.swing.JSeparator();
         reportTypeCmb = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        filtersPanel = new javax.swing.JPanel();
+        filtersPanel = new hms.theme.RoundedPanel(20);
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -82,7 +82,7 @@ public class ReportsPanel extends javax.swing.JPanel {
         guest_seperator_2 = new javax.swing.JSeparator();
         generateReportBtn = new javax.swing.JButton();
         exportPdfBtn = new javax.swing.JButton();
-        reportPreviewPanel = new javax.swing.JPanel();
+        reportPreviewPanel = new hms.theme.RoundedPanel(20);
 
         heading.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         heading.setText("Reports");

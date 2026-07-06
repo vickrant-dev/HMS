@@ -127,7 +127,7 @@ public class ServicePanel extends javax.swing.JPanel {
         room_seperator_2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         serviceCatalogTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editServiceBtn = new javax.swing.JButton();
         deleteServiceBtn = new javax.swing.JButton();
         toggleAvailBtn = new javax.swing.JButton();

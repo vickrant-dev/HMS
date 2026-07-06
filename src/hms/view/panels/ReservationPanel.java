@@ -133,7 +133,7 @@ public class ReservationPanel extends javax.swing.JPanel {
         dateRangeTo = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         reservationsTable = new javax.swing.JTable();
-        reservationBottomBar = new javax.swing.JPanel();
+        reservationBottomBar = new hms.theme.RoundedPanel(20);
         checkInBtn = new javax.swing.JButton();
         checkOutBtn = new javax.swing.JButton();
         modifyResBtn = new javax.swing.JButton();

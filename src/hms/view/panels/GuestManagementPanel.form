@@ -171,6 +171,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new hms.theme.RoundedPanel(20)"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -198,17 +201,15 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="editGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="deleteGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="viewHistoryBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
                               <Component id="pageNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="guestPaginationLeft" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="guestPaginationRight" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="totalRecords" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="editGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="deleteGuestBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="viewHistoryBtn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
