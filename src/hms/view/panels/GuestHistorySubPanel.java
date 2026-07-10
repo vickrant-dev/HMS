@@ -83,7 +83,7 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
         jLabel8.setText("TOTAL SPENT");
 
         totalSpentValue.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        totalSpentValue.setText("$9,450.00");
+        totalSpentValue.setText("LKR 9,450.00");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -319,8 +319,8 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
 
             totalStaysValue.setText(String.valueOf(totalStays));
             totalNightsValue.setText(String.valueOf(totalNights));
-            totalSpentValue.setText("$" + String.format("%.2f", totalSpent));
-            averageSpentNightValue.setText("$" + String.format("%.2f", avgPerNight));
+            totalSpentValue.setText("LKR " + String.format("%,.2f", totalSpent));
+            averageSpentNightValue.setText("LKR " + String.format("%,.2f", avgPerNight));
             pageNumber.setText("Page 1 of " + Math.max(1, (int) Math.ceil(totalStays / 10.0)));
 
             DefaultTableModel model = new DefaultTableModel(
@@ -335,7 +335,7 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
                     r.getCheckInDate().toString(),
                     r.getCheckOutDate().toString(),
                     r.getRoom().getRoomNumber() + " (" + r.getRoom().getRoomType() + ")",
-                    String.format("%.2f", r.getTotalAmount()),
+                    "LKR " + String.format("%,.2f", r.getTotalAmount()),
                     r.getStatus().toUpperCase()
                 });
             }
@@ -343,8 +343,8 @@ public class GuestHistorySubPanel extends javax.swing.JPanel {
         } catch (DatabaseException e) {
             totalStaysValue.setText("0");
             totalNightsValue.setText("0");
-            totalSpentValue.setText("$0.00");
-            averageSpentNightValue.setText("$0.00");
+            totalSpentValue.setText("LKR 0.00");
+            averageSpentNightValue.setText("LKR 0.00");
         }
     }
 

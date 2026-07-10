@@ -5,6 +5,20 @@
               name="invoice_report" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" orientation="Landscape">
     <parameter name="start_date" class="java.util.Date"/>
     <parameter name="end_date" class="java.util.Date"/>
+    <parameter name="status" class="java.lang.String"/>
+    <parameter name="guest_name" class="java.lang.String"/>
+    <style name="detailStyle" mode="Opaque" backcolor="#FFFFFF" fontName="SansSerif" fontSize="10" vTextAlign="Middle">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+            <leftPen lineWidth="0.5" lineColor="#CCCCCC"/>
+            <bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+            <rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
+        </box>
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+            <style backcolor="#FFF8E7"/>
+        </conditionalStyle>
+    </style>
     <queryString>
         <![CDATA[
             SELECT
@@ -20,6 +34,9 @@
             JOIN billing b ON res.reservation_id = b.reservation_id
             WHERE ($P{start_date} IS NULL OR res.check_in_date >= $P{start_date})
               AND ($P{end_date} IS NULL OR res.check_in_date <= $P{end_date})
+              AND ($P{status} IS NULL OR $P{status} = '' OR b.payment_status = $P{status})
+              AND ($P{guest_name} IS NULL OR $P{guest_name} = ''
+                   OR LOWER(CONCAT(g.first_name, ' ', g.last_name)) LIKE LOWER(CONCAT('%', $P{guest_name}, '%')))
             ORDER BY res.check_in_date DESC
         ]]>
     </queryString>
@@ -41,188 +58,194 @@
     <field name="tax_amount" class="java.lang.Double"/>
     <field name="total_bill" class="java.lang.Double"/>
     <field name="payment_status" class="java.lang.String"/>
-    <title>
-        <band height="40">
+    <pageHeader>
+        <band height="42">
             <staticText>
-                <reportElement x="0" y="5" width="802" height="30"/>
-                <textElement textAlignment="Center">
-                    <font size="16" isBold="true"/>
+                <reportElement x="0" y="2" width="600" height="18"/>
+                <textElement>
+                    <font size="14" isBold="true" forecolor="#3A2C0F"/>
+                </textElement>
+                <text><![CDATA[Hotel Management System]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="21" width="600" height="14"/>
+                <textElement>
+                    <font size="9" isBold="true" forecolor="#8B6914"/>
                 </textElement>
                 <text><![CDATA[Guest Invoice Report]]></text>
             </staticText>
+            <textField>
+                <reportElement x="600" y="3" width="202" height="14"/>
+                <textElement textAlignment="Right">
+                    <font size="8" forecolor="#666666"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date())]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="38" width="802" height="1" forecolor="#8B6914"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </line>
+        </band>
+    </pageHeader>
+    <title>
+        <band height="40">
+            <staticText>
+                <reportElement x="0" y="5" width="802" height="22"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Guest Invoice Report]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="28" width="802" height="12"/>
+                <textElement textAlignment="Center">
+                    <font size="10" forecolor="#666666"/>
+                </textElement>
+                <textFieldExpression><![CDATA[($P{start_date} != null && $P{end_date} != null) ? "Period: " + new java.text.SimpleDateFormat("MMM dd, yyyy").format($P{start_date}) + " to " + new java.text.SimpleDateFormat("MMM dd, yyyy").format($P{end_date}) : "All-time report"]]></textFieldExpression>
+            </textField>
         </band>
     </title>
     <columnHeader>
-        <band height="20">
+        <band height="26">
             <staticText>
-                <reportElement x="0" y="0" width="130" height="20"/>
-                <textElement>
-                    <font isBold="true" size="8"/>
+                <reportElement x="0" y="0" width="190" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                    <rightPen lineWidth="0.5" lineColor="#C4A44D"/>
+                </box>
                 <text><![CDATA[Guest Name]]></text>
             </staticText>
             <staticText>
-                <reportElement x="130" y="0" width="100" height="20"/>
-                <textElement>
-                    <font isBold="true" size="8"/>
+                <reportElement x="190" y="0" width="120" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
-                <text><![CDATA[Reservation #]]></text>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                    <rightPen lineWidth="0.5" lineColor="#C4A44D"/>
+                </box>
+                <text><![CDATA[Resv #]]></text>
             </staticText>
             <staticText>
-                <reportElement x="230" y="0" width="60" height="20"/>
-                <textElement>
-                    <font isBold="true" size="8"/>
+                <reportElement x="310" y="0" width="80" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                    <rightPen lineWidth="0.5" lineColor="#C4A44D"/>
+                </box>
                 <text><![CDATA[Check-In]]></text>
             </staticText>
             <staticText>
-                <reportElement x="290" y="0" width="60" height="20"/>
-                <textElement>
-                    <font isBold="true" size="8"/>
+                <reportElement x="390" y="0" width="80" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                    <rightPen lineWidth="0.5" lineColor="#C4A44D"/>
+                </box>
                 <text><![CDATA[Check-Out]]></text>
             </staticText>
             <staticText>
-                <reportElement x="350" y="0" width="55" height="20"/>
-                <textElement>
-                    <font isBold="true" size="8"/>
+                <reportElement x="470" y="0" width="80" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                    <rightPen lineWidth="0.5" lineColor="#C4A44D"/>
+                </box>
                 <text><![CDATA[Room]]></text>
             </staticText>
             <staticText>
-                <reportElement x="405" y="0" width="55" height="20"/>
-                <textElement textAlignment="Right">
-                    <font isBold="true" size="8"/>
+                <reportElement x="550" y="0" width="150" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
-                <text><![CDATA[Room Charge]]></text>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                    <rightPen lineWidth="0.5" lineColor="#C4A44D"/>
+                </box>
+                <text><![CDATA[Total]]></text>
             </staticText>
             <staticText>
-                <reportElement x="460" y="0" width="55" height="20"/>
-                <textElement textAlignment="Right">
-                    <font isBold="true" size="8"/>
+                <reportElement x="700" y="0" width="102" height="26" mode="Opaque" backcolor="#8B6914" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true" size="10"/>
                 </textElement>
-                <text><![CDATA[Service Chg]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="515" y="0" width="50" height="20"/>
-                <textElement textAlignment="Right">
-                    <font isBold="true" size="8"/>
-                </textElement>
-                <text><![CDATA[Discount]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="565" y="0" width="50" height="20"/>
-                <textElement textAlignment="Right">
-                    <font isBold="true" size="8"/>
-                </textElement>
-                <text><![CDATA[Late Fee]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="615" y="0" width="50" height="20"/>
-                <textElement textAlignment="Right">
-                    <font isBold="true" size="8"/>
-                </textElement>
-                <text><![CDATA[Tax]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="665" y="0" width="70" height="20"/>
-                <textElement textAlignment="Right">
-                    <font isBold="true" size="8"/>
-                </textElement>
-                <text><![CDATA[Total Bill]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="735" y="0" width="67" height="20"/>
-                <textElement textAlignment="Center">
-                    <font isBold="true" size="8"/>
-                </textElement>
+                <box>
+                    <bottomPen lineWidth="2" lineColor="#3A2C0F"/>
+                </box>
                 <text><![CDATA[Status]]></text>
             </staticText>
         </band>
     </columnHeader>
     <detail>
-        <band height="18">
+        <band height="22">
             <textField>
-                <reportElement x="0" y="0" width="130" height="18"/>
+                <reportElement x="0" y="0" width="190" height="22" style="detailStyle"/>
                 <textFieldExpression><![CDATA[$F{first_name} + " " + $F{last_name}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="130" y="0" width="100" height="18"/>
-                <textElement>
-                    <font size="8"/>
-                </textElement>
+                <reportElement x="190" y="0" width="120" height="22" style="detailStyle"/>
                 <textFieldExpression><![CDATA[$F{display_id}]]></textFieldExpression>
             </textField>
-            <textField>
-                <reportElement x="230" y="0" width="60" height="18"/>
-                <textElement>
-                    <font size="8"/>
-                </textElement>
+            <textField pattern="MMM dd">
+                <reportElement x="310" y="0" width="80" height="22" style="detailStyle"/>
+                <textElement textAlignment="Center"/>
                 <textFieldExpression><![CDATA[$F{check_in_date}]]></textFieldExpression>
             </textField>
-            <textField>
-                <reportElement x="290" y="0" width="60" height="18"/>
-                <textElement>
-                    <font size="8"/>
-                </textElement>
+            <textField pattern="MMM dd">
+                <reportElement x="390" y="0" width="80" height="22" style="detailStyle"/>
+                <textElement textAlignment="Center"/>
                 <textFieldExpression><![CDATA[$F{check_out_date}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="350" y="0" width="55" height="18"/>
-                <textElement>
-                    <font size="8"/>
-                </textElement>
+                <reportElement x="470" y="0" width="80" height="22" style="detailStyle"/>
+                <textElement textAlignment="Center"/>
                 <textFieldExpression><![CDATA[$F{room_number}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="405" y="0" width="55" height="18"/>
-                <textElement textAlignment="Right">
-                    <font size="8"/>
-                </textElement>
-                <textFieldExpression><![CDATA[String.format("%.2f", $F{room_charge})]]></textFieldExpression>
+                <reportElement x="550" y="0" width="150" height="22" style="detailStyle"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["LKR " + String.format("%,.2f", $F{total_bill})]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="460" y="0" width="55" height="18"/>
-                <textElement textAlignment="Right">
-                    <font size="8"/>
-                </textElement>
-                <textFieldExpression><![CDATA[String.format("%.2f", $F{service_charge})]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="515" y="0" width="50" height="18"/>
-                <textElement textAlignment="Right">
-                    <font size="8"/>
-                </textElement>
-                <textFieldExpression><![CDATA[String.format("%.2f", $F{discount_amount})]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="565" y="0" width="50" height="18"/>
-                <textElement textAlignment="Right">
-                    <font size="8"/>
-                </textElement>
-                <textFieldExpression><![CDATA[String.format("%.2f", $F{late_charge})]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="615" y="0" width="50" height="18"/>
-                <textElement textAlignment="Right">
-                    <font size="8"/>
-                </textElement>
-                <textFieldExpression><![CDATA[String.format("%.2f", $F{tax_amount})]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="665" y="0" width="70" height="18"/>
-                <textElement textAlignment="Right">
-                    <font size="8"/>
-                </textElement>
-                <textFieldExpression><![CDATA[String.format("%.2f", $F{total_bill})]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="735" y="0" width="67" height="18"/>
-                <textElement textAlignment="Center">
-                    <font size="8"/>
-                </textElement>
+                <reportElement x="700" y="0" width="102" height="22" style="detailStyle"/>
+                <textElement textAlignment="Center"/>
                 <textFieldExpression><![CDATA[$F{payment_status}]]></textFieldExpression>
             </textField>
         </band>
     </detail>
+    <pageFooter>
+        <band height="20">
+            <line>
+                <reportElement x="0" y="0" width="802" height="1" forecolor="#8B6914"/>
+                <graphicElement>
+                    <pen lineWidth="0.5"/>
+                </graphicElement>
+            </line>
+            <textField>
+                <reportElement x="650" y="3" width="152" height="15"/>
+                <textElement textAlignment="Right">
+                    <font size="8" forecolor="#666666"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="3" width="250" height="15"/>
+                <textElement>
+                    <font size="8" forecolor="#666666"/>
+                </textElement>
+                <text><![CDATA[HMS - Guest Invoice Report]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
 </jasperReport>
