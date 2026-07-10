@@ -29,6 +29,7 @@ public class AddNewService extends javax.swing.JDialog {
     public AddNewService(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupServiceTypeCombo();
     }
 
@@ -38,6 +39,7 @@ public class AddNewService extends javax.swing.JDialog {
     public AddNewService(java.awt.Frame parent, boolean modal, Service service) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupServiceTypeCombo();
         this.editingService = service;
         setTitle("Edit Service: " + service.getServiceName());

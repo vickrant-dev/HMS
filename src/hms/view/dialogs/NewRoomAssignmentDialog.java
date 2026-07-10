@@ -37,6 +37,7 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
     public NewRoomAssignmentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         loadComboBoxData();
     }
 
@@ -46,6 +47,7 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
     public NewRoomAssignmentDialog(java.awt.Frame parent, boolean modal, RoomAssignment assignment) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.editingAssignment = assignment;
         setTitle("Edit Assignment #" + assignment.getAssignmentId());
         loadComboBoxData();

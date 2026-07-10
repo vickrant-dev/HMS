@@ -29,6 +29,7 @@ public class AddGuestDialog extends javax.swing.JDialog {
     public AddGuestDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -37,6 +38,7 @@ public class AddGuestDialog extends javax.swing.JDialog {
     public AddGuestDialog(java.awt.Frame parent, boolean modal, Guest guest) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.editingGuest = guest;
         setTitle("Edit Guest: " + guest.getFirstName() + " " + guest.getLastName());
         firstName.setText(guest.getFirstName());

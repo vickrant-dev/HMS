@@ -28,6 +28,7 @@ public class CancellationDialog extends javax.swing.JDialog {
     public CancellationDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -36,6 +37,7 @@ public class CancellationDialog extends javax.swing.JDialog {
     public CancellationDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.reservation = reservation;
         setTitle("Cancel: " + reservation.getDisplayId());
         guestFullName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());

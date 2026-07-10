@@ -42,6 +42,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
     public NewReservationDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupListeners();
     }
 
@@ -51,6 +52,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
     public NewReservationDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupListeners();
         this.editingReservation = reservation;
         setTitle("Modify Reservation: " + reservation.getDisplayId());
