@@ -139,7 +139,7 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         jLabel2.setText("DAILY REVENUE (LKR)");
 
         stat_card_val_2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        stat_card_val_2.setText("12,450.00");
+        stat_card_val_2.setText("LKR 12,450.00");
 
         javax.swing.GroupLayout stat_card_2Layout = new javax.swing.GroupLayout(stat_card_2);
         stat_card_2.setLayout(stat_card_2Layout);
@@ -440,7 +440,7 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         try {
             LocalDate today = LocalDate.now();
             double revenue = billingController.getRevenueByDateRange(today, today);
-            stat_card_val_2.setText(String.format("%.2f", revenue));
+            stat_card_val_2.setText("LKR " + String.format("%,.2f", revenue));
         } catch (DatabaseException e) {
             stat_card_val_2.setText("N/A");
         }
