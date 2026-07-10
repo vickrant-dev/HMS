@@ -11,11 +11,21 @@ import hms.controller.RoomController;
 import hms.exception.DatabaseException;
 import hms.model.Reservation;
 import hms.model.Room;
+import java.awt.BorderLayout;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -75,8 +85,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         stat_card_val_4 = new javax.swing.JLabel();
         revenue_summary_chart = new hms.theme.RoundedPanel(16);
         jLabel9 = new javax.swing.JLabel();
-        revenue_weekly_btn = new javax.swing.JLabel();
-        revenue_daily_btn = new javax.swing.JLabel();
         recent_checkins = new hms.theme.RoundedPanel(20);
         jLabel23 = new javax.swing.JLabel();
         viewAllReservationsBtn = new javax.swing.JLabel();
@@ -152,7 +160,7 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         jLabel2.setText("DAILY REVENUE (LKR)");
 
         stat_card_val_2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        stat_card_val_2.setText("LKR 12,450.00");
+        stat_card_val_2.setText("12,450.00");
 
         javax.swing.GroupLayout stat_card_2Layout = new javax.swing.GroupLayout(stat_card_2);
         stat_card_2.setLayout(stat_card_2Layout);
@@ -281,15 +289,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Revenue Summary (Last 7 days)");
 
-        revenue_weekly_btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        revenue_weekly_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        revenue_weekly_btn.setText("Weekly");
-        revenue_weekly_btn.setToolTipText("");
-
-        revenue_daily_btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        revenue_daily_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        revenue_daily_btn.setText("Daily");
-
         javax.swing.GroupLayout revenue_summary_chartLayout = new javax.swing.GroupLayout(revenue_summary_chart);
         revenue_summary_chart.setLayout(revenue_summary_chartLayout);
         revenue_summary_chartLayout.setHorizontalGroup(
@@ -297,21 +296,14 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             .addGroup(revenue_summary_chartLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                .addGap(448, 448, 448)
-                .addComponent(revenue_daily_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(revenue_weekly_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(570, 570, 570))
         );
         revenue_summary_chartLayout.setVerticalGroup(
             revenue_summary_chartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(revenue_summary_chartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(revenue_summary_chartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(revenue_weekly_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(revenue_daily_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addComponent(jLabel9)
+                .addContainerGap(283, Short.MAX_VALUE))
         );
 
         recent_checkins.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
@@ -423,7 +415,7 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(dashboardGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -433,6 +425,7 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         try { loadPendingCheckIns(); } catch (Exception e) { /* degrade gracefully */ }
         try { loadRecentCheckIns(); } catch (Exception e) { /* degrade gracefully */ }
         try { loadHousekeepingAlerts(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadRevenueChart(); } catch (Exception e) { /* degrade gracefully */ }
     }
 
     private void loadOccupancy() {
@@ -516,6 +509,89 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         }
     }
 
+    private static final java.awt.Color[] BAR_COLORS = {
+        new java.awt.Color(255, 99, 132),
+        new java.awt.Color(54, 162, 235),
+        new java.awt.Color(255, 206, 86),
+        new java.awt.Color(46, 204, 113),
+        new java.awt.Color(153, 102, 255),
+        new java.awt.Color(255, 159, 64),
+        new java.awt.Color(231, 76, 60)
+    };
+
+    private void loadRevenueChart() {
+        LocalDate today = LocalDate.now();
+        LocalDate start = today.minusDays(6);
+        Map<LocalDate, Double> dailyRev;
+        try {
+            dailyRev = billingController.getDailyRevenue(start, today);
+        } catch (DatabaseException e) {
+            dailyRev = Map.of();
+        }
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEE\nd/M");
+        for (int i = 0; i < 7; i++) {
+            LocalDate day = start.plusDays(i);
+            double rev = dailyRev.getOrDefault(day, 0.0);
+            dataset.addValue(rev, "Revenue", day.format(fmt));
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                null, "Date", "LKR", dataset,
+                PlotOrientation.VERTICAL, false, false, false);
+
+        java.awt.Color bg = UIManager.getColor("Panel.background");
+        java.awt.Color fg = UIManager.getColor("Label.foreground");
+        if (bg == null) bg = java.awt.Color.DARK_GRAY;
+        if (fg == null) fg = java.awt.Color.WHITE;
+
+        chart.setBackgroundPaint(bg);
+        chart.setBorderVisible(false);
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(bg);
+        plot.setDomainGridlinePaint(new java.awt.Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 30));
+        plot.setRangeGridlinePaint(fg.darker());
+        plot.setOutlineVisible(false);
+
+        plot.getDomainAxis().setTickLabelPaint(fg);
+        plot.getDomainAxis().setTickLabelFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
+        plot.getDomainAxis().setAxisLinePaint(fg);
+        plot.getDomainAxis().setLabel("Date");
+        plot.getDomainAxis().setLabelPaint(fg);
+        plot.getRangeAxis().setTickLabelPaint(fg);
+        plot.getRangeAxis().setTickLabelFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
+        plot.getRangeAxis().setAxisLinePaint(fg);
+        plot.getRangeAxis().setLabelPaint(fg);
+        plot.getRangeAxis().setLabelFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 11));
+
+        BarRenderer renderer = new BarRenderer() {
+            @Override
+            public java.awt.Paint getItemPaint(int row, int column) {
+                return BAR_COLORS[column % BAR_COLORS.length];
+            }
+        };
+        renderer.setShadowVisible(false);
+        renderer.setDrawBarOutline(false);
+        renderer.setMaximumBarWidth(0.09);
+        renderer.setBarPainter(new org.jfree.chart.renderer.category.StandardBarPainter());
+        renderer.setSeriesPaint(0, java.awt.Color.WHITE);
+        plot.setRenderer(renderer);
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(400, 260));
+        chartPanel.setBackground(bg);
+        chartPanel.setMouseWheelEnabled(false);
+
+        revenue_summary_chart.removeAll();
+        revenue_summary_chart.setLayout(new BorderLayout());
+        revenue_summary_chart.add(jLabel9, BorderLayout.NORTH);
+        revenue_summary_chart.add(chartPanel, BorderLayout.CENTER);
+        revenue_summary_chart.revalidate();
+        revenue_summary_chart.repaint();
+    }
+
     @Override
     public void onReservationCreated(Reservation r) {
         loadDashboardData();
@@ -546,9 +622,7 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTable jTable6;
     private javax.swing.JPanel recent_checkins;
-    private javax.swing.JLabel revenue_daily_btn;
     private javax.swing.JPanel revenue_summary_chart;
-    private javax.swing.JLabel revenue_weekly_btn;
     private javax.swing.JPanel stat_card_1;
     private javax.swing.JPanel stat_card_2;
     private javax.swing.JPanel stat_card_3;

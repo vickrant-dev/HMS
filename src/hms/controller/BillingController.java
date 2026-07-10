@@ -18,6 +18,7 @@ import hms.util.ValidationUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class BillingController {
 
@@ -154,6 +155,11 @@ public class BillingController {
     public double getRevenueByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         return billingDAO.getRevenueByDateRange(start, end);
+    }
+
+    public Map<LocalDate, Double> getDailyRevenue(LocalDate start, LocalDate end)
+            throws DatabaseException {
+        return billingDAO.getDailyRevenue(start, end);
     }
 
     public double calculateServiceCharges(int reservationId) throws DatabaseException {

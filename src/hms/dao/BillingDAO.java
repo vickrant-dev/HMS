@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BillingDAO {
 
@@ -239,6 +241,38 @@ public class BillingDAO {
         }
 
         return 0.0;
+    }
+
+    public Map<LocalDate, Double> getDailyRevenue(LocalDate start, LocalDate end)
+            throws DatabaseException {
+        String sql = "SELECT DATE(payment_date) AS rev_date, "
+                   + "COALESCE(SUM(total_bill), 0) AS daily_rev "
+                   + "FROM billing "
+                   + "WHERE payment_status IN (?, ?) "
+                   + "AND payment_date BETWEEN ? AND ? "
+                   + "GROUP BY DATE(payment_date) "
+                   + "ORDER BY rev_date";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, Constants.PAYMENT_PAID);
+            pstmt.setString(2, Constants.PAYMENT_PARTIAL);
+            pstmt.setTimestamp(3, java.sql.Timestamp.valueOf(start.atStartOfDay()));
+            pstmt.setTimestamp(4, java.sql.Timestamp.valueOf(end.atTime(23, 59, 59)));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                Map<LocalDate, Double> result = new TreeMap<>();
+                while (rs.next()) {
+                    result.put(rs.getDate("rev_date").toLocalDate(), rs.getDouble("daily_rev"));
+                }
+                return result;
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException(
+                    "Failed to calculate daily revenue: " + e.getMessage(), e);
+        }
     }
 
     private Billing mapResultSetToBilling(ResultSet rs) throws SQLException {
