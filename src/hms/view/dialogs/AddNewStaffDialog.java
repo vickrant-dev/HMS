@@ -324,9 +324,12 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
 
         try {
             if (editingStaff != null) {
+                String password = new String(passwordField.getPassword());
+                String finalPasswordHash = password.isEmpty()
+                        ? editingStaff.getPasswordHash() : password;
                 Staff updated = new Staff(editingStaff.getStaffId(), fname, lname,
                     email, phone, pos, dept, salary, joinDate, status,
-                    editingStaff.getPasswordHash(), editingStaff.getCreatedAt());
+                    finalPasswordHash, editingStaff.getCreatedAt());
                 staffController.updateStaff(updated);
                 JOptionPane.showMessageDialog(this, "Staff updated successfully.");
             } else {

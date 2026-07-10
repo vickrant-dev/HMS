@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.BillingController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
@@ -43,6 +44,15 @@ public class AdjustmentDialog extends javax.swing.JDialog {
         this.billing = billing;
         if (billing != null) {
             currentTotalAmount.setText("Current Total: LKR " + String.format("%.2f", billing.getTotalBill()));
+            if (billing.getDiscountAmount() > 0) {
+                discountAmount.setText(String.valueOf(billing.getDiscountAmount()));
+            }
+            if (billing.getLateCharge() > 0) {
+                lateCharge.setText(String.valueOf(billing.getLateCharge()));
+            }
+            if (billing.getOtherCharges() > 0) {
+                otherCharge.setText(String.valueOf(billing.getOtherCharges()));
+            }
         }
         setupAdjustmentListeners();
         updateNewTotalPreview();
@@ -68,8 +78,13 @@ public class AdjustmentDialog extends javax.swing.JDialog {
             double late = lateText.isEmpty() ? 0 : Double.parseDouble(lateText);
             String otherText = otherCharge.getText().trim();
             double other = otherText.isEmpty() ? 0 : Double.parseDouble(otherText);
-            double newTotal = billing.getTotalBill() + other - disc + late;
-            jLabel10.setText("LKR " + String.format("%.2f", newTotal));
+            double netOtherCharges = other + late - disc;
+            if (netOtherCharges < 0) netOtherCharges = 0;
+            double roomCharge = billing.getRoomCharge();
+            double serviceCharge = billing.getServiceCharge();
+            double taxAmount = (roomCharge + serviceCharge + netOtherCharges) * Constants.DEFAULT_TAX_RATE;
+            double newTotal = roomCharge + serviceCharge + netOtherCharges + taxAmount;
+            jLabel10.setText("LKR " + String.format("%,.2f", newTotal));
         } catch (NumberFormatException e) {
             // Ignore partial/invalid input during typing
         }

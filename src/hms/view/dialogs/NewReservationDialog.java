@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.GuestController;
 import hms.controller.ReservationController;
 import hms.controller.RoomController;
@@ -43,6 +44,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
+        jLabel12.setVisible(false);
         applyRightPanelHighlight();
         setupListeners();
     }
@@ -54,6 +56,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
+        jLabel12.setVisible(false);
         applyRightPanelHighlight();
         setupListeners();
         this.editingReservation = reservation;
@@ -69,7 +72,8 @@ public class NewReservationDialog extends javax.swing.JDialog {
         guestCount.setText(String.valueOf(reservation.getNumberOfGuests()));
         additionalInfo.setText(reservation.getNotes());
         loadAvailableRooms();
-        updatePriceBreakdown();
+        includeCurrentRoomAndPreselect();
+        createReservationBtn.setText("Update Reservation");
     }
 
     private void applyRightPanelHighlight() {
@@ -114,19 +118,14 @@ public class NewReservationDialog extends javax.swing.JDialog {
         long nights = ChronoUnit.DAYS.between(inDate, outDate);
         if (nights <= 0) return;
 
-        double basePrice = 0.0;
-        if (availableRooms != null && selectedRow < availableRooms.size()) {
-            basePrice = availableRooms.get(selectedRow).getBasePrice();
-        } else {
-            Object priceVal = availableRoomsTable.getValueAt(selectedRow, 2);
-            if (priceVal != null) {
-                basePrice = Double.parseDouble(priceVal.toString().replaceAll("[^\\d.]", ""));
-            }
-        }
-
-        double roomChargeVal = basePrice * nights;
+        Guest pricingGuest = editingReservation != null
+                ? editingReservation.getGuest() : selectedGuest;
+        double roomChargeVal = pricingGuest != null
+                ? reservationController.calculateTotalAmount(
+                        pricingGuest, availableRooms.get(selectedRow), inDate, outDate)
+                : availableRooms.get(selectedRow).getBasePrice() * nights;
         double serviceChargeVal = 0.0;
-        double taxVal = (roomChargeVal + serviceChargeVal) * 0.10;
+        double taxVal = (roomChargeVal + serviceChargeVal) * Constants.DEFAULT_TAX_RATE;
         double total = roomChargeVal + serviceChargeVal + taxVal;
 
         roomCharge.setText(String.format("LKR %.2f", roomChargeVal));
@@ -169,6 +168,31 @@ public class NewReservationDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Failed to check availability: " + e.getMessage(),
                 "Database Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void includeCurrentRoomAndPreselect() {
+        if (editingReservation == null || availableRooms == null) return;
+        Room currentRoom = editingReservation.getRoom();
+        int currentRoomIndex = -1;
+        for (int i = 0; i < availableRooms.size(); i++) {
+            if (availableRooms.get(i).getRoomId() == currentRoom.getRoomId()) {
+                currentRoomIndex = i;
+                break;
+            }
+        }
+        if (currentRoomIndex == -1) {
+            availableRooms.add(0, currentRoom);
+            javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) availableRoomsTable.getModel();
+            model.insertRow(0, new Object[]{
+                currentRoom.getRoomNumber(),
+                currentRoom.getRoomType(),
+                String.format("%.2f", currentRoom.getBasePrice())
+            });
+            currentRoomIndex = 0;
+        }
+        availableRoomsTable.setRowSelectionInterval(currentRoomIndex, currentRoomIndex);
+        updatePriceBreakdown();
     }
 
     /**
@@ -278,7 +302,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(guestType)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                 .addComponent(changeGuestBtn)
                 .addContainerGap())
         );
@@ -457,20 +481,20 @@ public class NewReservationDialog extends javax.swing.JDialog {
         jLabel18.setText("Room Charge");
 
         roomCharge.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        roomCharge.setText("LKR 2,250.00");
+        roomCharge.setText("LKR 0.00");
 
         jLabel20.setText("Service Charges");
 
         serviceCharge.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        serviceCharge.setText("LKR 670.00");
+        serviceCharge.setText("LKR 0.00");
 
         jLabel22.setText("Tax (10%)");
 
         tax.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        tax.setText("LKR 292.00");
+        tax.setText("LKR 0.00");
 
         totalEstAmount.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        totalEstAmount.setText("LKR 3212.00");
+        totalEstAmount.setText("LKR 0.00");
 
         jLabel25.setText("TOTAL EST. AMOUNT");
 
@@ -677,6 +701,9 @@ public class NewReservationDialog extends javax.swing.JDialog {
 
         try {
             if (editingReservation != null) {
+                double recalculatedAmount = reservationController.calculateTotalAmount(
+                    selectedGuest, selectedRoom, inDate, outDate)
+                    * (1 + Constants.DEFAULT_TAX_RATE);
                 Reservation updated = new Reservation(
                     editingReservation.getReservationId(),
                     editingReservation.getDisplayId(),
@@ -685,7 +712,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
                     editingReservation.getBookingDate(),
                     numGuests,
                     editingReservation.getStatus(),
-                    editingReservation.getTotalAmount(),
+                    recalculatedAmount,
                     editingReservation.getCreatedByStaffId(),
                     editingReservation.getCreatedAt(),
                     additionalInfo.getText().trim()

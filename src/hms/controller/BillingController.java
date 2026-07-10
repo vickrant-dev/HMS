@@ -108,7 +108,8 @@ public class BillingController {
             throw new ValidationException("Billing record not found");
         }
 
-        billingDAO.updatePaymentRecord(billingId, paymentStatus, amountPaid,
+        double cumulativePaid = billing.getAmountPaid() + amountPaid;
+        billingDAO.updatePaymentRecord(billingId, paymentStatus, cumulativePaid,
                 paymentMethod, transactionId, paymentNotes, LocalDateTime.now());
     }
 

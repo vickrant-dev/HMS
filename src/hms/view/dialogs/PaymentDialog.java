@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.BillingController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
@@ -44,8 +45,10 @@ public class PaymentDialog extends javax.swing.JDialog {
             guestFullName.setText(billing.getReservation().getGuest().getFirstName()
                 + " " + billing.getReservation().getGuest().getLastName());
             totalBillAmount.setText(String.format("LKR %.2f", billing.getTotalBill()));
-            alreadyPaidAmount.setText(String.format("LKR %.2f", 0.0));
-            balanceDueAmount.setText(String.format("LKR %.2f", billing.getTotalBill()));
+            alreadyPaidAmount.setText(String.format("LKR %.2f", billing.getAmountPaid()));
+            double balanceDue = billing.getTotalBill() - billing.getAmountPaid();
+            if (balanceDue < 0) balanceDue = 0;
+            balanceDueAmount.setText(String.format("LKR %.2f", balanceDue));
         }
     }
 
@@ -332,12 +335,28 @@ public class PaymentDialog extends javax.swing.JDialog {
             return;
         }
 
+        double total = billing.getTotalBill();
+        double alreadyPaid = billing.getAmountPaid();
+        double balanceDue = total - alreadyPaid;
+        if (balanceDue < 0) balanceDue = 0;
+
+        if (amount > balanceDue) {
+            JOptionPane.showMessageDialog(this,
+                "Payment amount exceeds the balance due of LKR "
+                + String.format("%.2f", balanceDue) + ".",
+                "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String paymentStatus = amount >= balanceDue
+                ? Constants.PAYMENT_PAID : Constants.PAYMENT_PARTIAL;
+
         String paymentMethod = (String) paymentMethodCmb.getSelectedItem();
         String txnId = transactionId.getText().trim();
         String paymentNotes = notes.getText().trim();
 
         try {
-            billingController.recordPayment(billing.getBillingId(), "paid",
+            billingController.recordPayment(billing.getBillingId(), paymentStatus,
                     amount, paymentMethod, txnId, paymentNotes);
             JOptionPane.showMessageDialog(this,
                 "Payment of LKR " + String.format("%.2f", amount)
