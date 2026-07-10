@@ -279,6 +279,14 @@ public class ReportsPanel extends javax.swing.JPanel {
                 params.put("room_type", roomType);
             }
         }
+        String status = (String) statusCmb.getSelectedItem();
+        if (status != null && !status.equals("All")) {
+            params.put("status", status.toLowerCase());
+        }
+        String guestName = searchBox.getText().trim();
+        if (!guestName.isEmpty()) {
+            params.put("guest_name", guestName);
+        }
         try {
             JasperReport report = ReportUtil.loadReport(reportName);
             currentJasperPrint = ReportUtil.fillReport(report, params);

@@ -29,6 +29,7 @@ public class AdjustmentDialog extends javax.swing.JDialog {
     public AdjustmentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupAdjustmentListeners();
     }
 
@@ -38,6 +39,7 @@ public class AdjustmentDialog extends javax.swing.JDialog {
     public AdjustmentDialog(java.awt.Frame parent, boolean modal, Billing billing) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.billing = billing;
         if (billing != null) {
             currentTotalAmount.setText("Current Total: LKR " + String.format("%.2f", billing.getTotalBill()));

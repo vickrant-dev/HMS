@@ -28,6 +28,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     public GuestCheckInDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -36,6 +37,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     public GuestCheckInDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.reservation = reservation;
         setTitle("Check-In: " + reservation.getDisplayId());
         guestFullName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());

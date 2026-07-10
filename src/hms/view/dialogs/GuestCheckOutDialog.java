@@ -32,6 +32,7 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
     public GuestCheckOutDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -40,6 +41,7 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
     public GuestCheckOutDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.reservation = reservation;
         setTitle("Check-Out: " + reservation.getDisplayId());
         guestName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());
@@ -55,16 +57,16 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
         try {
             billing = billingController.getBillByReservationId(reservation.getReservationId());
             if (billing != null) {
-                subtotalAmount.setText(String.format("%.2f", billing.getRoomCharge() + billing.getServiceCharge()));
-                taxAmount.setText(String.format("%.2f", billing.getTaxAmount()));
-                totalAmount.setText(String.format("%.2f", billing.getTotalBill()));
+                subtotalAmount.setText("LKR " + String.format("%,.2f", billing.getRoomCharge() + billing.getServiceCharge()));
+                taxAmount.setText("LKR " + String.format("%,.2f", billing.getTaxAmount()));
+                totalAmount.setText("LKR " + String.format("%,.2f", billing.getTotalBill()));
 
                 String[][] folioData = {
-                    {"Room Charge", String.format("%.2f", billing.getRoomCharge())},
-                    {"Service Charge", String.format("%.2f", billing.getServiceCharge())},
-                    {"Other Charges", String.format("%.2f", billing.getOtherCharges())},
-                    {"Tax", String.format("%.2f", billing.getTaxAmount())},
-                    {"Total", String.format("%.2f", billing.getTotalBill())}
+                    {"Room Charge", "LKR " + String.format("%,.2f", billing.getRoomCharge())},
+                    {"Service Charge", "LKR " + String.format("%,.2f", billing.getServiceCharge())},
+                    {"Other Charges", "LKR " + String.format("%,.2f", billing.getOtherCharges())},
+                    {"Tax", "LKR " + String.format("%,.2f", billing.getTaxAmount())},
+                    {"Total", "LKR " + String.format("%,.2f", billing.getTotalBill())}
                 };
                 folioSumaryTable.setModel(new javax.swing.table.DefaultTableModel(folioData,
                     new String[]{"Item", "Amount"}) {

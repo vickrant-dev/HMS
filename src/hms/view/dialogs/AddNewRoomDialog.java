@@ -29,6 +29,7 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupRoomTypeCombo();
     }
 
@@ -38,6 +39,7 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal, Room room) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupRoomTypeCombo();
         this.editingRoom = room;
         setTitle("Edit Room: " + room.getRoomNumber());

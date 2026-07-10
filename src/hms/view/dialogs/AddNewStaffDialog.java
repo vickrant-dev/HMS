@@ -30,6 +30,7 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
     public AddNewStaffDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupStaffCombos();
     }
 
@@ -39,6 +40,7 @@ public class AddNewStaffDialog extends javax.swing.JDialog {
     public AddNewStaffDialog(java.awt.Frame parent, boolean modal, Staff staff) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         setupStaffCombos();
         this.editingStaff = staff;
         setTitle("Edit Staff: " + staff.getFirstName() + " " + staff.getLastName());
