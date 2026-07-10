@@ -32,6 +32,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     public ServiceBookingDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -40,6 +41,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     public ServiceBookingDialog(java.awt.Frame parent, boolean modal, Service service) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.service = service;
         if (service != null) {
             setTitle("Book Service: " + service.getServiceName());

@@ -29,6 +29,7 @@ public class PaymentDialog extends javax.swing.JDialog {
     public PaymentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -37,6 +38,7 @@ public class PaymentDialog extends javax.swing.JDialog {
     public PaymentDialog(java.awt.Frame parent, boolean modal, Billing billing) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.billing = billing;
         if (billing != null) {
             guestFullName.setText(billing.getReservation().getGuest().getFirstName()
