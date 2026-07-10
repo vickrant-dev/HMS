@@ -22,6 +22,7 @@ public final class Constants {
     public static final int WINDOW_WIDTH = 1400;
     public static final int WINDOW_HEIGHT = 900;
     public static final String APP_TITLE = "Hotel Management System";
+    public static final String THEME = "dark"; // "dark" or "light"
 
     // Room Types
     public static final String ROOM_TYPE_SINGLE = "Single";

@@ -45,6 +45,21 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
         long nights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
         duration.setText(nights + " night(s)");
         checkInStatus.setText(reservation.getStatus());
+        applyStatusColor(checkInStatus, reservation.getStatus());
+    }
+
+    private void applyStatusColor(javax.swing.JLabel label, String status) {
+        if (status == null) return;
+        String s = status.toLowerCase();
+        if (s.contains("confirmed") || s.contains("checked_in") || s.contains("paid")) {
+            label.setForeground(new java.awt.Color(39, 174, 96));
+        } else if (s.contains("cancelled") || s.contains("refunded")) {
+            label.setForeground(new java.awt.Color(192, 57, 43));
+        } else if (s.contains("pending") || s.contains("partial")) {
+            label.setForeground(new java.awt.Color(243, 156, 18));
+        } else {
+            label.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        }
     }
 
     /**

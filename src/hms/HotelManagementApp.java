@@ -1,6 +1,8 @@
 package hms;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import hms.config.Constants;
 import hms.view.MainWindow;
 import javax.swing.SwingUtilities;
 import java.io.InputStream;
@@ -9,13 +11,17 @@ public class HotelManagementApp {
 
     public static void main(String[] args) {
         try {
-            
+            boolean isLight = "light".equalsIgnoreCase(Constants.THEME);
+            String themePath = isLight
+                ? "/hms/theme/CustomThemeLight.properties"
+                : "/hms/theme/CustomTheme.properties";
+
             java.util.Properties props = new java.util.Properties();
-            try (InputStream themeStream = HotelManagementApp.class.getResourceAsStream("/hms/theme/CustomTheme.properties")) {
+            try (InputStream themeStream = HotelManagementApp.class.getResourceAsStream(themePath)) {
                 if (themeStream != null) {
                     props.load(themeStream);
                 } else {
-                    System.err.println("Theme file not found!");
+                    System.err.println("Theme file not found: " + themePath);
                 }
             }
 
@@ -25,9 +31,11 @@ public class HotelManagementApp {
 
             // Now pass the correctly typed map
             com.formdev.flatlaf.FlatLaf.setGlobalExtraDefaults(customProps);
-            com.formdev.flatlaf.FlatDarkLaf.setup();
-            
-//            com.formdev.flatlaf.themes.FlatMacDarkLaf.setup();
+            if (isLight) {
+                FlatLightLaf.setup();
+            } else {
+                FlatDarkLaf.setup();
+            }
         }
         catch (Exception e) {
             System.out.println("Error occured loading flatlaf theme: " + e.getMessage());

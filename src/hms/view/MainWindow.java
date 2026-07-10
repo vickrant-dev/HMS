@@ -39,6 +39,7 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         
         // Custom Design
+        main_panel.setBackground(javax.swing.UIManager.getColor("Panel.background"));
         setTitle(Constants.APP_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
@@ -203,7 +204,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         javax.swing.JLabel statusLabel = new javax.swing.JLabel("STATUS:");
         statusLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
-        statusLabel.setForeground(java.awt.Color.WHITE);
+        statusLabel.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
         jPanel1.add(statusLabel);
 
         javax.swing.JLabel dbStatusLabel = new javax.swing.JLabel();
@@ -220,12 +221,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         javax.swing.JLabel separator = new javax.swing.JLabel("  |  ");
         separator.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
-        separator.setForeground(java.awt.Color.LIGHT_GRAY);
+        separator.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
         jPanel1.add(separator);
 
         javax.swing.JLabel clockLabel = new javax.swing.JLabel();
         clockLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
-        clockLabel.setForeground(java.awt.Color.WHITE);
+        clockLabel.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
         jPanel1.add(clockLabel);
 
         javax.swing.Timer timer = new javax.swing.Timer(1000, e ->
