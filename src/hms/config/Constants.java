@@ -75,13 +75,15 @@ public final class Constants {
 
     // Tax & Pricing
     public static final double DEFAULT_TAX_RATE = 0.10;
-    public static final double LATE_CHECKOUT_CHARGE = 50.0;
+    public static final double LATE_CHECKOUT_CHARGE = 5000.0;
 
     // Service Types
     public static final String SERVICE_TYPE_FOOD = "Food";
     public static final String SERVICE_TYPE_LAUNDRY = "Laundry";
     public static final String SERVICE_TYPE_SPA = "Spa";
     public static final String SERVICE_TYPE_CONFERENCE = "Conference";
+    public static final String SERVICE_TYPE_TRANSPORT = "Transport";
+    public static final String SERVICE_TYPE_BEVERAGE = "Beverage";
 
     // Assignment Types
     public static final String ASSIGN_TYPE_CLEANING = "Cleaning";
