@@ -16,6 +16,7 @@ public final class Billing {
     private final double totalBill;
     private final double discountAmount;
     private final double lateCharge;
+    private final double amountPaid;
     private final String paymentStatus;
     private final LocalDateTime paymentDate;
     private final String notes;
@@ -47,6 +48,7 @@ public final class Billing {
         this.totalBill = totalBill;
         this.discountAmount = 0;
         this.lateCharge = 0;
+        this.amountPaid = 0;
         this.paymentStatus = paymentStatus;
         this.paymentDate = paymentDate;
         this.notes = notes;
@@ -71,7 +73,7 @@ public final class Billing {
                    double taxAmount, double totalBill,
                    double discountAmount, double lateCharge,
                    String paymentStatus, LocalDateTime paymentDate,
-                   String notes) {
+                   String notes, double amountPaid) {
         this.billingId = billingId;
         this.reservation = reservation;
         this.roomCharge = roomCharge;
@@ -81,6 +83,7 @@ public final class Billing {
         this.totalBill = totalBill;
         this.discountAmount = discountAmount;
         this.lateCharge = lateCharge;
+        this.amountPaid = amountPaid;
         this.paymentStatus = paymentStatus;
         this.paymentDate = paymentDate;
         this.notes = notes;
@@ -129,6 +132,11 @@ public final class Billing {
     /** Returns the late charge applied. */
     public double getLateCharge() {
         return lateCharge;
+    }
+
+    /** Returns the amount already paid. */
+    public double getAmountPaid() {
+        return amountPaid;
     }
 
     /** Returns the payment status. */

@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import hms.view.dialogs.AdjustmentDialog;
 import hms.view.dialogs.PaymentDialog;
 import hms.util.IconUtil;
 
@@ -71,8 +70,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
             data[i][2] = String.valueOf(b.getReservationId());
             data[i][3] = b.getReservation().getGuest().getFirstName() + " " + b.getReservation().getGuest().getLastName();
             data[i][4] = String.format("%.2f", b.getTotalBill());
-            data[i][5] = b.getPaymentStatus().equalsIgnoreCase("paid") || b.getPaymentStatus().equalsIgnoreCase("partial")
-                ? String.format("%.2f", b.getTotalBill()) : "0.00";
+            data[i][5] = String.format("%.2f", b.getAmountPaid());
             data[i][6] = b.getPaymentStatus();
             data[i][7] = b.getPaymentDate() != null ? b.getPaymentDate().toLocalDate().toString() : "-";
         }
@@ -99,11 +97,10 @@ public class BillingManagementPanel extends javax.swing.JPanel {
             boolean hasSelection = billingManagementTable.getSelectedRow() != -1;
             viewDetailsBtn.setEnabled(hasSelection);
             recordPaymentBtn.setEnabled(hasSelection);
-            adjustBillBtn.setEnabled(hasSelection);
-        });
+    });
         viewDetailsBtn.setEnabled(false);
         recordPaymentBtn.setEnabled(false);
-        adjustBillBtn.setEnabled(false);
+        adjustBillBtn.setVisible(false);
     }
 
     /**
@@ -408,12 +405,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_recordPaymentBtnActionPerformed
 
     private void adjustBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustBillBtnActionPerformed
-        Billing selected = getSelectedBill();
-        if (selected == null) return;
-        AdjustmentDialog d = new AdjustmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
-        d.setTitle("Adjust Bill #" + selected.getBillingId());
-        d.setVisible(true);
-        loadBills();
+        // Removed per user request - functionality removed due to complexity
     }//GEN-LAST:event_adjustBillBtnActionPerformed
 
     private void billingPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationLeftActionPerformed
@@ -488,7 +480,6 @@ public class BillingManagementPanel extends javax.swing.JPanel {
 
     private void setupIcons() {
         newInvoiceBtn.setIcon(IconUtil.getInvoiceIcon());
-        adjustBillBtn.setIcon(IconUtil.getEditIcon());
         recordPaymentBtn.setIcon(IconUtil.getSaveIcon());
         viewDetailsBtn.setIcon(IconUtil.getEyeIcon());
         exportBtn.setIcon(IconUtil.getPrintIcon());

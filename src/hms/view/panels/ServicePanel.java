@@ -450,7 +450,7 @@ public class ServicePanel extends javax.swing.JPanel {
     private void bookServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookServiceBtnActionPerformed
         Service selected = getSelectedService();
         if (selected == null) return;
-        ServiceBookingDialog d = new ServiceBookingDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        ServiceBookingDialog d = new ServiceBookingDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Book Service: " + selected.getServiceName());
         d.setVisible(true);
         loadServices();

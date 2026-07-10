@@ -30,7 +30,8 @@ public class StaffDAO {
             pstmt.setString(5, staff.getPosition());
             pstmt.setString(6, staff.getDepartment());
             pstmt.setObject(7, staff.getSalary());
-            pstmt.setDate(8, java.sql.Date.valueOf(staff.getJoiningDate()));
+            pstmt.setDate(8, staff.getJoiningDate() != null
+                    ? java.sql.Date.valueOf(staff.getJoiningDate()) : null);
             pstmt.setString(9, staff.getStatus());
             pstmt.setString(10, staff.getPasswordHash());
 
@@ -119,7 +120,8 @@ public class StaffDAO {
             pstmt.setString(5, staff.getPosition());
             pstmt.setString(6, staff.getDepartment());
             pstmt.setObject(7, staff.getSalary());
-            pstmt.setDate(8, java.sql.Date.valueOf(staff.getJoiningDate()));
+            pstmt.setDate(8, staff.getJoiningDate() != null
+                    ? java.sql.Date.valueOf(staff.getJoiningDate()) : null);
             pstmt.setString(9, staff.getStatus());
             pstmt.setString(10, staff.getPasswordHash());
             pstmt.setInt(11, staff.getStaffId());

@@ -58,7 +58,8 @@ public class ReservationController {
             throw new ValidationException(Constants.ERROR_ROOM_NOT_AVAILABLE);
         }
 
-        double totalAmount = calculateTotalAmount(guest, room, checkInDate, checkOutDate);
+        double roomCharge = calculateTotalAmount(guest, room, checkInDate, checkOutDate);
+        double totalAmount = roomCharge * (1 + Constants.DEFAULT_TAX_RATE);
 
         String displayId = StringUtil.generateReservationId();
         Reservation reservation = new Reservation(
@@ -247,7 +248,7 @@ public class ReservationController {
         return new NormalPricingStrategy();
     }
 
-    private double calculateTotalAmount(Guest guest, Room room, LocalDate checkIn, LocalDate checkOut) {
+    public double calculateTotalAmount(Guest guest, Room room, LocalDate checkIn, LocalDate checkOut) {
         long nights = DateUtil.calculateNights(checkIn, checkOut);
         if (nights <= 0) {
             return 0.0;
