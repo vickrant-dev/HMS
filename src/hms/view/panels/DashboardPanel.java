@@ -68,19 +68,15 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
 
         dashboardGroup = new javax.swing.JPanel();
         stat_card_1 = new hms.theme.RoundedPanel(16);
-        jPanel3 = new hms.theme.RoundedPanel(10);
         jLabel1 = new javax.swing.JLabel();
         stat_card_val_1 = new javax.swing.JLabel();
         stat_card_2 = new hms.theme.RoundedPanel(16);
-        jPanel4 = new hms.theme.RoundedPanel(10);
         jLabel2 = new javax.swing.JLabel();
         stat_card_val_2 = new javax.swing.JLabel();
         stat_card_3 = new hms.theme.RoundedPanel(16);
-        jPanel6 = new hms.theme.RoundedPanel(10);
         jLabel3 = new javax.swing.JLabel();
         stat_card_val_3 = new javax.swing.JLabel();
         stat_card_4 = new hms.theme.RoundedPanel(16);
-        jPanel11 = new hms.theme.RoundedPanel(10);
         jLabel4 = new javax.swing.JLabel();
         stat_card_val_4 = new javax.swing.JLabel();
         revenue_summary_chart = new hms.theme.RoundedPanel(16);
@@ -94,20 +90,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
         stat_card_1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_1.setPreferredSize(new java.awt.Dimension(190, 2));
 
-        jPanel3.setBackground(new java.awt.Color(169, 202, 238));
-        jPanel3.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         jLabel1.setText("TOTAL OCCUPANCY");
 
         stat_card_val_1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -119,8 +101,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(stat_card_val_1))
@@ -130,32 +110,14 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat_card_val_1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stat_card_val_1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         stat_card_2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_2.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel4.setBackground(new java.awt.Color(46, 204, 113));
-        jPanel4.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel2.setText("DAILY REVENUE (LKR)");
 
@@ -168,8 +130,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(stat_card_val_2))
@@ -179,31 +139,14 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_2))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stat_card_val_2)
                 .addContainerGap())
         );
 
         stat_card_3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_3.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel6.setBackground(new java.awt.Color(147, 0, 10));
-        jPanel6.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel3.setText("PENDING CHECK-INS");
 
@@ -216,8 +159,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(stat_card_val_3))
@@ -227,31 +168,14 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_3))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stat_card_val_3)
                 .addContainerGap())
         );
 
         stat_card_4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_4.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel11.setBackground(new java.awt.Color(152, 184, 220));
-        jPanel11.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel4.setText("HOUSEKEEPING ALERTS");
 
@@ -264,8 +188,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(stat_card_val_4))
@@ -275,12 +197,9 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
             stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_4Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_4))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stat_card_val_4)
                 .addContainerGap())
         );
 
@@ -616,10 +535,6 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JTable jTable6;
     private javax.swing.JPanel recent_checkins;
     private javax.swing.JPanel revenue_summary_chart;
