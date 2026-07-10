@@ -213,6 +213,28 @@ public class StaffDAO {
         }
     }
 
+    public Staff findByEmail(String email) throws DatabaseException {
+        String sql = "SELECT * FROM staff WHERE email = ?";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToStaff(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException(
+                    "Failed to find staff by email: " + e.getMessage(), e);
+        }
+
+        return null;
+    }
+
     public boolean existsByEmail(String email) throws DatabaseException {
         String sql = "SELECT COUNT(*) FROM staff WHERE email = ?";
 

@@ -70,7 +70,7 @@ public final class Constants {
     public static final int MAX_GUESTS = 6;
 
     // Validation Constants
-    public static final int MIN_PASSWORD_LENGTH = 8;
+    public static final int MIN_PASSWORD_LENGTH = 6;
     public static final int MAX_EMAIL_LENGTH = 150;
     public static final int MAX_PHONE_LENGTH = 15;
 

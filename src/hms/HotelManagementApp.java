@@ -3,7 +3,9 @@ package hms;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import hms.config.Constants;
+import hms.model.Staff;
 import hms.view.MainWindow;
+import hms.view.dialogs.LoginDialog;
 import javax.swing.SwingUtilities;
 import java.io.InputStream;
 
@@ -41,11 +43,18 @@ public class HotelManagementApp {
             System.out.println("Error occured loading flatlaf theme: " + e.getMessage());
         }
 
-        // runs on Event Dispatch Thread (EDT) instead of main thread.
-        // prevents random glitches/race conditions.
         SwingUtilities.invokeLater(() -> {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.setVisible(true);
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.setVisible(true);
+
+            Staff loggedInStaff = loginDialog.getAuthenticatedStaff();
+            if (loggedInStaff != null) {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.setCurrentUser(loggedInStaff);
+                mainWindow.setVisible(true);
+            } else {
+                System.exit(0);
+            }
         });
     }
 }

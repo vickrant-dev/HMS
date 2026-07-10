@@ -78,15 +78,16 @@ INSERT INTO rooms (room_number, room_type, capacity, base_price, description, st
 ('502','Deluxe',4,35000.00,'Penthouse deluxe suite','reserved',5);
 
 -- 3. staff (8)
-INSERT INTO staff (first_name, last_name, email, phone, position, department, salary, joining_date, status) VALUES
-('Alice','Johnson','alice.johnson@hms.com','0779988776','Manager','Administration',350000.00,'2023-01-15','active'),
-('Bob','Williams','bob.williams@hms.com','0778877665','Receptionist','Front Desk',95000.00,'2023-03-01','active'),
-('Carol','Davis','carol.davis@hms.com','0777766554','Receptionist','Front Desk',85000.00,'2023-06-12','active'),
-('Daniel','Brown','daniel.brown@hms.com','0776655443','Housekeeper','Housekeeping',75000.00,'2024-02-20','active'),
-('Eva','Martinez','eva.martinez@hms.com','0775544332','Housekeeper','Housekeeping',65000.00,'2024-04-10','on_leave'),
-('Frank','Wilson','frank.wilson@hms.com','0774433221','Maintenance','Maintenance',80000.00,'2023-09-05','active'),
-('Gayan','Fernando','gayan.fernando@hms.com','0773322110','Concierge','Front Desk',100000.00,'2024-08-01','active'),
-('Priyanka','Jayawardena','priyanka.j@hms.com','0772211009','Shift Supervisor','Administration',150000.00,'2024-01-10','active');
+-- Default password for all staff: staff123
+INSERT INTO staff (first_name, last_name, email, phone, position, department, salary, joining_date, status, password_hash) VALUES
+('Alice','Johnson','alice.johnson@hms.com','0779988776','Manager','Administration',350000.00,'2023-01-15','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Bob','Williams','bob.williams@hms.com','0778877665','Receptionist','Front Desk',95000.00,'2023-03-01','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Carol','Davis','carol.davis@hms.com','0777766554','Receptionist','Front Desk',85000.00,'2023-06-12','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Daniel','Brown','daniel.brown@hms.com','0776655443','Housekeeper','Housekeeping',75000.00,'2024-02-20','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Eva','Martinez','eva.martinez@hms.com','0775544332','Housekeeper','Housekeeping',65000.00,'2024-04-10','on_leave','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Frank','Wilson','frank.wilson@hms.com','0774433221','Maintenance','Maintenance',80000.00,'2023-09-05','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Gayan','Fernando','gayan.fernando@hms.com','0773322110','Concierge','Front Desk',100000.00,'2024-08-01','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be'),
+('Priyanka','Jayawardena','priyanka.j@hms.com','0772211009','Shift Supervisor','Administration',150000.00,'2024-01-10','active','$2a$12$Gmt0NPg1Hllj70xIMsITBOyDuVCPpj9zcOJyhDH15XSiTH2/.72Be');
 
 -- 4. services (10)
 INSERT INTO services (service_name, service_type, price, description, is_available) VALUES

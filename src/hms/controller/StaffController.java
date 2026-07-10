@@ -51,6 +51,15 @@ public class StaffController {
         return staffDAO.getAll();
     }
 
+    public Staff authenticate(String email, String password) throws DatabaseException {
+        Staff staff = staffDAO.findByEmail(email);
+        if (staff == null) return null;
+        if (PasswordUtil.verifyPassword(password, staff.getPasswordHash())) {
+            return staff;
+        }
+        return null;
+    }
+
     public void updateStaff(Staff staff) throws ValidationException, DatabaseException {
         if (staff == null || staff.getStaffId() <= 0) {
             throw new ValidationException("Invalid staff ID");
@@ -210,6 +219,12 @@ public class StaffController {
 
         if (!ValidationUtil.isValidLength(staff.getDepartment(), 50)) {
             throw new ValidationException("Department must not exceed 50 characters");
+        }
+
+        String pw = staff.getPasswordHash();
+        if (pw == null || pw.length() < Constants.MIN_PASSWORD_LENGTH) {
+            throw new ValidationException(
+                "Password must be at least " + Constants.MIN_PASSWORD_LENGTH + " characters");
         }
     }
 }

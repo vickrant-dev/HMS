@@ -31,6 +31,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainWindow.class.getName());
     private final hms.controller.ReservationController reservationController = new hms.controller.ReservationController();
+    private hms.model.Staff currentUser;
 
     /**
      * Creates new form dash
@@ -58,6 +59,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
+    public void setCurrentUser(hms.model.Staff staff) {
+        this.currentUser = staff;
+    }
+
     private void setupTabs() {
         main_tab.removeAll();
         DashboardPanel dashboardPanel = new DashboardPanel();
@@ -223,6 +228,24 @@ public class MainWindow extends javax.swing.JFrame {
         separator.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
         separator.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
         jPanel1.add(separator);
+
+        javax.swing.JLabel userLabel = new javax.swing.JLabel();
+        userLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        userLabel.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        jPanel1.add(userLabel);
+
+        javax.swing.JLabel separator2 = new javax.swing.JLabel("  |  ");
+        separator2.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        separator2.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        jPanel1.add(separator2);
+
+        javax.swing.Timer userTimer = new javax.swing.Timer(100, e -> {
+            if (currentUser != null) {
+                userLabel.setText("\uD83D\uDC64 " + currentUser.getFirstName() + " " + currentUser.getLastName());
+            }
+        });
+        userTimer.setRepeats(false);
+        userTimer.start();
 
         javax.swing.JLabel clockLabel = new javax.swing.JLabel();
         clockLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
