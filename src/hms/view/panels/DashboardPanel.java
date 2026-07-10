@@ -14,6 +14,7 @@ import hms.model.Room;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,7 +32,19 @@ public class DashboardPanel extends javax.swing.JPanel implements DashboardObser
 
     public DashboardPanel() {
         initComponents();
+        applyThemeBorders();
         loadDashboardData();
+    }
+
+    private void applyThemeBorders() {
+        java.awt.Color borderColor = UIManager.getColor("Component.borderColor");
+        if (borderColor == null) borderColor = new java.awt.Color(76, 76, 76);
+        stat_card_1.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        stat_card_2.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        stat_card_3.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        stat_card_4.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        revenue_summary_chart.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        recent_checkins.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
     }
 
     /**

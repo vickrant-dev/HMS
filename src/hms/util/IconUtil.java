@@ -4,6 +4,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -15,6 +16,13 @@ import java.net.URL;
 public final class IconUtil {
 
     private static final String ICON_PATH = "/hms/resources/icons/";
+
+    private static final FlatSVGIcon.ColorFilter WHITE_TO_FOREGROUND =
+        new FlatSVGIcon.ColorFilter(c ->
+            c.getRGB() == Color.WHITE.getRGB()
+                ? UIManager.getColor("Button.foreground")
+                : c
+        );
 
     private IconUtil() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -30,7 +38,7 @@ public final class IconUtil {
         }
         URL svgResource = IconUtil.class.getResource(ICON_PATH + name + ".svg");
         if (svgResource != null) {
-            return new FlatSVGIcon(svgResource);
+            return new FlatSVGIcon(svgResource).setColorFilter(WHITE_TO_FOREGROUND);
         }
         return createLetterIcon(name.substring(0, 1).toUpperCase());
     }
@@ -43,7 +51,7 @@ public final class IconUtil {
         URL resource = IconUtil.class.getResource(ICON_PATH + name + "." + ext);
         if (resource != null) {
             if ("svg".equalsIgnoreCase(ext)) {
-                return new FlatSVGIcon(resource);
+                return new FlatSVGIcon(resource).setColorFilter(WHITE_TO_FOREGROUND);
             }
             return new ImageIcon(resource);
         }
@@ -110,7 +118,7 @@ public final class IconUtil {
         if (svgResource == null) {
             return null;
         }
-        FlatSVGIcon svgIcon = new FlatSVGIcon(svgResource);
+        FlatSVGIcon svgIcon = new FlatSVGIcon(svgResource).setColorFilter(WHITE_TO_FOREGROUND);
         BufferedImage image = new BufferedImage(
             svgIcon.getIconWidth(), svgIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
