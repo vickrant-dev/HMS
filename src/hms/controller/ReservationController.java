@@ -7,8 +7,10 @@ import hms.exception.ValidationException;
 import hms.model.Guest;
 import hms.model.Reservation;
 import hms.model.Room;
+import hms.service.CorporatePricingStrategy;
 import hms.service.NormalPricingStrategy;
 import hms.service.PricingStrategy;
+import hms.service.SeasonalPricingStrategy;
 import hms.util.DateUtil;
 import hms.util.StringUtil;
 import hms.util.ValidationUtil;
@@ -56,7 +58,8 @@ public class ReservationController {
             throw new ValidationException(Constants.ERROR_ROOM_NOT_AVAILABLE);
         }
 
-        double totalAmount = calculateTotalAmount(room, checkInDate, checkOutDate);
+        double roomCharge = calculateTotalAmount(guest, room, checkInDate, checkOutDate);
+        double totalAmount = roomCharge * (1 + Constants.DEFAULT_TAX_RATE);
 
         String displayId = StringUtil.generateReservationId();
         Reservation reservation = new Reservation(
@@ -122,7 +125,7 @@ public class ReservationController {
         reservationDAO.update(reservation);
     }
 
-    public void cancelReservation(int reservationId)
+    public void cancelReservation(int reservationId, String cancellationNotes)
             throws ValidationException, DatabaseException {
 
         Reservation reservation = reservationDAO.getById(reservationId);
@@ -135,12 +138,12 @@ public class ReservationController {
             throw new ValidationException("Reservation already finalized or cancelled");
         }
 
-        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CANCELLED);
+        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CANCELLED, cancellationNotes);
         roomController.updateRoomStatus(
                 reservation.getRoomId(), Constants.ROOM_STATUS_AVAILABLE);
     }
 
-    public void checkIn(int reservationId)
+    public void checkIn(int reservationId, String checkInNotes)
             throws ValidationException, DatabaseException {
 
         Reservation reservation = reservationDAO.getById(reservationId);
@@ -153,7 +156,10 @@ public class ReservationController {
                     "Only confirmed reservations can be checked in");
         }
 
-        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CHECKED_IN);
+        String notes = checkInNotes != null && !checkInNotes.isEmpty()
+                ? (reservation.getNotes() != null ? reservation.getNotes() + "\n" : "") + "Check-in: " + checkInNotes
+                : reservation.getNotes();
+        reservationDAO.updateStatus(reservationId, Constants.RES_STATUS_CHECKED_IN, notes);
         roomController.updateRoomStatus(
                 reservation.getRoomId(), Constants.ROOM_STATUS_OCCUPIED);
 
@@ -212,11 +218,11 @@ public class ReservationController {
         if (room == null) {
             throw new ValidationException("Room is required");
         }
-        if (!ValidationUtil.isFutureDate(checkInDate)) {
-            throw new ValidationException("Check-in must be a future date");
+        if (checkInDate == null || checkInDate.isBefore(LocalDate.now())) {
+            throw new ValidationException("Check-in must be today or a future date");
         }
-        if (!ValidationUtil.isFutureDate(checkOutDate)) {
-            throw new ValidationException("Check-out must be a future date");
+        if (checkOutDate == null || checkOutDate.isBefore(LocalDate.now())) {
+            throw new ValidationException("Check-out must be today or a future date");
         }
         if (checkOutDate != null && checkInDate != null
                 && !checkOutDate.isAfter(checkInDate)) {
@@ -230,12 +236,24 @@ public class ReservationController {
         }
     }
 
-    private double calculateTotalAmount(Room room, LocalDate checkIn, LocalDate checkOut) {
+    private PricingStrategy selectPricingStrategy(Guest guest, LocalDate checkIn) {
+        if (guest == null) return new NormalPricingStrategy();
+        if ("Corporate".equals(guest.getGuestType())) {
+            return new CorporatePricingStrategy(0.15);
+        }
+        int month = checkIn.getMonthValue();
+        if (month >= 6 && month <= 8 || month == 12) {
+            return new SeasonalPricingStrategy(1.5);
+        }
+        return new NormalPricingStrategy();
+    }
+
+    public double calculateTotalAmount(Guest guest, Room room, LocalDate checkIn, LocalDate checkOut) {
         long nights = DateUtil.calculateNights(checkIn, checkOut);
         if (nights <= 0) {
             return 0.0;
         }
-        PricingStrategy strategy = new NormalPricingStrategy();
+        PricingStrategy strategy = selectPricingStrategy(guest, checkIn);
         return strategy.calculatePrice(room, (int) nights);
     }
 

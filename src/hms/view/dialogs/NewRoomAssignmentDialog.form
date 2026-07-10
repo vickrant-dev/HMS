@@ -224,7 +224,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="saveStaffProfileBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Save Staff Profile"/>
+                <Property name="text" type="java.lang.String" value="Save Assignment"/>
                 <Property name="actionCommand" type="java.lang.String" value=""/>
               </Properties>
               <Events>

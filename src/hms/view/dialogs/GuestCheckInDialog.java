@@ -28,6 +28,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     public GuestCheckInDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -36,6 +37,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
     public GuestCheckInDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.reservation = reservation;
         setTitle("Check-In: " + reservation.getDisplayId());
         guestFullName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());
@@ -45,6 +47,21 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
         long nights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
         duration.setText(nights + " night(s)");
         checkInStatus.setText(reservation.getStatus());
+        applyStatusColor(checkInStatus, reservation.getStatus());
+    }
+
+    private void applyStatusColor(javax.swing.JLabel label, String status) {
+        if (status == null) return;
+        String s = status.toLowerCase();
+        if (s.contains("confirmed") || s.contains("checked_in") || s.contains("paid")) {
+            label.setForeground(new java.awt.Color(39, 174, 96));
+        } else if (s.contains("cancelled") || s.contains("refunded")) {
+            label.setForeground(new java.awt.Color(192, 57, 43));
+        } else if (s.contains("pending") || s.contains("partial")) {
+            label.setForeground(new java.awt.Color(243, 156, 18));
+        } else {
+            label.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        }
     }
 
     /**
@@ -417,7 +434,7 @@ public class GuestCheckInDialog extends javax.swing.JDialog {
         }
 
         try {
-            reservationController.checkIn(reservation.getReservationId());
+            reservationController.checkIn(reservation.getReservationId(), checkInNotes.getText().trim());
             JOptionPane.showMessageDialog(this, "Check-in completed successfully.");
             dispose();
         } catch (ValidationException e) {

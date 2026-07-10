@@ -6,15 +6,19 @@ import hms.dao.ServiceBookingDAO;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
 import hms.model.Billing;
+import hms.model.Guest;
 import hms.model.Reservation;
+import hms.service.CorporatePricingStrategy;
 import hms.service.NormalPricingStrategy;
 import hms.service.PricingStrategy;
+import hms.service.SeasonalPricingStrategy;
 import hms.util.DateUtil;
 import hms.util.ValidationUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class BillingController {
 
@@ -39,7 +43,18 @@ public class BillingController {
             throw new ValidationException("Invalid reservation dates");
         }
 
-        PricingStrategy strategy = new NormalPricingStrategy();
+        PricingStrategy strategy;
+        Guest guest = reservation.getGuest();
+        if (guest != null && "Corporate".equals(guest.getGuestType())) {
+            strategy = new CorporatePricingStrategy(0.15);
+        } else {
+            int month = reservation.getCheckInDate().getMonthValue();
+            if (month >= 6 && month <= 8 || month == 12) {
+                strategy = new SeasonalPricingStrategy(1.5);
+            } else {
+                strategy = new NormalPricingStrategy();
+            }
+        }
         double roomCharge = strategy.calculatePrice(reservation.getRoom(), (int) nights);
 
         double serviceCharge = serviceBookingDAO.calculateServiceCharges(
@@ -77,11 +92,16 @@ public class BillingController {
         return billingDAO.getAll();
     }
 
-    public void recordPayment(int billingId, String paymentStatus)
+    public void recordPayment(int billingId, String paymentStatus,
+                               double amountPaid, String paymentMethod,
+                               String transactionId, String paymentNotes)
             throws ValidationException, DatabaseException {
 
         if (!isValidPaymentStatus(paymentStatus)) {
             throw new ValidationException("Invalid payment status");
+        }
+        if (amountPaid <= 0) {
+            throw new ValidationException("Payment amount must be positive");
         }
 
         Billing billing = billingDAO.getById(billingId);
@@ -89,7 +109,9 @@ public class BillingController {
             throw new ValidationException("Billing record not found");
         }
 
-        billingDAO.updatePaymentStatus(billingId, paymentStatus, LocalDateTime.now());
+        double cumulativePaid = billing.getAmountPaid() + amountPaid;
+        billingDAO.updatePaymentRecord(billingId, paymentStatus, cumulativePaid,
+                paymentMethod, transactionId, paymentNotes, LocalDateTime.now());
     }
 
     public Billing adjustBill(int billingId, double otherCharges,
@@ -129,9 +151,15 @@ public class BillingController {
         return billingDAO.getById(billingId);
     }
 
+    @Deprecated
     public double getRevenueByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         return billingDAO.getRevenueByDateRange(start, end);
+    }
+
+    public Map<LocalDate, Double> getDailyRevenue(LocalDate start, LocalDate end)
+            throws DatabaseException {
+        return billingDAO.getDailyRevenue(start, end);
     }
 
     public double calculateServiceCharges(int reservationId) throws DatabaseException {

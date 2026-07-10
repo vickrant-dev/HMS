@@ -14,6 +14,9 @@ public final class Billing {
     private final double otherCharges;
     private final double taxAmount;
     private final double totalBill;
+    private final double discountAmount;
+    private final double lateCharge;
+    private final double amountPaid;
     private final String paymentStatus;
     private final LocalDateTime paymentDate;
     private final String notes;
@@ -43,6 +46,9 @@ public final class Billing {
         this.otherCharges = otherCharges;
         this.taxAmount = taxAmount;
         this.totalBill = totalBill;
+        this.discountAmount = 0;
+        this.lateCharge = 0;
+        this.amountPaid = 0;
         this.paymentStatus = paymentStatus;
         this.paymentDate = paymentDate;
         this.notes = notes;
@@ -65,8 +71,9 @@ public final class Billing {
     public Billing(int billingId, Reservation reservation, double roomCharge,
                    double serviceCharge, double otherCharges,
                    double taxAmount, double totalBill,
+                   double discountAmount, double lateCharge,
                    String paymentStatus, LocalDateTime paymentDate,
-                   String notes) {
+                   String notes, double amountPaid) {
         this.billingId = billingId;
         this.reservation = reservation;
         this.roomCharge = roomCharge;
@@ -74,6 +81,9 @@ public final class Billing {
         this.otherCharges = otherCharges;
         this.taxAmount = taxAmount;
         this.totalBill = totalBill;
+        this.discountAmount = discountAmount;
+        this.lateCharge = lateCharge;
+        this.amountPaid = amountPaid;
         this.paymentStatus = paymentStatus;
         this.paymentDate = paymentDate;
         this.notes = notes;
@@ -112,6 +122,21 @@ public final class Billing {
     /** Returns the total bill amount. */
     public double getTotalBill() {
         return totalBill;
+    }
+
+    /** Returns the discount amount applied. */
+    public double getDiscountAmount() {
+        return discountAmount;
+    }
+
+    /** Returns the late charge applied. */
+    public double getLateCharge() {
+        return lateCharge;
+    }
+
+    /** Returns the amount already paid. */
+    public double getAmountPaid() {
+        return amountPaid;
     }
 
     /** Returns the payment status. */

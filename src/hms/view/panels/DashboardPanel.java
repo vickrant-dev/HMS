@@ -4,17 +4,57 @@
  */
 package hms.view.panels;
 
+import hms.controller.BillingController;
+import hms.controller.DashboardObserver;
+import hms.controller.ReservationController;
+import hms.controller.RoomController;
+import hms.exception.DatabaseException;
+import hms.model.Reservation;
+import hms.model.Room;
+import java.awt.BorderLayout;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 /**
  *
  * @author vickrant
  */
-public class DashboardPanel extends javax.swing.JPanel {
+public class DashboardPanel extends javax.swing.JPanel implements DashboardObserver {
 
     /**
      * Creates new form DashPanel
      */
+    private final ReservationController reservationController = new ReservationController();
+    private final RoomController roomController = new RoomController();
+    private final BillingController billingController = new BillingController();
+
     public DashboardPanel() {
         initComponents();
+        applyThemeBorders();
+        loadDashboardData();
+    }
+
+    private void applyThemeBorders() {
+        java.awt.Color borderColor = UIManager.getColor("Component.borderColor");
+        if (borderColor == null) borderColor = new java.awt.Color(76, 76, 76);
+        stat_card_1.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        stat_card_2.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        stat_card_3.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        stat_card_4.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        revenue_summary_chart.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
+        recent_checkins.setBorder(new javax.swing.border.LineBorder(borderColor, 1, true));
     }
 
     /**
@@ -27,27 +67,21 @@ public class DashboardPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         dashboardGroup = new javax.swing.JPanel();
-        stat_card_1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        stat_card_1 = new hms.theme.RoundedPanel(16);
         jLabel1 = new javax.swing.JLabel();
         stat_card_val_1 = new javax.swing.JLabel();
-        stat_card_2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        stat_card_2 = new hms.theme.RoundedPanel(16);
         jLabel2 = new javax.swing.JLabel();
         stat_card_val_2 = new javax.swing.JLabel();
-        stat_card_3 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        stat_card_3 = new hms.theme.RoundedPanel(16);
         jLabel3 = new javax.swing.JLabel();
         stat_card_val_3 = new javax.swing.JLabel();
-        stat_card_4 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
+        stat_card_4 = new hms.theme.RoundedPanel(16);
         jLabel4 = new javax.swing.JLabel();
         stat_card_val_4 = new javax.swing.JLabel();
-        revenue_summary_chart = new javax.swing.JPanel();
+        revenue_summary_chart = new hms.theme.RoundedPanel(16);
         jLabel9 = new javax.swing.JLabel();
-        revenue_weekly_btn = new javax.swing.JLabel();
-        revenue_daily_btn = new javax.swing.JLabel();
-        recent_checkins = new javax.swing.JPanel();
+        recent_checkins = new hms.theme.RoundedPanel(20);
         jLabel23 = new javax.swing.JLabel();
         viewAllReservationsBtn = new javax.swing.JLabel();
         checkInsTable = new javax.swing.JScrollPane();
@@ -55,20 +89,6 @@ public class DashboardPanel extends javax.swing.JPanel {
 
         stat_card_1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_1.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel3.setBackground(new java.awt.Color(169, 202, 238));
-        jPanel3.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel1.setText("TOTAL OCCUPANCY");
 
@@ -81,8 +101,6 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(stat_card_val_1))
@@ -92,32 +110,14 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat_card_val_1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stat_card_val_1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         stat_card_2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_2.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel4.setBackground(new java.awt.Color(46, 204, 113));
-        jPanel4.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel2.setText("DAILY REVENUE (LKR)");
 
@@ -130,8 +130,6 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(stat_card_val_2))
@@ -141,31 +139,14 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_2))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stat_card_val_2)
                 .addContainerGap())
         );
 
         stat_card_3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_3.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel6.setBackground(new java.awt.Color(147, 0, 10));
-        jPanel6.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel3.setText("PENDING CHECK-INS");
 
@@ -178,8 +159,6 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(stat_card_val_3))
@@ -189,31 +168,14 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_3))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stat_card_val_3)
                 .addContainerGap())
         );
 
         stat_card_4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
         stat_card_4.setPreferredSize(new java.awt.Dimension(190, 2));
-
-        jPanel11.setBackground(new java.awt.Color(152, 184, 220));
-        jPanel11.setPreferredSize(new java.awt.Dimension(40, 40));
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jLabel4.setText("HOUSEKEEPING ALERTS");
 
@@ -226,8 +188,6 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(stat_card_val_4))
@@ -237,12 +197,9 @@ public class DashboardPanel extends javax.swing.JPanel {
             stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stat_card_4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(stat_card_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(stat_card_4Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stat_card_val_4))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stat_card_val_4)
                 .addContainerGap())
         );
 
@@ -251,17 +208,6 @@ public class DashboardPanel extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Revenue Summary (Last 7 days)");
 
-        revenue_weekly_btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        revenue_weekly_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        revenue_weekly_btn.setText("Weekly");
-        revenue_weekly_btn.setToolTipText("");
-        revenue_weekly_btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-
-        revenue_daily_btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        revenue_daily_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        revenue_daily_btn.setText("Daily");
-        revenue_daily_btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-
         javax.swing.GroupLayout revenue_summary_chartLayout = new javax.swing.GroupLayout(revenue_summary_chart);
         revenue_summary_chart.setLayout(revenue_summary_chartLayout);
         revenue_summary_chartLayout.setHorizontalGroup(
@@ -269,21 +215,14 @@ public class DashboardPanel extends javax.swing.JPanel {
             .addGroup(revenue_summary_chartLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                .addGap(448, 448, 448)
-                .addComponent(revenue_daily_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(revenue_weekly_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(570, 570, 570))
         );
         revenue_summary_chartLayout.setVerticalGroup(
             revenue_summary_chartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(revenue_summary_chartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(revenue_summary_chartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(revenue_weekly_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(revenue_daily_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addComponent(jLabel9)
+                .addContainerGap(283, Short.MAX_VALUE))
         );
 
         recent_checkins.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
@@ -293,6 +232,8 @@ public class DashboardPanel extends javax.swing.JPanel {
 
         viewAllReservationsBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         viewAllReservationsBtn.setText("View all reservations");
+
+        checkInsTable.setBorder(null);
 
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -393,10 +334,197 @@ public class DashboardPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(dashboardGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void loadDashboardData() {
+        try { loadOccupancy(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadDailyRevenue(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadPendingCheckIns(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadRecentCheckIns(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadHousekeepingAlerts(); } catch (Exception e) { /* degrade gracefully */ }
+        try { loadRevenueChart(); } catch (Exception e) { /* degrade gracefully */ }
+    }
+
+    private void loadOccupancy() {
+        try {
+            List<Room> allRooms = roomController.getAllRooms();
+            long total = allRooms.size();
+            long occupied = allRooms.stream()
+                .filter(r -> !"available".equalsIgnoreCase(r.getStatus()))
+                .count();
+            double rate = total > 0 ? (occupied * 100.0 / total) : 0.0;
+            stat_card_val_1.setText(String.format("%.2f%%", rate));
+        } catch (DatabaseException e) {
+            stat_card_val_1.setText("N/A");
+        }
+    }
+
+    private void loadDailyRevenue() {
+        try {
+            LocalDate today = LocalDate.now();
+            double revenue = billingController.getRevenueByDateRange(today, today);
+            stat_card_val_2.setText("LKR " + String.format("%,.2f", revenue));
+        } catch (DatabaseException e) {
+            stat_card_val_2.setText("N/A");
+        }
+    }
+
+    private void loadPendingCheckIns() {
+        try {
+            List<Reservation> all = reservationController.getAllReservations();
+            long pending = all.stream()
+                .filter(r -> "confirmed".equalsIgnoreCase(r.getStatus()))
+                .count();
+            stat_card_val_3.setText(String.valueOf(pending));
+        } catch (DatabaseException e) {
+            stat_card_val_3.setText("N/A");
+        }
+    }
+
+    private void loadRecentCheckIns() {
+        try {
+            List<Reservation> all = reservationController.getAllReservations();
+            List<Reservation> recent = all.stream()
+                .filter(r -> "checked_in".equalsIgnoreCase(r.getStatus())
+                    || "confirmed".equalsIgnoreCase(r.getStatus()))
+                .sorted((a, b) -> b.getBookingDate().compareTo(a.getBookingDate()))
+                .limit(5)
+                .toList();
+
+            DefaultTableModel model = new DefaultTableModel(
+                new String[]{"Guest Name", "Room", "Duration", "Booking ID", "Status", "Balance"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int col) { return false; }
+            };
+
+            for (Reservation r : recent) {
+                String guestName = r.getGuest().getFirstName() + " " + r.getGuest().getLastName();
+                String room = r.getRoom().getRoomNumber() + " (" + r.getRoom().getRoomType() + ")";
+                String duration = r.getCheckInDate() + " - " + r.getCheckOutDate();
+                model.addRow(new Object[]{
+                    guestName, room, duration, r.getDisplayId(),
+                    r.getStatus().toUpperCase(), r.getTotalAmount()
+                });
+            }
+
+            jTable6.setModel(model);
+        } catch (DatabaseException e) {
+            // table stays empty
+        }
+    }
+
+    private void loadHousekeepingAlerts() {
+        try {
+            List<Room> allRooms = roomController.getAllRooms();
+            long maintenance = allRooms.stream()
+                .filter(r -> "maintenance".equalsIgnoreCase(r.getStatus()))
+                .count();
+            stat_card_val_4.setText(String.valueOf(maintenance));
+        } catch (DatabaseException e) {
+            stat_card_val_4.setText("N/A");
+        }
+    }
+
+    private static final java.awt.Color[] BAR_COLORS = {
+        new java.awt.Color(255, 99, 132),
+        new java.awt.Color(54, 162, 235),
+        new java.awt.Color(255, 206, 86),
+        new java.awt.Color(46, 204, 113),
+        new java.awt.Color(153, 102, 255),
+        new java.awt.Color(255, 159, 64),
+        new java.awt.Color(231, 76, 60)
+    };
+
+    private void loadRevenueChart() {
+        LocalDate today = LocalDate.now();
+        LocalDate start = today.minusDays(6);
+        Map<LocalDate, Double> dailyRev;
+        try {
+            dailyRev = billingController.getDailyRevenue(start, today);
+        } catch (DatabaseException e) {
+            dailyRev = Map.of();
+        }
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEE\nd/M");
+        for (int i = 0; i < 7; i++) {
+            LocalDate day = start.plusDays(i);
+            double rev = dailyRev.getOrDefault(day, 0.0);
+            dataset.addValue(rev, "Revenue", day.format(fmt));
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                null, "Date", "LKR", dataset,
+                PlotOrientation.VERTICAL, false, false, false);
+
+        java.awt.Color bg = UIManager.getColor("Panel.background");
+        java.awt.Color fg = UIManager.getColor("Label.foreground");
+        if (bg == null) bg = java.awt.Color.DARK_GRAY;
+        if (fg == null) fg = java.awt.Color.WHITE;
+
+        chart.setBackgroundPaint(bg);
+        chart.setBorderVisible(false);
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(bg);
+        plot.setDomainGridlinePaint(new java.awt.Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 30));
+        plot.setRangeGridlinePaint(fg.darker());
+        plot.setOutlineVisible(false);
+
+        plot.getDomainAxis().setTickLabelPaint(fg);
+        plot.getDomainAxis().setTickLabelFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
+        plot.getDomainAxis().setAxisLinePaint(fg);
+        plot.getDomainAxis().setLabel("Date");
+        plot.getDomainAxis().setLabelPaint(fg);
+        plot.getRangeAxis().setTickLabelPaint(fg);
+        plot.getRangeAxis().setTickLabelFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 10));
+        plot.getRangeAxis().setAxisLinePaint(fg);
+        plot.getRangeAxis().setLabelPaint(fg);
+        plot.getRangeAxis().setLabelFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 11));
+
+        BarRenderer renderer = new BarRenderer() {
+            @Override
+            public java.awt.Paint getItemPaint(int row, int column) {
+                return BAR_COLORS[column % BAR_COLORS.length];
+            }
+        };
+        renderer.setShadowVisible(false);
+        renderer.setDrawBarOutline(false);
+        renderer.setMaximumBarWidth(0.09);
+        renderer.setBarPainter(new org.jfree.chart.renderer.category.StandardBarPainter());
+        renderer.setSeriesPaint(0, java.awt.Color.WHITE);
+        plot.setRenderer(renderer);
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(400, 260));
+        chartPanel.setBackground(bg);
+        chartPanel.setMouseWheelEnabled(false);
+
+        revenue_summary_chart.removeAll();
+        revenue_summary_chart.setLayout(new BorderLayout());
+        revenue_summary_chart.add(jLabel9, BorderLayout.NORTH);
+        revenue_summary_chart.add(chartPanel, BorderLayout.CENTER);
+        revenue_summary_chart.revalidate();
+        revenue_summary_chart.repaint();
+    }
+
+    @Override
+    public void onReservationCreated(Reservation r) {
+        loadDashboardData();
+    }
+
+    @Override
+    public void onCheckIn(Reservation r) {
+        loadDashboardData();
+    }
+
+    @Override
+    public void onCheckOut(Reservation r) {
+        loadDashboardData();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane checkInsTable;
@@ -407,15 +535,9 @@ public class DashboardPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JTable jTable6;
     private javax.swing.JPanel recent_checkins;
-    private javax.swing.JLabel revenue_daily_btn;
     private javax.swing.JPanel revenue_summary_chart;
-    private javax.swing.JLabel revenue_weekly_btn;
     private javax.swing.JPanel stat_card_1;
     private javax.swing.JPanel stat_card_2;
     private javax.swing.JPanel stat_card_3;

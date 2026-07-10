@@ -5,6 +5,7 @@
 package hms.view;
 
 import hms.config.Constants;
+import hms.util.IconUtil;
 import hms.view.panels.BillingManagementPanel;
 import hms.view.panels.DashboardPanel;
 import hms.view.panels.GuestManagementPanel;
@@ -15,6 +16,12 @@ import hms.view.panels.RoomManagementPanel;
 import hms.view.panels.ServicePanel;
 import hms.view.panels.StaffPanel;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
 
 /**
  *
@@ -23,6 +30,7 @@ import javax.swing.JFrame;
 public class MainWindow extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainWindow.class.getName());
+    private final hms.controller.ReservationController reservationController = new hms.controller.ReservationController();
 
     /**
      * Creates new form dash
@@ -31,17 +39,31 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         
         // Custom Design
+        main_panel.setBackground(javax.swing.UIManager.getColor("Panel.background"));
         setTitle(Constants.APP_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         setLocationRelativeTo(null);
         
+        setupStatusBar();
         setupTabs();
+        setupMenuBar();
+        setAppIcon();
+    }
+
+    private void setAppIcon() {
+        java.awt.Image icon = IconUtil.getAppIcon();
+        if (icon != null) {
+            setIconImage(icon);
+        }
     }
     
     private void setupTabs() {
         main_tab.removeAll();
-        main_tab.addTab("Dashboard", new DashboardPanel());
+        DashboardPanel dashboardPanel = new DashboardPanel();
+        dashboardPanel.loadDashboardData();
+        reservationController.addObserver(dashboardPanel);
+        main_tab.addTab("Dashboard", dashboardPanel);
         main_tab.addTab("Guests", new GuestManagementPanel());
         main_tab.addTab("Rooms", new RoomManagementPanel());
         main_tab.addTab("Reservations", new ReservationPanel());
@@ -50,6 +72,12 @@ public class MainWindow extends javax.swing.JFrame {
         main_tab.addTab("Staff", new StaffPanel());
         main_tab.addTab("Room Assignments", new RoomAssignmentPanel());
         main_tab.addTab("Reports", new ReportsPanel());
+
+        main_tab.addChangeListener((ChangeEvent e) -> {
+            if (main_tab.getSelectedComponent() == dashboardPanel) {
+                dashboardPanel.loadDashboardData();
+            }
+        });
     }
 
     /**
@@ -65,9 +93,12 @@ public class MainWindow extends javax.swing.JFrame {
         main_panel = new javax.swing.JPanel();
         main_tab = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         menu_bar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        file_menu = new javax.swing.JMenu();
+        edit_menu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -86,10 +117,39 @@ public class MainWindow extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 725, Short.MAX_VALUE)
+            .addGap(0, 689, Short.MAX_VALUE)
         );
 
         main_tab.addTab("tab1", jPanel2);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("STATUS:");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(91, 183, 0));
+        jLabel2.setText("READY");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout main_panelLayout = new javax.swing.GroupLayout(main_panel);
         main_panel.setLayout(main_panelLayout);
@@ -97,7 +157,9 @@ public class MainWindow extends javax.swing.JFrame {
             main_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(main_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(main_tab)
+                .addGroup(main_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(main_tab)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         main_panelLayout.setVerticalGroup(
@@ -105,16 +167,18 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(main_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(main_tab)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         main_scroll_pane.setViewportView(main_panel);
 
-        jMenu1.setText("File");
-        menu_bar.add(jMenu1);
+        file_menu.setText("File");
+        menu_bar.add(file_menu);
 
-        jMenu2.setText("Edit");
-        menu_bar.add(jMenu2);
+        edit_menu.setText("Edit");
+        menu_bar.add(edit_menu);
 
         setJMenuBar(menu_bar);
 
@@ -133,6 +197,82 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void setupStatusBar() {
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jPanel1.removeAll();
+
+        javax.swing.JLabel statusLabel = new javax.swing.JLabel("STATUS:");
+        statusLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        statusLabel.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        jPanel1.add(statusLabel);
+
+        javax.swing.JLabel dbStatusLabel = new javax.swing.JLabel();
+        dbStatusLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        try {
+            hms.database.DatabaseConnection.getInstance().getConnection();
+            dbStatusLabel.setForeground(new java.awt.Color(91, 183, 0));
+            dbStatusLabel.setText("\u25CF Connected");
+        } catch (Exception ex) {
+            dbStatusLabel.setForeground(java.awt.Color.RED);
+            dbStatusLabel.setText("\u25CF Disconnected");
+        }
+        jPanel1.add(dbStatusLabel);
+
+        javax.swing.JLabel separator = new javax.swing.JLabel("  |  ");
+        separator.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        separator.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        jPanel1.add(separator);
+
+        javax.swing.JLabel clockLabel = new javax.swing.JLabel();
+        clockLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        clockLabel.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+        jPanel1.add(clockLabel);
+
+        javax.swing.Timer timer = new javax.swing.Timer(1000, e ->
+            clockLabel.setText(java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        );
+        timer.start();
+    }
+
+    private void setupMenuBar() {
+        JMenuItem newResItem = new JMenuItem("New Reservation");
+        newResItem.setHorizontalAlignment(SwingConstants.LEFT);
+        newResItem.addActionListener(e -> {
+            main_tab.setSelectedIndex(3);
+        });
+        file_menu.add(newResItem);
+
+        file_menu.add(new JSeparator());
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.setHorizontalAlignment(SwingConstants.LEFT);
+        exitItem.addActionListener(e -> dispose());
+        file_menu.add(exitItem);
+
+        JMenu navigateMenu = new JMenu("Navigate");
+        String[] tabNames = {
+            "Dashboard", "Guests", "Rooms", "Reservations", "Billing",
+            "Services", "Staff", "Room Assignments", "Reports"
+        };
+        for (int i = 0; i < tabNames.length; i++) {
+            final int index = i;
+            JMenuItem item = new JMenuItem(tabNames[i]);
+            item.setHorizontalAlignment(SwingConstants.LEFT);
+            item.addActionListener(e -> main_tab.setSelectedIndex(index));
+            navigateMenu.add(item);
+        }
+        menu_bar.add(navigateMenu, menu_bar.getMenuCount() - 1);
+
+        JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.setHorizontalAlignment(SwingConstants.LEFT);
+        aboutItem.addActionListener(e ->
+            JOptionPane.showMessageDialog(this,
+                "Hotel Management System\nVersion 1.0\n\nBuilt with Java Swing",
+                "About", JOptionPane.INFORMATION_MESSAGE));
+        edit_menu.add(aboutItem);
+    }
 
     /**
      * @param args the command line arguments
@@ -160,8 +300,11 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu edit_menu;
+    private javax.swing.JMenu file_menu;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel main_panel;
     private javax.swing.JScrollPane main_scroll_pane;

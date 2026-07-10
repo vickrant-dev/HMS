@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.BillingController;
 import hms.controller.ReservationController;
 import hms.exception.DatabaseException;
@@ -12,6 +13,8 @@ import hms.model.Billing;
 import hms.model.Reservation;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -32,6 +35,7 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
     public GuestCheckOutDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -40,6 +44,7 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
     public GuestCheckOutDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.reservation = reservation;
         setTitle("Check-Out: " + reservation.getDisplayId());
         guestName.setText(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName());
@@ -49,22 +54,26 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
         long nights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
         duration.setText(nights + " night(s)");
         loadBilling();
+        setupPaymentListeners();
     }
 
     private void loadBilling() {
         try {
             billing = billingController.getBillByReservationId(reservation.getReservationId());
+            if (billing == null) {
+                billing = billingController.generateBill(reservation, 0.0, "Auto-generated at check-out");
+            }
             if (billing != null) {
-                subtotalAmount.setText(String.format("%.2f", billing.getRoomCharge() + billing.getServiceCharge()));
-                taxAmount.setText(String.format("%.2f", billing.getTaxAmount()));
-                totalAmount.setText(String.format("%.2f", billing.getTotalBill()));
+                subtotalAmount.setText("LKR " + String.format("%,.2f", billing.getRoomCharge() + billing.getServiceCharge()));
+                taxAmount.setText("LKR " + String.format("%,.2f", billing.getTaxAmount()));
+                totalAmount.setText("LKR " + String.format("%,.2f", billing.getTotalBill()));
 
                 String[][] folioData = {
-                    {"Room Charge", String.format("%.2f", billing.getRoomCharge())},
-                    {"Service Charge", String.format("%.2f", billing.getServiceCharge())},
-                    {"Other Charges", String.format("%.2f", billing.getOtherCharges())},
-                    {"Tax", String.format("%.2f", billing.getTaxAmount())},
-                    {"Total", String.format("%.2f", billing.getTotalBill())}
+                    {"Room Charge", "LKR " + String.format("%,.2f", billing.getRoomCharge())},
+                    {"Service Charge", "LKR " + String.format("%,.2f", billing.getServiceCharge())},
+                    {"Other Charges", "LKR " + String.format("%,.2f", billing.getOtherCharges())},
+                    {"Tax", "LKR " + String.format("%,.2f", billing.getTaxAmount())},
+                    {"Total", "LKR " + String.format("%,.2f", billing.getTotalBill())}
                 };
                 folioSumaryTable.setModel(new javax.swing.table.DefaultTableModel(folioData,
                     new String[]{"Item", "Amount"}) {
@@ -72,10 +81,33 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
                     @Override public boolean isCellEditable(int r, int c) { return canEdit[c]; }
                 });
             }
-        } catch (DatabaseException e) {
+        } catch (ValidationException | DatabaseException e) {
             JOptionPane.showMessageDialog(this, "Failed to load billing: " + e.getMessage(),
-                "Database Error", JOptionPane.ERROR_MESSAGE);
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void setupPaymentListeners() {
+        receivedAmount.getDocument().addDocumentListener(new DocumentListener() {
+            private void updateChangeDue() {
+                double total = billing != null ? billing.getTotalBill() : 0.0;
+                try {
+                    String text = receivedAmount.getText().trim();
+                    if (text.isEmpty()) {
+                        changeDueAmount.setText("LKR 0.00");
+                        return;
+                    }
+                    double received = Double.parseDouble(text);
+                    double change = Math.max(0, received - total);
+                    changeDueAmount.setText("LKR " + String.format("%,.2f", change));
+                } catch (NumberFormatException e) {
+                    changeDueAmount.setText("LKR 0.00");
+                }
+            }
+            @Override public void insertUpdate(DocumentEvent e) { updateChangeDue(); }
+            @Override public void removeUpdate(DocumentEvent e) { updateChangeDue(); }
+            @Override public void changedUpdate(DocumentEvent e) { updateChangeDue(); }
+        });
     }
 
     /**
@@ -317,7 +349,7 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
 
         jLabel21.setText("Change Due");
 
-        changeDueAmount.setText("LKR 3,000.23");
+        changeDueAmount.setText("LKR 0.00");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -506,21 +538,51 @@ public class GuestCheckOutDialog extends javax.swing.JDialog {
             return;
         }
 
-        double total = billing != null ? billing.getTotalBill() : 0.0;
-        if (received < total) {
-            JOptionPane.showMessageDialog(this, "Received amount is less than the total bill.",
+        if (received <= 0) {
+            JOptionPane.showMessageDialog(this, "Received amount must be positive.",
                 "Payment Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+        double total = billing != null ? billing.getTotalBill() : 0.0;
+        String paymentStatus = received >= total
+                ? Constants.PAYMENT_PAID : Constants.PAYMENT_PARTIAL;
+        double change = received >= total ? received - total : 0.0;
+
         try {
+            if (billing != null && reservation.getTotalAmount() != billing.getTotalBill()) {
+                Reservation updated = new Reservation(
+                    reservation.getReservationId(),
+                    reservation.getDisplayId(),
+                    reservation.getGuest(),
+                    reservation.getRoom(),
+                    reservation.getCheckInDate(),
+                    reservation.getCheckOutDate(),
+                    reservation.getBookingDate(),
+                    reservation.getNumberOfGuests(),
+                    reservation.getStatus(),
+                    billing.getTotalBill(),
+                    reservation.getCreatedByStaffId(),
+                    reservation.getCreatedAt(),
+                    reservation.getNotes()
+                );
+                reservationController.updateReservation(updated);
+            }
             reservationController.checkOut(reservation.getReservationId());
             if (billing != null) {
-                billingController.recordPayment(billing.getBillingId(), "paid");
+                String checkoutPaymentMethod = (String) paymentMethodCmb.getSelectedItem();
+                billingController.recordPayment(billing.getBillingId(), paymentStatus,
+                        received, checkoutPaymentMethod, "", notes.getText().trim());
             }
-            double change = received - total;
-            changeDueAmount.setText(String.format("%.2f", change));
-            JOptionPane.showMessageDialog(this, "Check-out completed. Change due: LKR " + String.format("%.2f", change));
+
+            String msg;
+            if (Constants.PAYMENT_PAID.equals(paymentStatus)) {
+                msg = "Check-out completed. Change due: LKR " + String.format("%,.2f", change);
+            } else {
+                double balance = total - received;
+                msg = "Check-out completed. Partial payment recorded. Balance due: LKR " + String.format("%,.2f", balance);
+            }
+            JOptionPane.showMessageDialog(this, msg);
             dispose();
         } catch (ValidationException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),

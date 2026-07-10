@@ -16,13 +16,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BillingDAO {
 
     private static final String SELECT_JOIN =
             "SELECT b.billing_id, b.reservation_id, b.room_charge, "
           + "b.service_charge, b.other_charges, b.tax_amount, "
-          + "b.total_bill, b.payment_status, b.payment_date, b.notes, "
+           + "b.total_bill, b.discount_amount, b.late_charge, b.amount_paid, b.payment_status, b.payment_date, b.notes AS billing_notes, "
            + "r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
           + "r.number_of_guests, r.status, r.total_amount, r.notes, "
@@ -31,10 +33,11 @@ public class BillingDAO {
           + "g.email, g.phone, g.address, g.id_proof_type, "
           + "g.id_proof_number, g.date_of_birth, g.guest_type, g.nationality, "
           + "g.created_at AS g_created_at, "
-          + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
-          + "rm.capacity, rm.base_price, rm.status AS rm_status, "
-          + "rm.floor, rm.created_at AS rm_created_at "
-          + "FROM billing b "
+           + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
+           + "rm.capacity, rm.base_price, rm.description AS rm_description, "
+           + "rm.status AS rm_status, "
+           + "rm.floor, rm.created_at AS rm_created_at "
+           + "FROM billing b "
           + "JOIN reservations r ON b.reservation_id = r.reservation_id "
           + "JOIN guests g ON r.guest_id = g.guest_id "
           + "JOIN rooms rm ON r.room_id = rm.room_id ";
@@ -75,9 +78,12 @@ public class BillingDAO {
                             billing.getOtherCharges(),
                             billing.getTaxAmount(),
                             billing.getTotalBill(),
+                            billing.getDiscountAmount(),
+                            billing.getLateCharge(),
                             billing.getPaymentStatus(),
                             billing.getPaymentDate(),
-                            billing.getNotes()
+                            billing.getNotes(),
+                            billing.getAmountPaid()
                     );
                 }
                 throw new DatabaseException("Failed to retrieve generated billing ID");
@@ -150,11 +156,16 @@ public class BillingDAO {
         }
     }
 
-    public void updatePaymentStatus(int billingId, String status,
+    public void updatePaymentRecord(int billingId, String status,
+                                     double amountPaid,
+                                     String paymentMethod,
+                                     String transactionId,
+                                     String paymentNotes,
                                      LocalDateTime paymentDate)
             throws DatabaseException {
-        String sql = "UPDATE billing SET payment_status = ?, payment_date = ? "
-                   + "WHERE billing_id = ?";
+        String sql = "UPDATE billing SET payment_status = ?, payment_date = ?, "
+                   + "amount_paid = ?, payment_method = ?, transaction_id = ?, "
+                   + "payment_notes = ? WHERE billing_id = ?";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -163,13 +174,17 @@ public class BillingDAO {
             pstmt.setTimestamp(2, paymentDate != null
                     ? java.sql.Timestamp.valueOf(paymentDate)
                     : null);
-            pstmt.setInt(3, billingId);
+            pstmt.setDouble(3, amountPaid);
+            pstmt.setString(4, paymentMethod);
+            pstmt.setString(5, transactionId);
+            pstmt.setString(6, paymentNotes);
+            pstmt.setInt(7, billingId);
 
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
             throw new DatabaseException(
-                    "Failed to update payment status: " + e.getMessage(), e);
+                    "Failed to update payment record: " + e.getMessage(), e);
         }
     }
 
@@ -228,6 +243,38 @@ public class BillingDAO {
         return 0.0;
     }
 
+    public Map<LocalDate, Double> getDailyRevenue(LocalDate start, LocalDate end)
+            throws DatabaseException {
+        String sql = "SELECT DATE(payment_date) AS rev_date, "
+                   + "COALESCE(SUM(total_bill), 0) AS daily_rev "
+                   + "FROM billing "
+                   + "WHERE payment_status IN (?, ?) "
+                   + "AND payment_date BETWEEN ? AND ? "
+                   + "GROUP BY DATE(payment_date) "
+                   + "ORDER BY rev_date";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, Constants.PAYMENT_PAID);
+            pstmt.setString(2, Constants.PAYMENT_PARTIAL);
+            pstmt.setTimestamp(3, java.sql.Timestamp.valueOf(start.atStartOfDay()));
+            pstmt.setTimestamp(4, java.sql.Timestamp.valueOf(end.atTime(23, 59, 59)));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                Map<LocalDate, Double> result = new TreeMap<>();
+                while (rs.next()) {
+                    result.put(rs.getDate("rev_date").toLocalDate(), rs.getDouble("daily_rev"));
+                }
+                return result;
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException(
+                    "Failed to calculate daily revenue: " + e.getMessage(), e);
+        }
+    }
+
     private Billing mapResultSetToBilling(ResultSet rs) throws SQLException {
         java.sql.Date dobSql = rs.getDate("date_of_birth");
         LocalDate dateOfBirth = dobSql != null ? dobSql.toLocalDate() : null;
@@ -253,6 +300,7 @@ public class BillingDAO {
                 rs.getString("room_type"),
                 rs.getInt("capacity"),
                 rs.getDouble("base_price"),
+                rs.getString("rm_description"),
                 rs.getString("rm_status"),
                 rs.getInt("floor"),
                 rs.getTimestamp("rm_created_at").toLocalDateTime()
@@ -285,9 +333,12 @@ public class BillingDAO {
                 rs.getDouble("other_charges"),
                 rs.getDouble("tax_amount"),
                 rs.getDouble("total_bill"),
+                rs.getDouble("discount_amount"),
+                rs.getDouble("late_charge"),
                 rs.getString("payment_status"),
                 paymentDate,
-                rs.getString("notes")
+                rs.getString("billing_notes"),
+                rs.getDouble("amount_paid")
         );
     }
 }

@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewService;
 import hms.view.dialogs.ServiceBookingDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ServicePanel extends javax.swing.JPanel {
     public ServicePanel() {
         initComponents();
         setupTable();
+        setupIcons();
         loadServices();
     }
 
@@ -125,7 +127,7 @@ public class ServicePanel extends javax.swing.JPanel {
         room_seperator_2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         serviceCatalogTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editServiceBtn = new javax.swing.JButton();
         deleteServiceBtn = new javax.swing.JButton();
         toggleAvailBtn = new javax.swing.JButton();
@@ -162,7 +164,7 @@ public class ServicePanel extends javax.swing.JPanel {
 
         jLabel2.setText("Service type");
 
-        serviceTypeCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Deluxe King Suite", "Standard Double", "Single Economy" }));
+        serviceTypeCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Food", "Laundry", "Spa", "Conference" }));
 
         room_seperator_2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -382,17 +384,29 @@ public class ServicePanel extends javax.swing.JPanel {
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
         try {
-            List<Service> all = serviceController.getAllServices();
             String type = (String) serviceTypeCmb.getSelectedItem();
             String avail = (String) availabilityCmb.getSelectedItem();
 
-            filteredServices = all.stream()
-                .filter(s -> type == null || type.equals("All") || s.getServiceType().equals(type))
-                .filter(s -> avail == null || avail.equals("All")
-                    || (avail.equals("Available") && s.isAvailable())
-                    || (avail.equals("Unavailable") && !s.isAvailable()))
-                .collect(Collectors.toList());
+            boolean typeActive = type != null && !type.equals("All");
+            boolean availActive = avail != null && !avail.equals("All");
 
+            List<Service> filtered;
+            if (typeActive) {
+                filtered = serviceController.filterByType(type);
+            } else if (availActive) {
+                filtered = serviceController.filterByAvailability(avail.equals("Available"));
+            } else {
+                filtered = serviceController.getAllServices();
+            }
+
+            if (typeActive && availActive) {
+                boolean available = avail.equals("Available");
+                filtered = filtered.stream()
+                    .filter(s -> available == s.isAvailable())
+                    .collect(Collectors.toList());
+            }
+
+            filteredServices = filtered;
             currentPage = 0;
             applyPagination();
         } catch (DatabaseException e) {
@@ -436,7 +450,7 @@ public class ServicePanel extends javax.swing.JPanel {
     private void bookServiceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookServiceBtnActionPerformed
         Service selected = getSelectedService();
         if (selected == null) return;
-        ServiceBookingDialog d = new ServiceBookingDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        ServiceBookingDialog d = new ServiceBookingDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
         d.setTitle("Book Service: " + selected.getServiceName());
         d.setVisible(true);
         loadServices();
@@ -451,6 +465,16 @@ public class ServicePanel extends javax.swing.JPanel {
         if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_serviceCatalogPaginationRightActionPerformed
 
+
+    private void setupIcons() {
+        addServiceBtn.setIcon(IconUtil.getAddIcon());
+        editServiceBtn.setIcon(IconUtil.getEditIcon());
+        deleteServiceBtn.setIcon(IconUtil.getDeleteIcon());
+        toggleAvailBtn.setIcon(IconUtil.getCheckIcon());
+        bookServiceBtn.setIcon(IconUtil.getBookIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addServiceBtn;

@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.GuestController;
 import hms.controller.ReservationController;
 import hms.controller.RoomController;
@@ -42,6 +43,9 @@ public class NewReservationDialog extends javax.swing.JDialog {
     public NewReservationDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+        jLabel12.setVisible(false);
+        applyRightPanelHighlight();
         setupListeners();
     }
 
@@ -51,14 +55,15 @@ public class NewReservationDialog extends javax.swing.JDialog {
     public NewReservationDialog(java.awt.Frame parent, boolean modal, Reservation reservation) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+        jLabel12.setVisible(false);
+        applyRightPanelHighlight();
         setupListeners();
         this.editingReservation = reservation;
         setTitle("Modify Reservation: " + reservation.getDisplayId());
         selectedGuest = reservation.getGuest();
         guestFullName.setText(selectedGuest.getFirstName() + " " + selectedGuest.getLastName());
         guestIdNumber.setText("ID: " + selectedGuest.getIdProofNumber());
-        guestProfile.setText(selectedGuest.getFirstName().substring(0, 1).toUpperCase()
-            + selectedGuest.getLastName().substring(0, 1).toUpperCase());
         guestType.setText(selectedGuest.getGuestType());
         checkInDate.setDate(java.util.Date.from(reservation.getCheckInDate()
             .atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -67,7 +72,15 @@ public class NewReservationDialog extends javax.swing.JDialog {
         guestCount.setText(String.valueOf(reservation.getNumberOfGuests()));
         additionalInfo.setText(reservation.getNotes());
         loadAvailableRooms();
-        updatePriceBreakdown();
+        includeCurrentRoomAndPreselect();
+        createReservationBtn.setText("Update Reservation");
+    }
+
+    private void applyRightPanelHighlight() {
+        java.awt.Color alt = javax.swing.UIManager.getColor("Table.alternateRowColor");
+        if (alt != null) {
+            right.setBackground(alt);
+        }
     }
 
     private void setupListeners() {
@@ -105,19 +118,14 @@ public class NewReservationDialog extends javax.swing.JDialog {
         long nights = ChronoUnit.DAYS.between(inDate, outDate);
         if (nights <= 0) return;
 
-        double basePrice = 0.0;
-        if (availableRooms != null && selectedRow < availableRooms.size()) {
-            basePrice = availableRooms.get(selectedRow).getBasePrice();
-        } else {
-            Object priceVal = availableRoomsTable.getValueAt(selectedRow, 2);
-            if (priceVal != null) {
-                basePrice = Double.parseDouble(priceVal.toString().replaceAll("[^\\d.]", ""));
-            }
-        }
-
-        double roomChargeVal = basePrice * nights;
+        Guest pricingGuest = editingReservation != null
+                ? editingReservation.getGuest() : selectedGuest;
+        double roomChargeVal = pricingGuest != null
+                ? reservationController.calculateTotalAmount(
+                        pricingGuest, availableRooms.get(selectedRow), inDate, outDate)
+                : availableRooms.get(selectedRow).getBasePrice() * nights;
         double serviceChargeVal = 0.0;
-        double taxVal = (roomChargeVal + serviceChargeVal) * 0.10;
+        double taxVal = (roomChargeVal + serviceChargeVal) * Constants.DEFAULT_TAX_RATE;
         double total = roomChargeVal + serviceChargeVal + taxVal;
 
         roomCharge.setText(String.format("LKR %.2f", roomChargeVal));
@@ -130,8 +138,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
         selectedGuest = guest;
         guestFullName.setText(guest.getFirstName() + " " + guest.getLastName());
         guestIdNumber.setText("ID: " + guest.getIdProofNumber());
-        guestProfile.setText(guest.getFirstName().substring(0, 1).toUpperCase()
-            + guest.getLastName().substring(0, 1).toUpperCase());
         guestType.setText(guest.getGuestType());
     }
 
@@ -164,6 +170,31 @@ public class NewReservationDialog extends javax.swing.JDialog {
         }
     }
 
+    private void includeCurrentRoomAndPreselect() {
+        if (editingReservation == null || availableRooms == null) return;
+        Room currentRoom = editingReservation.getRoom();
+        int currentRoomIndex = -1;
+        for (int i = 0; i < availableRooms.size(); i++) {
+            if (availableRooms.get(i).getRoomId() == currentRoom.getRoomId()) {
+                currentRoomIndex = i;
+                break;
+            }
+        }
+        if (currentRoomIndex == -1) {
+            availableRooms.add(0, currentRoom);
+            javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) availableRoomsTable.getModel();
+            model.insertRow(0, new Object[]{
+                currentRoom.getRoomNumber(),
+                currentRoom.getRoomType(),
+                String.format("%.2f", currentRoom.getBasePrice())
+            });
+            currentRoomIndex = 0;
+        }
+        availableRoomsTable.setRowSelectionInterval(currentRoomIndex, currentRoomIndex);
+        updatePriceBreakdown();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -184,8 +215,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
         findGuestBtn = new javax.swing.JButton();
         searchBox = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        guestProfile = new javax.swing.JLabel();
         guestFullName = new javax.swing.JLabel();
         guestIdNumber = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -202,8 +231,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         availableRoomsTable = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         availableRoomsText = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -232,7 +259,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("GUEST SELECTION");
 
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(127, 127, 127), 1, true));
 
         jLabel3.setText("Search by Name or ID Number");
 
@@ -244,30 +271,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
         });
 
         searchBox.setToolTipText("Search by room no.");
-
-        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(76, 76, 76), 1, true));
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(76, 76, 76)));
-
-        guestProfile.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        guestProfile.setText("AH");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(guestProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(guestProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         guestFullName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         guestFullName.setText("Alexander Hamilton");
@@ -291,8 +294,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(guestFullName)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -301,7 +302,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(guestType)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                 .addComponent(changeGuestBtn)
                 .addContainerGap())
         );
@@ -319,8 +320,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(guestIdNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator2)
-                            .addComponent(guestType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(guestType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -389,27 +389,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(availableRoomsTable);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "ROOM #", "ROOM TYPE", "PRICE/NIGHT"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(jTable2);
 
         availableRoomsText.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         availableRoomsText.setText("12 ROOMS AVAILABLE");
@@ -496,29 +475,26 @@ public class NewReservationDialog extends javax.swing.JDialog {
                 .addComponent(jScrollPane2))
         );
 
-        right.setBackground(new java.awt.Color(0, 0, 0));
-        right.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel17.setText("Price Breakdown");
 
         jLabel18.setText("Room Charge");
 
         roomCharge.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        roomCharge.setText("LKR 2,250.00");
+        roomCharge.setText("LKR 0.00");
 
         jLabel20.setText("Service Charges");
 
         serviceCharge.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        serviceCharge.setText("LKR 670.00");
+        serviceCharge.setText("LKR 0.00");
 
         jLabel22.setText("Tax (10%)");
 
         tax.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        tax.setText("LKR 292.00");
+        tax.setText("LKR 0.00");
 
         totalEstAmount.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        totalEstAmount.setText("LKR 3212.00");
+        totalEstAmount.setText("LKR 0.00");
 
         jLabel25.setText("TOTAL EST. AMOUNT");
 
@@ -592,7 +568,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
                 .addGroup(rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totalEstAmount)
                     .addComponent(jLabel25))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 525, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -684,7 +660,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
         selectedGuest = null;
         guestFullName.setText("");
         guestIdNumber.setText("");
-        guestProfile.setText("");
     }//GEN-LAST:event_changeGuestBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
@@ -726,6 +701,9 @@ public class NewReservationDialog extends javax.swing.JDialog {
 
         try {
             if (editingReservation != null) {
+                double recalculatedAmount = reservationController.calculateTotalAmount(
+                    selectedGuest, selectedRoom, inDate, outDate)
+                    * (1 + Constants.DEFAULT_TAX_RATE);
                 Reservation updated = new Reservation(
                     editingReservation.getReservationId(),
                     editingReservation.getDisplayId(),
@@ -734,7 +712,7 @@ public class NewReservationDialog extends javax.swing.JDialog {
                     editingReservation.getBookingDate(),
                     numGuests,
                     editingReservation.getStatus(),
-                    editingReservation.getTotalAmount(),
+                    recalculatedAmount,
                     editingReservation.getCreatedByStaffId(),
                     editingReservation.getCreatedAt(),
                     additionalInfo.getText().trim()
@@ -807,7 +785,6 @@ public class NewReservationDialog extends javax.swing.JDialog {
     private javax.swing.JTextField guestCount;
     private javax.swing.JLabel guestFullName;
     private javax.swing.JLabel guestIdNumber;
-    private javax.swing.JLabel guestProfile;
     private javax.swing.JLabel guestType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -827,17 +804,14 @@ public class NewReservationDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel left;
     private javax.swing.JPanel right;
     private javax.swing.JLabel roomCharge;

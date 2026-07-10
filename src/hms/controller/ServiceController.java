@@ -43,7 +43,7 @@ public class ServiceController {
 
     public void updateService(Service service)
             throws ValidationException, DatabaseException {
-        if (service.getServiceId() <= 0) {
+        if (service == null || service.getServiceId() <= 0) {
             throw new ValidationException("Invalid service ID");
         }
 
@@ -95,7 +95,8 @@ public class ServiceController {
     }
 
     public ServiceBooking createServiceBooking(Reservation reservation,
-                                               Service service, int quantity)
+                                               Service service, int quantity,
+                                               String notes)
             throws ValidationException, DatabaseException {
 
         if (reservation == null) {
@@ -115,7 +116,7 @@ public class ServiceController {
 
         ServiceBooking booking = new ServiceBooking(
                 reservation, service, quantity, totalPrice,
-                Constants.SVC_BOOKING_PENDING
+                Constants.SVC_BOOKING_PENDING, notes
         );
 
         return serviceBookingDAO.save(booking);
@@ -147,7 +148,8 @@ public class ServiceController {
                 existing.getBookingDate(),
                 existing.getQuantity(),
                 existing.getTotalPrice(),
-                Constants.SVC_BOOKING_CANCELLED
+                Constants.SVC_BOOKING_CANCELLED,
+                existing.getNotes()
         );
 
         serviceBookingDAO.update(cancelled);
@@ -173,6 +175,18 @@ public class ServiceController {
 
         if (!ValidationUtil.isPositive(service.getPrice())) {
             throw new ValidationException("Price must be positive");
+        }
+
+        if (!ValidationUtil.isValidLength(service.getServiceName(), 100)) {
+            throw new ValidationException("Service name must not exceed 100 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(service.getServiceType(), 50)) {
+            throw new ValidationException("Service type must not exceed 50 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(service.getDescription(), 500)) {
+            throw new ValidationException("Description must not exceed 500 characters");
         }
     }
 }

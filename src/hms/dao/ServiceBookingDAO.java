@@ -21,7 +21,7 @@ public class ServiceBookingDAO {
 
     private static final String SELECT_JOIN =
             "SELECT sb.service_booking_id, sb.reservation_id, sb.service_id, "
-          + "sb.booking_date, sb.quantity, sb.total_price, sb.status, "
+           + "sb.booking_date AS svc_booking_date, sb.quantity, sb.total_price, sb.status, sb.notes, "
            + "r.reservation_id, r.display_id, r.guest_id, r.room_id, "
           + "r.check_in_date, r.check_out_date, r.booking_date, "
           + "r.number_of_guests, r.status, r.total_amount, r.notes, "
@@ -30,9 +30,10 @@ public class ServiceBookingDAO {
           + "g.email, g.phone, g.address, g.id_proof_type, "
           + "g.id_proof_number, g.date_of_birth, g.guest_type, g.nationality, "
           + "g.created_at AS g_created_at, "
-          + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
-          + "rm.capacity, rm.base_price, rm.status AS rm_status, "
-          + "rm.floor, rm.created_at AS rm_created_at, "
+           + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
+           + "rm.capacity, rm.base_price, rm.description AS rm_description, "
+           + "rm.status AS rm_status, "
+           + "rm.floor, rm.created_at AS rm_created_at, "
           + "s.service_id AS s_service_id, s.service_name, s.service_type, "
           + "s.price, s.description, s.is_available, s.created_at AS s_created_at "
           + "FROM service_bookings sb "
@@ -43,8 +44,8 @@ public class ServiceBookingDAO {
 
     public ServiceBooking save(ServiceBooking serviceBooking) throws DatabaseException {
         String sql = "INSERT INTO service_bookings (reservation_id, service_id, "
-                   + "booking_date, quantity, total_price, status) "
-                   + "VALUES (?, ?, ?, ?, ?, ?)";
+                   + "booking_date, quantity, total_price, status, notes) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -55,6 +56,7 @@ public class ServiceBookingDAO {
             pstmt.setInt(4, serviceBooking.getQuantity());
             pstmt.setObject(5, serviceBooking.getTotalPrice());
             pstmt.setString(6, serviceBooking.getStatus());
+            pstmt.setString(7, serviceBooking.getNotes());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -70,7 +72,8 @@ public class ServiceBookingDAO {
                             serviceBooking.getBookingDate(),
                             serviceBooking.getQuantity(),
                             serviceBooking.getTotalPrice(),
-                            serviceBooking.getStatus()
+                            serviceBooking.getStatus(),
+                            serviceBooking.getNotes()
                     );
                 }
                 throw new DatabaseException(
@@ -233,6 +236,7 @@ public class ServiceBookingDAO {
                 rs.getString("room_type"),
                 rs.getInt("capacity"),
                 rs.getDouble("base_price"),
+                rs.getString("rm_description"),
                 rs.getString("rm_status"),
                 rs.getInt("floor"),
                 rs.getTimestamp("rm_created_at").toLocalDateTime()
@@ -268,10 +272,11 @@ public class ServiceBookingDAO {
                 rs.getInt("service_booking_id"),
                 reservation,
                 service,
-                rs.getTimestamp("booking_date").toLocalDateTime(),
+                rs.getTimestamp("svc_booking_date").toLocalDateTime(),
                 rs.getInt("quantity"),
                 rs.getObject("total_price", Double.class),
-                rs.getString("status")
+                rs.getString("status"),
+                rs.getString("notes")
         );
     }
 }

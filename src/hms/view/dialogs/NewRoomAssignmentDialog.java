@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.RoomController;
 import hms.controller.StaffController;
 import hms.exception.DatabaseException;
@@ -36,6 +37,7 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
     public NewRoomAssignmentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         loadComboBoxData();
     }
 
@@ -45,6 +47,7 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
     public NewRoomAssignmentDialog(java.awt.Frame parent, boolean modal, RoomAssignment assignment) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.editingAssignment = assignment;
         setTitle("Edit Assignment #" + assignment.getAssignmentId());
         loadComboBoxData();
@@ -72,6 +75,11 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
             for (Staff s : staffList) {
                 staffCmb.addItem(s.getFirstName() + " " + s.getLastName());
             }
+
+            assignmentTypeCmb.removeAllItems();
+            assignmentTypeCmb.addItem(Constants.ASSIGN_TYPE_CLEANING);
+            assignmentTypeCmb.addItem(Constants.ASSIGN_TYPE_MAINTENANCE);
+            assignmentTypeCmb.addItem(Constants.ASSIGN_TYPE_INSPECTION);
         } catch (DatabaseException e) {
             JOptionPane.showMessageDialog(this, "Failed to load data: " + e.getMessage(),
                 "Database Error", JOptionPane.ERROR_MESSAGE);
@@ -133,7 +141,7 @@ public class NewRoomAssignmentDialog extends javax.swing.JDialog {
         notes.setRows(5);
         jScrollPane2.setViewportView(notes);
 
-        saveStaffProfileBtn.setText("Save Staff Profile");
+        saveStaffProfileBtn.setText("Save Assignment");
         saveStaffProfileBtn.setActionCommand("");
         saveStaffProfileBtn.addActionListener(this::saveStaffProfileBtnActionPerformed);
 

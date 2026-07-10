@@ -17,6 +17,7 @@ import hms.view.dialogs.NewReservationDialog;
 import hms.view.dialogs.GuestCheckInDialog;
 import hms.view.dialogs.GuestCheckOutDialog;
 import hms.view.dialogs.CancellationDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -35,6 +36,7 @@ public class ReservationPanel extends javax.swing.JPanel {
     public ReservationPanel() {
         initComponents();
         setupTable();
+        setupIcons();
         loadReservations();
     }
 
@@ -131,7 +133,7 @@ public class ReservationPanel extends javax.swing.JPanel {
         dateRangeTo = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         reservationsTable = new javax.swing.JTable();
-        reservationBottomBar = new javax.swing.JPanel();
+        reservationBottomBar = new hms.theme.RoundedPanel(20);
         checkInBtn = new javax.swing.JButton();
         checkOutBtn = new javax.swing.JButton();
         modifyResBtn = new javax.swing.JButton();
@@ -452,25 +454,17 @@ public class ReservationPanel extends javax.swing.JPanel {
     private void checkInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        try {
-            reservationController.checkIn(selected.getReservationId());
-            loadReservations();
-        } catch (ValidationException | DatabaseException e) {
-            JOptionPane.showMessageDialog(this, "Check-in failed: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        GuestCheckInDialog d = new GuestCheckInDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
+        d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_checkInBtnActionPerformed
 
     private void checkOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        try {
-            reservationController.checkOut(selected.getReservationId());
-            loadReservations();
-        } catch (ValidationException | DatabaseException e) {
-            JOptionPane.showMessageDialog(this, "Check-out failed: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        GuestCheckOutDialog d = new GuestCheckOutDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
+        d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_checkOutBtnActionPerformed
 
     private void modifyResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyResBtnActionPerformed
@@ -485,13 +479,9 @@ public class ReservationPanel extends javax.swing.JPanel {
     private void cancelResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelResBtnActionPerformed
         Reservation selected = getSelectedReservation();
         if (selected == null) return;
-        try {
-            reservationController.cancelReservation(selected.getReservationId());
-            loadReservations();
-        } catch (ValidationException | DatabaseException e) {
-            JOptionPane.showMessageDialog(this, "Cancel failed: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        CancellationDialog d = new CancellationDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
+        d.setVisible(true);
+        loadReservations();
     }//GEN-LAST:event_cancelResBtnActionPerformed
 
     private void reservationPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservationPaginationLeftActionPerformed
@@ -503,6 +493,16 @@ public class ReservationPanel extends javax.swing.JPanel {
         if (currentPage < totalPages - 1) { currentPage++; applyPagination(); }
     }//GEN-LAST:event_reservationPaginationRightActionPerformed
 
+
+    private void setupIcons() {
+        addReservationBtn.setIcon(IconUtil.getAddIcon());
+        modifyResBtn.setIcon(IconUtil.getEditIcon());
+        cancelResBtn.setIcon(IconUtil.getDeleteIcon());
+        checkInBtn.setIcon(IconUtil.getCheckIcon());
+        checkOutBtn.setIcon(IconUtil.getInvoiceIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addReservationBtn;

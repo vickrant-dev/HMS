@@ -4,11 +4,14 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.BillingController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
 import hms.model.Billing;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -27,6 +30,8 @@ public class AdjustmentDialog extends javax.swing.JDialog {
     public AdjustmentDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+        setupAdjustmentListeners();
     }
 
     /**
@@ -35,9 +40,53 @@ public class AdjustmentDialog extends javax.swing.JDialog {
     public AdjustmentDialog(java.awt.Frame parent, boolean modal, Billing billing) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.billing = billing;
         if (billing != null) {
             currentTotalAmount.setText("Current Total: LKR " + String.format("%.2f", billing.getTotalBill()));
+            if (billing.getDiscountAmount() > 0) {
+                discountAmount.setText(String.valueOf(billing.getDiscountAmount()));
+            }
+            if (billing.getLateCharge() > 0) {
+                lateCharge.setText(String.valueOf(billing.getLateCharge()));
+            }
+            if (billing.getOtherCharges() > 0) {
+                otherCharge.setText(String.valueOf(billing.getOtherCharges()));
+            }
+        }
+        setupAdjustmentListeners();
+        updateNewTotalPreview();
+    }
+
+    private void setupAdjustmentListeners() {
+        DocumentListener dl = new DocumentListener() {
+            @Override public void insertUpdate(DocumentEvent e) { updateNewTotalPreview(); }
+            @Override public void removeUpdate(DocumentEvent e) { updateNewTotalPreview(); }
+            @Override public void changedUpdate(DocumentEvent e) { updateNewTotalPreview(); }
+        };
+        discountAmount.getDocument().addDocumentListener(dl);
+        lateCharge.getDocument().addDocumentListener(dl);
+        otherCharge.getDocument().addDocumentListener(dl);
+    }
+
+    private void updateNewTotalPreview() {
+        if (billing == null) return;
+        try {
+            String discText = discountAmount.getText().trim();
+            double disc = discText.isEmpty() ? 0 : Double.parseDouble(discText);
+            String lateText = lateCharge.getText().trim();
+            double late = lateText.isEmpty() ? 0 : Double.parseDouble(lateText);
+            String otherText = otherCharge.getText().trim();
+            double other = otherText.isEmpty() ? 0 : Double.parseDouble(otherText);
+            double netOtherCharges = other + late - disc;
+            if (netOtherCharges < 0) netOtherCharges = 0;
+            double roomCharge = billing.getRoomCharge();
+            double serviceCharge = billing.getServiceCharge();
+            double taxAmount = (roomCharge + serviceCharge + netOtherCharges) * Constants.DEFAULT_TAX_RATE;
+            double newTotal = roomCharge + serviceCharge + netOtherCharges + taxAmount;
+            jLabel10.setText("LKR " + String.format("%,.2f", newTotal));
+        } catch (NumberFormatException e) {
+            // Ignore partial/invalid input during typing
         }
     }
 

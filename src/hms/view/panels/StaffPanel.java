@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewStaffDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -33,6 +34,7 @@ public class StaffPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadStaff();
     }
 
@@ -135,7 +137,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         staffDirectoryTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editStaffBtn = new javax.swing.JButton();
         deleteStaffBtn = new javax.swing.JButton();
         staffPaginationLeft = new javax.swing.JButton();
@@ -156,13 +158,13 @@ public class StaffPanel extends javax.swing.JPanel {
         clearBtn.setText("Clear");
         clearBtn.addActionListener(this::clearBtnActionPerformed);
 
-        positionCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Available", "Unavailable" }));
+        positionCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Manager", "Receptionist", "Housekeeper", "Maintenance" }));
 
         jLabel3.setText("Position");
 
         jLabel2.setText("Department");
 
-        departmentCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Deluxe King Suite", "Standard Double", "Single Economy" }));
+        departmentCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Administration", "Front Desk", "Housekeeping", "Maintenance" }));
 
         room_seperator_2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -402,19 +404,38 @@ public class StaffPanel extends javax.swing.JPanel {
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
         try {
-            List<Staff> all = staffController.getAllStaff();
             String dept = (String) departmentCmb.getSelectedItem();
             String pos = (String) positionCmb.getSelectedItem();
             String status = (String) statusCmb.getSelectedItem();
 
-            filteredStaff = all.stream()
-                .filter(s -> dept == null || dept.equals("All") || s.getDepartment().equalsIgnoreCase(dept))
-                .filter(s -> pos == null || pos.equals("All") || s.getPosition().equalsIgnoreCase(pos))
-                .filter(s -> status == null || status.equals("All")
-                    || (status.equals("Available") && "Active".equalsIgnoreCase(s.getStatus()))
-                    || (status.equals("Unavailable") && !"Active".equalsIgnoreCase(s.getStatus())))
-                .collect(Collectors.toList());
+            boolean deptActive = dept != null && !dept.equals("All");
+            boolean posActive = pos != null && !pos.equals("All");
+            boolean statusActive = status != null && !status.equals("All");
 
+            List<Staff> filtered;
+            if (deptActive) {
+                filtered = staffController.filterByDepartment(dept);
+            } else if (posActive) {
+                filtered = staffController.filterByPosition(pos);
+            } else {
+                filtered = staffController.getAllStaff();
+            }
+
+            if (deptActive && posActive) {
+                final String posFinal = pos;
+                filtered = filtered.stream()
+                    .filter(s -> s.getPosition().equalsIgnoreCase(posFinal))
+                    .collect(Collectors.toList());
+            }
+
+            if (statusActive) {
+                filtered = filtered.stream()
+                    .filter(s -> (status.equals("Available") && "Active".equalsIgnoreCase(s.getStatus()))
+                        || (status.equals("Unavailable") && !"Active".equalsIgnoreCase(s.getStatus())))
+                    .collect(Collectors.toList());
+            }
+
+            filteredStaff = filtered;
             currentPage = 0;
             applyPagination();
         } catch (DatabaseException e) {
@@ -423,6 +444,14 @@ public class StaffPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
+
+    private void setupIcons() {
+        addStaffBtn.setIcon(IconUtil.getAddIcon());
+        editStaffBtn.setIcon(IconUtil.getEditIcon());
+        deleteStaffBtn.setIcon(IconUtil.getDeleteIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStaffBtn;

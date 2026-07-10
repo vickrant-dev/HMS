@@ -26,10 +26,11 @@ public class ReservationDAO {
           + "g.email, g.phone, g.address, g.id_proof_type, "
           + "g.id_proof_number, g.date_of_birth, g.guest_type, g.nationality, "
           + "g.created_at AS g_created_at, "
-          + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
-          + "rm.capacity, rm.base_price, rm.status AS rm_status, "
-          + "rm.floor, rm.created_at AS rm_created_at "
-          + "FROM reservations r "
+           + "rm.room_id AS rm_room_id, rm.room_number, rm.room_type, "
+           + "rm.capacity, rm.base_price, rm.description AS rm_description, "
+           + "rm.status AS rm_status, "
+           + "rm.floor, rm.created_at AS rm_created_at "
+           + "FROM reservations r "
           + "JOIN guests g ON r.guest_id = g.guest_id "
           + "JOIN rooms rm ON r.room_id = rm.room_id ";
 
@@ -152,21 +153,6 @@ public class ReservationDAO {
         }
     }
 
-    public void delete(int id) throws DatabaseException {
-        String sql = "DELETE FROM reservations WHERE reservation_id = ?";
-
-        Connection conn = DatabaseConnection.getInstance().getConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DatabaseException(
-                    "Failed to delete reservation: " + e.getMessage(), e);
-        }
-    }
-
     public List<Reservation> getByGuestId(int guestId) throws DatabaseException {
         String sql = SELECT_JOIN + "WHERE r.guest_id = ? ORDER BY r.check_in_date DESC";
 
@@ -189,42 +175,17 @@ public class ReservationDAO {
         }
     }
 
-    public List<Reservation> getByRoomId(int roomId) throws DatabaseException {
-        String sql = SELECT_JOIN + "WHERE r.room_id = ? ORDER BY r.check_in_date DESC";
-
-        Connection conn = DatabaseConnection.getInstance().getConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, roomId);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                List<Reservation> reservations = new ArrayList<>();
-                while (rs.next()) {
-                    reservations.add(mapResultSetToReservation(rs));
-                }
-                return reservations;
-            }
-
-        } catch (SQLException e) {
-            throw new DatabaseException(
-                    "Failed to retrieve reservations by room: " + e.getMessage(), e);
-        }
-    }
-
     public List<Reservation> getByDateRange(LocalDate start, LocalDate end)
             throws DatabaseException {
         String sql = SELECT_JOIN
-                   + "WHERE (r.check_in_date BETWEEN ? AND ? "
-                   + "OR r.check_out_date BETWEEN ? AND ?) "
+                   + "WHERE r.check_in_date < ? AND r.check_out_date > ? "
                    + "ORDER BY r.check_in_date";
 
         Connection conn = DatabaseConnection.getInstance().getConnection();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setDate(1, java.sql.Date.valueOf(start));
-            pstmt.setDate(2, java.sql.Date.valueOf(end));
-            pstmt.setDate(3, java.sql.Date.valueOf(start));
-            pstmt.setDate(4, java.sql.Date.valueOf(end));
+            pstmt.setDate(1, java.sql.Date.valueOf(end));
+            pstmt.setDate(2, java.sql.Date.valueOf(start));
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 List<Reservation> reservations = new ArrayList<>();
@@ -270,6 +231,23 @@ public class ReservationDAO {
 
             pstmt.setString(1, status);
             pstmt.setInt(2, reservationId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DatabaseException(
+                    "Failed to update reservation status: " + e.getMessage(), e);
+        }
+    }
+
+    public void updateStatus(int reservationId, String status, String notes) throws DatabaseException {
+        String sql = "UPDATE reservations SET status = ?, notes = ? WHERE reservation_id = ?";
+
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            pstmt.setString(2, notes);
+            pstmt.setInt(3, reservationId);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -354,6 +332,7 @@ public class ReservationDAO {
                 rs.getString("room_type"),
                 rs.getInt("capacity"),
                 rs.getDouble("base_price"),
+                rs.getString("rm_description"),
                 rs.getString("rm_status"),
                 rs.getInt("floor"),
                 rs.getTimestamp("rm_created_at").toLocalDateTime()

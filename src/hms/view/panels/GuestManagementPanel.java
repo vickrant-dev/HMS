@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddGuestDialog;
+import javax.swing.JDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -32,6 +34,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadGuests();
     }
 
@@ -128,7 +131,7 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         searchBtn = new javax.swing.JButton();
         guest_table = new javax.swing.JScrollPane();
         guestManagementTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editGuestBtn = new javax.swing.JButton();
         deleteGuestBtn = new javax.swing.JButton();
         viewHistoryBtn = new javax.swing.JButton();
@@ -258,18 +261,19 @@ public class GuestManagementPanel extends javax.swing.JPanel {
                 .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bottomBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(guest_seperator_1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, guestManagementPanelGroupLayout.createSequentialGroup()
-                        .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(heading)
-                            .addComponent(description))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addGuestBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(guest_table, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
                     .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
-                        .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchBtn)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(guestManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(heading)
+                            .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
+                                .addComponent(searchBox, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchBtn)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(guestManagementPanelGroupLayout.createSequentialGroup()
+                        .addComponent(description)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addGuestBtn)))
                 .addContainerGap())
         );
         guestManagementPanelGroupLayout.setVerticalGroup(
@@ -342,8 +346,14 @@ public class GuestManagementPanel extends javax.swing.JPanel {
     private void viewHistoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewHistoryBtnActionPerformed
         Guest selected = getSelectedGuest();
         if (selected == null) return;
-        JOptionPane.showMessageDialog(this, "Guest history for " + selected.getFirstName()
-            + " " + selected.getLastName() + " will be shown here.");
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
+            "Guest History: " + selected.getFirstName() + " " + selected.getLastName(), true);
+        GuestHistorySubPanel historyPanel = new GuestHistorySubPanel(selected);
+        dialog.add(historyPanel);
+        dialog.pack();
+        dialog.setSize(1000, 680);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_viewHistoryBtnActionPerformed
 
     private void addGuestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGuestBtnActionPerformed
@@ -366,6 +376,14 @@ public class GuestManagementPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
+
+    private void setupIcons() {
+        addGuestBtn.setIcon(IconUtil.getAddIcon());
+        editGuestBtn.setIcon(IconUtil.getEditIcon());
+        deleteGuestBtn.setIcon(IconUtil.getDeleteIcon());
+        viewHistoryBtn.setIcon(IconUtil.getEyeIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGuestBtn;

@@ -1,168 +1,406 @@
 USE hotel_management_system;
 
--- ============================================
--- 1. guests (12)
--- ============================================
+-- ================================================
+-- GENERATED RICH SEED DATA  (LKR)  Jan-Jun 2026
+-- ================================================
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+TRUNCATE TABLE room_assignments;
+TRUNCATE TABLE service_bookings;
+TRUNCATE TABLE billing;
+TRUNCATE TABLE reservations;
+TRUNCATE TABLE services;
+TRUNCATE TABLE staff;
+TRUNCATE TABLE rooms;
+TRUNCATE TABLE guests;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 1. guests (30)
 INSERT INTO guests (first_name, last_name, email, phone, address, id_proof_type, id_proof_number, date_of_birth, guest_type, nationality) VALUES
-('John', 'Smith', 'john.smith@email.com', '0771234567', '12 Kings Road, Colombo 01', 'Passport', 'P1234567', '1985-03-15', 'VIP', 'British'),
-('Sarah', 'Johnson', 'sarah.j@email.com', '0772345678', '45 Park Street, Kandy', 'Driving License', 'DL876543', '1990-07-22', 'Regular', 'American'),
-('Michael', 'Chen', 'mchen@email.com', '0773456789', '78 Galle Road, Colombo 03', 'Passport', 'P2345678', '1982-11-08', 'Corporate', 'Chinese'),
-('Emily', 'Davis', 'emily.davis@email.com', '0774567890', '23 Temple Road, Nugegoda', 'Driving License', 'DL123456', '1995-05-30', 'Regular', 'Canadian'),
-('James', 'Wilson', 'jwilson@email.com', '0775678901', '56 Hill Street, Colombo 07', NULL, NULL, '1978-09-12', 'VIP', 'Australian'),
-('Emma', 'Brown', 'emma.brown@email.com', '0776789012', '90 Lake Drive, Negombo', 'Passport', 'P3456789', '1988-01-25', 'Regular', 'British'),
-('David', 'Lee', 'david.lee@email.com', '0777890123', '34 Ocean View, Galle', 'Driving License', 'DL654321', '1992-06-18', 'Regular', 'Singaporean'),
-('Sophia', 'Garcia', 'sophia.g@email.com', '0778901234', '67 Green Lane, Colombo 05', 'Passport', 'P4567890', '1987-04-05', 'VIP', 'Spanish'),
-('Robert', 'Taylor', 'rtaylor@email.com', '0779012345', '12 River Road, Kandy', NULL, NULL, '1965-12-20', 'Corporate', 'American'),
-('Olivia', 'Martinez', 'olivia.m@email.com', '0770123456', '89 Sunset Blvd, Colombo 04', 'Driving License', 'DL345678', '1993-08-14', 'Regular', 'Mexican'),
-('William', 'Anderson', 'wanderson@email.com', '0771122334', '55 Mountain View, Nuwara Eliya', 'Passport', 'P5678901', '1980-02-28', 'Corporate', 'Canadian'),
-('Isabella', 'Thomas', 'isabella.t@email.com', '0772233445', '22 Garden Road, Colombo 08', 'Driving License', 'DL234567', '1996-10-10', 'Regular', 'Italian');
+('Ranil','Wickramasinghe','ranil.w@email.com','0771001001','15 Marine Drive, Colombo 03','Passport','P1001001','1970-04-12','VIP','Sri Lankan'),
+('Sarah','Thompson','sarah.t@email.com','0771002002','42 Hyde Park Corner, London','Passport','P2002002','1982-09-25','VIP','British'),
+('Ahmed','Al-Rashid','ahmed.ar@email.com','0771003003','Palm Jumeirah, Dubai','Passport','P3003003','1975-11-18','VIP','Emirati'),
+('Kenji','Tanaka','kenji.t@email.com','0771004004','5-2-1 Ginza, Tokyo','Passport','P4004004','1980-06-30','VIP','Japanese'),
+('Maria','Santos','maria.s@email.com','0771005005','25 Ayala Avenue, Manila','Passport','P5005005','1985-03-08','VIP','Filipino'),
+('Priya','Sharma','priya.s@email.com','0772001001','44 Tech Park, Bangalore','Passport','P6006006','1988-07-15','Corporate','Indian'),
+('David','Miller','david.m@email.com','0772002002','88 Queen Street, Sydney','Passport','P7007007','1979-12-22','Corporate','Australian'),
+('Liu','Wei','liu.w@email.com','0772003003','100 Century Ave, Shanghai','Passport','P8008008','1983-05-10','Corporate','Chinese'),
+('Samantha','Perera','samantha.p@email.com','0772004004','66 Union Place, Colombo 02','Driving License','DL909090','1990-01-28','Corporate','Sri Lankan'),
+('Robert','Fischer','robert.f@email.com','0772005005','12 Hauptstrasse, Berlin','Passport','P0000009','1986-08-14','Corporate','German'),
+('Nimal','Fernando','nimal.f@email.com','0773001001','23 Temple Road, Kandy','Driving License','DL111111','1987-04-05','Regular','Sri Lankan'),
+('Kamala','Dissanayake','kamala.d@email.com','0773002002','56 Park Street, Colombo 05','Driving License','DL222222','1992-10-19','Regular','Sri Lankan'),
+('Mark','Johnson','mark.j@email.com','0773003003','34 Abbey Road, London','Passport','P1313131','1991-03-22','Regular','British'),
+('Elena','Petrova','elena.p@email.com','0773004004','10 Tverskaya Street, Moscow','Passport','P1414141','1994-07-08','Regular','Russian'),
+('Ahmed','Hassan','ahmed.h@email.com','0773005005','7 Orchid Magu, Male','Passport','P1515151','1983-11-30','Regular','Maldivian'),
+('Lisa','Chen','lisa.c@email.com','0773006006','28 Orchard Road, Singapore','Passport','P1616161','1990-02-14','Regular','Singaporean'),
+('Sunil','Rajapaksa','sunil.r@email.com','0773007007','89 Galle Road, Matara','Driving License','DL171717','1985-09-10','Regular','Sri Lankan'),
+('Marie','Dubois','marie.d@email.com','0773008008','55 Champs-Elysees, Paris','Passport','P1818181','1989-06-17','Regular','French'),
+('Amara','Silva','amara.s@email.com','0773009009','12 Lotus Road, Colombo 01','Driving License','DL191919','1993-12-25','Regular','Sri Lankan'),
+('Peter','ONeill','peter.o@email.com','0773010010','66 Temple Bar, Dublin','Passport','P2020202','1981-05-05','Regular','Irish'),
+('Fatima','AlZahra','fatima.z@email.com','0773011011','15 Corniche Road, Abu Dhabi','Passport','P2121212','1988-08-20','Regular','Emirati'),
+('Yuki','Nakamura','yuki.n@email.com','0773012012','8 Shibuya Crossing, Tokyo','Passport','P2222222','1995-01-12','Regular','Japanese'),
+('Chaminda','Bandara','chaminda.b@email.com','0774001001','34 High Level Road, Nugegoda','Driving License','DL232323','1996-04-03','Regular','Sri Lankan'),
+('Ravi','Kumar','ravi.k@email.com','0774002002','22 MG Road, Mumbai','Passport','P2424242','1994-09-15','Regular','Indian'),
+('Olga','Ivanova','olga.i@email.com','0774003003','5 Nevsky Prospect, St Petersburg','Passport','P2525252','1997-02-28','Regular','Russian'),
+('Thanuja','Weerasinghe','thanuja.w@email.com','0774004004','78 Stanley Road, Jaffna','Driving License','DL262626','1991-07-22','Regular','Sri Lankan'),
+('Mohamed','Rizwan','mohamed.r@email.com','0774005005','3 Majeedhee Magu, Male','Passport','P2727272','1993-10-10','Regular','Maldivian'),
+('Charlotte','Williams','charlotte.w@email.com','0775001001','10 Downing Street, London','Passport','P2828282','1998-06-01','Regular','British'),
+('Dinesh','Jayasuriya','dinesh.j@email.com','0775002002','45 Kandy Road, Kurunegala','Driving License','DL292929','1989-03-15','Regular','Sri Lankan'),
+('Ahmed','Naseem','ahmed.n@email.com','0775003003','12 Fareedhee Magu, Male','Passport','P3030303','1992-11-20','Regular','Maldivian');
 
--- ============================================
 -- 2. rooms (24)
--- ============================================
-INSERT INTO rooms (room_number, room_type, capacity, base_price, status, floor) VALUES
-('101', 'Single', 1, 100.00, 'available', 1),
-('102', 'Single', 1, 105.00, 'available', 1),
-('103', 'Single', 1, 110.00, 'maintenance', 1),
-('104', 'Single', 1, 100.00, 'available', 1),
-('105', 'Single', 1, 115.00, 'available', 1),
-('106', 'Single', 1, 130.00, 'occupied', 1),
-('201', 'Double', 2, 160.00, 'available', 2),
-('202', 'Double', 2, 170.00, 'occupied', 2),
-('203', 'Double', 2, 175.00, 'available', 2),
-('204', 'Double', 2, 180.00, 'occupied', 2),
-('205', 'Double', 2, 190.00, 'reserved', 2),
-('206', 'Double', 2, 200.00, 'available', 2),
-('207', 'Double', 2, 210.00, 'available', 2),
-('208', 'Double', 2, 195.00, 'occupied', 2),
-('301', 'Suite', 3, 320.00, 'available', 3),
-('302', 'Suite', 3, 350.00, 'occupied', 3),
-('303', 'Suite', 3, 380.00, 'available', 3),
-('304', 'Suite', 4, 400.00, 'occupied', 3),
-('305', 'Suite', 4, 420.00, 'reserved', 3),
-('306', 'Suite', 4, 450.00, 'available', 3),
-('401', 'Deluxe', 3, 220.00, 'occupied', 4),
-('402', 'Deluxe', 3, 250.00, 'available', 4),
-('501', 'Deluxe', 4, 280.00, 'available', 5),
-('502', 'Deluxe', 4, 300.00, 'reserved', 5);
+INSERT INTO rooms (room_number, room_type, capacity, base_price, description, status, floor) VALUES
+('101','Single',1,12000.00,'Compact single with work desk','available',1),
+('102','Single',1,13000.00,'Standard single with garden view','available',1),
+('103','Single',1,14000.00,'Single room with natural light','maintenance',1),
+('104','Single',1,12000.00,'Budget-friendly single room','available',1),
+('105','Single',1,15000.00,'Single room with city view','available',1),
+('106','Single',1,18000.00,'Premium single with balcony','occupied',1),
+('201','Double',2,18000.00,'Standard double room','available',2),
+('202','Double',2,20000.00,'Double room with work area','occupied',2),
+('203','Double',2,21000.00,'Double room with seating area','available',2),
+('204','Double',2,22000.00,'Spacious double room','occupied',2),
+('205','Double',2,24000.00,'Double with city skyline view','reserved',2),
+('206','Double',2,25000.00,'Premium double extra amenities','available',2),
+('207','Double',2,25000.00,'Corner double dual windows','available',2),
+('208','Double',2,22000.00,'Double room with sofa seating','occupied',2),
+('301','Suite',3,35000.00,'Junior suite with living area','available',3),
+('302','Suite',3,38000.00,'Executive suite work desk','occupied',3),
+('303','Suite',3,40000.00,'Family suite extra seating','available',3),
+('304','Suite',4,45000.00,'Large family suite','occupied',3),
+('305','Suite',4,48000.00,'Premium suite panoramic view','reserved',3),
+('306','Suite',4,55000.00,'Presidential suite','available',3),
+('401','Deluxe',3,25000.00,'Deluxe room modern finish','occupied',4),
+('402','Deluxe',3,28000.00,'Deluxe room premium bedding','available',4),
+('501','Deluxe',4,30000.00,'Spacious deluxe extra bed','available',5),
+('502','Deluxe',4,35000.00,'Penthouse deluxe suite','reserved',5);
 
--- ============================================
--- 3. staff (6)
--- ============================================
+-- 3. staff (8)
 INSERT INTO staff (first_name, last_name, email, phone, position, department, salary, joining_date, status) VALUES
-('Alice', 'Johnson', 'alice.johnson@hms.com', '0779988776', 'Manager', 'Administration', 5500.00, '2023-01-15', 'active'),
-('Bob', 'Williams', 'bob.williams@hms.com', '0778877665', 'Receptionist', 'Front Desk', 2800.00, '2023-03-01', 'active'),
-('Carol', 'Davis', 'carol.davis@hms.com', '0777766554', 'Receptionist', 'Front Desk', 2600.00, '2023-06-12', 'active'),
-('Daniel', 'Brown', 'daniel.brown@hms.com', '0776655443', 'Housekeeper', 'Housekeeping', 2200.00, '2024-02-20', 'active'),
-('Eva', 'Martinez', 'eva.martinez@hms.com', '0775544332', 'Housekeeper', 'Housekeeping', 2100.00, '2024-04-10', 'on_leave'),
-('Frank', 'Wilson', 'frank.wilson@hms.com', '0774433221', 'Maintenance', 'Maintenance', 2400.00, '2023-09-05', 'active');
+('Alice','Johnson','alice.johnson@hms.com','0779988776','Manager','Administration',350000.00,'2023-01-15','active'),
+('Bob','Williams','bob.williams@hms.com','0778877665','Receptionist','Front Desk',95000.00,'2023-03-01','active'),
+('Carol','Davis','carol.davis@hms.com','0777766554','Receptionist','Front Desk',85000.00,'2023-06-12','active'),
+('Daniel','Brown','daniel.brown@hms.com','0776655443','Housekeeper','Housekeeping',75000.00,'2024-02-20','active'),
+('Eva','Martinez','eva.martinez@hms.com','0775544332','Housekeeper','Housekeeping',65000.00,'2024-04-10','on_leave'),
+('Frank','Wilson','frank.wilson@hms.com','0774433221','Maintenance','Maintenance',80000.00,'2023-09-05','active'),
+('Gayan','Fernando','gayan.fernando@hms.com','0773322110','Concierge','Front Desk',100000.00,'2024-08-01','active'),
+('Priyanka','Jayawardena','priyanka.j@hms.com','0772211009','Shift Supervisor','Administration',150000.00,'2024-01-10','active');
 
--- ============================================
--- 4. services (8)
--- ============================================
+-- 4. services (10)
 INSERT INTO services (service_name, service_type, price, description, is_available) VALUES
-('Breakfast', 'Food', 15.00, 'Continental breakfast served 7-10 AM', TRUE),
-('Lunch', 'Food', 25.00, 'Three-course lunch served 12-2 PM', TRUE),
-('Dinner', 'Food', 40.00, 'Four-course dinner served 7-10 PM', TRUE),
-('Laundry - Wash', 'Laundry', 10.00, 'Standard laundry wash and fold service', TRUE),
-('Laundry - Dry Clean', 'Laundry', 20.00, 'Professional dry cleaning service', TRUE),
-('Spa - Massage', 'Spa', 80.00, 'Full body massage (60 min)', TRUE),
-('Spa - Sauna', 'Spa', 50.00, 'Sauna access per session (45 min)', TRUE),
-('Conference Room', 'Conference', 200.00, 'Conference room rental per hour', FALSE);
+('Breakfast','Food',1500.00,'Continental breakfast 7-10 AM',TRUE),
+('Lunch','Food',2500.00,'Three-course lunch 12-2 PM',TRUE),
+('Dinner','Food',3500.00,'Four-course dinner 7-10 PM',TRUE),
+('Laundry Wash','Laundry',800.00,'Standard wash and fold',TRUE),
+('Laundry Dry Clean','Laundry',1500.00,'Professional dry cleaning',TRUE),
+('Spa Massage','Spa',7500.00,'Full body massage 60 min',TRUE),
+('Spa Sauna','Spa',4500.00,'Sauna access per session',TRUE),
+('Conference Room','Conference',25000.00,'Conference room per hour',FALSE),
+('Airport Transfer','Transport',5000.00,'One-way airport transfer',TRUE),
+('Mini Bar','Beverage',2500.00,'In-room mini bar charges',TRUE);
 
--- ============================================
--- 5. reservations (10)
--- ============================================
--- Guest-reservation mapping:
---   guest 1 (John Smith)    → res 1  & 6
---   guest 2 (Sarah Johnson) → res 2  & 7
---   guest 3 (Michael Chen)  → res 3
---   guest 4 (Emily Davis)   → res 4
---   guest 5 (James Wilson)  → res 5
---   guest 6 (Emma Brown)    → res 8
---   guest 7 (David Lee)     → res 9
---   guest 8 (Sophia Garcia) → res 10
+-- 5. reservations (77)
+INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, number_of_guests, status, total_amount, display_id, notes) VALUES
+(1,16,'2026-01-02','2026-01-06',2,'checked_out',152000.00,'RES-20260102-00001',NULL),
+(1,22,'2026-03-15','2026-03-17',2,'checked_out',56000.00,'RES-20260315-00002',NULL),
+(1,16,'2026-06-01','2026-06-05',2,'checked_out',152000.00,'RES-20260601-00003',NULL),
+(3,7,'2026-01-05','2026-01-08',2,'checked_out',54000.00,'RES-20260105-00004',NULL),
+(3,14,'2026-04-01','2026-04-04',2,'checked_out',66000.00,'RES-20260401-00005',NULL),
+(3,12,'2026-06-06','2026-06-08',2,'checked_out',50000.00,'RES-20260606-00006',NULL),
+(2,21,'2026-01-08','2026-01-12',2,'checked_out',100000.00,'RES-20260108-00007',NULL),
+(4,6,'2026-01-16','2026-01-19',1,'checked_out',54000.00,'RES-20260116-00008',NULL),
+(5,18,'2026-01-22','2026-01-26',3,'checked_out',180000.00,'RES-20260122-00009',NULL),
+(6,10,'2026-01-18','2026-01-21',2,'checked_out',66000.00,'RES-20260118-00010',NULL),
+(7,8,'2026-01-10','2026-01-13',2,'checked_out',60000.00,'RES-20260110-00011',NULL),
+(8,13,'2026-01-12','2026-01-15',2,'checked_out',75000.00,'RES-20260112-00012',NULL),
+(9,18,'2026-01-14','2026-01-16',2,'checked_out',90000.00,'RES-20260114-00013',NULL),
+(10,19,'2026-01-06','2026-01-10',2,'checked_out',192000.00,'RES-20260106-00014',NULL),
+(11,14,'2026-01-20','2026-01-24',3,'checked_out',88000.00,'RES-20260120-00015',NULL),
+(12,17,'2026-01-24','2026-01-27',3,'cancelled',120000.00,'RES-20260124-00016','Family emergency, cancelled night before'),
+(13,12,'2026-01-15','2026-01-18',2,'cancelled',75000.00,'RES-20260115-00017','Flight cancelled due to weather'),
+(14,6,'2026-02-01','2026-02-04',1,'checked_out',54000.00,'RES-20260201-00018',NULL),
+(15,17,'2026-02-03','2026-02-07',2,'checked_out',160000.00,'RES-20260203-00019',NULL),
+(16,7,'2026-02-05','2026-02-08',1,'checked_out',54000.00,'RES-20260205-00020',NULL),
+(17,20,'2026-02-08','2026-02-12',4,'checked_out',220000.00,'RES-20260208-00021',NULL),
+(18,22,'2026-02-12','2026-02-15',2,'checked_out',84000.00,'RES-20260212-00022',NULL),
+(19,8,'2026-02-14','2026-02-16',1,'checked_out',40000.00,'RES-20260214-00023',NULL),
+(20,13,'2026-02-18','2026-02-21',2,'checked_out',75000.00,'RES-20260218-00024',NULL),
+(21,23,'2026-02-20','2026-02-24',3,'checked_out',120000.00,'RES-20260220-00025',NULL),
+(22,12,'2026-02-22','2026-02-25',2,'checked_out',75000.00,'RES-20260222-00026',NULL),
+(6,9,'2026-02-25','2026-02-28',2,'checked_out',63000.00,'RES-20260225-00027',NULL),
+(23,4,'2026-02-14','2026-02-16',1,'cancelled',24000.00,'RES-20260214-00028','Guest fell ill, rescheduled'),
+(24,1,'2026-03-01','2026-03-03',1,'checked_out',24000.00,'RES-20260301-00029',NULL),
+(25,2,'2026-03-04','2026-03-06',1,'checked_out',26000.00,'RES-20260304-00030',NULL),
+(26,3,'2026-03-07','2026-03-09',1,'checked_out',28000.00,'RES-20260307-00031',NULL),
+(27,5,'2026-03-10','2026-03-12',1,'checked_out',30000.00,'RES-20260310-00032',NULL),
+(7,9,'2026-03-05','2026-03-09',2,'checked_out',84000.00,'RES-20260305-00033',NULL),
+(2,15,'2026-03-12','2026-03-16',2,'checked_out',140000.00,'RES-20260312-00034',NULL),
+(5,19,'2026-03-18','2026-03-22',3,'checked_out',192000.00,'RES-20260318-00035',NULL),
+(8,8,'2026-03-20','2026-03-23',2,'checked_out',60000.00,'RES-20260320-00036',NULL),
+(10,10,'2026-03-22','2026-03-25',2,'checked_out',66000.00,'RES-20260322-00037',NULL),
+(14,4,'2026-03-25','2026-03-28',1,'checked_out',36000.00,'RES-20260325-00038',NULL),
+(16,13,'2026-03-28','2026-03-30',1,'checked_out',50000.00,'RES-20260328-00039',NULL),
+(18,23,'2026-03-05','2026-03-08',2,'cancelled',90000.00,'RES-20260305-00040','Travel advisory issued'),
+(20,20,'2026-03-15','2026-03-18',2,'cancelled',165000.00,'RES-20260315-00041','Found alternative hotel'),
+(9,7,'2026-05-10','2026-05-12',2,'checked_out',36000.00,'RES-20260510-00042',NULL),
+(11,15,'2026-04-20','2026-04-23',3,'checked_out',105000.00,'RES-20260420-00043',NULL),
+(12,16,'2026-04-02','2026-04-05',3,'checked_out',114000.00,'RES-20260402-00044',NULL),
+(15,18,'2026-04-05','2026-04-09',2,'checked_out',180000.00,'RES-20260405-00045',NULL),
+(17,21,'2026-04-08','2026-04-12',4,'checked_out',100000.00,'RES-20260408-00046',NULL),
+(19,9,'2026-04-12','2026-04-15',1,'checked_out',63000.00,'RES-20260412-00047',NULL),
+(21,24,'2026-04-15','2026-04-18',3,'checked_out',105000.00,'RES-20260415-00048',NULL),
+(22,7,'2026-04-18','2026-04-20',2,'checked_out',36000.00,'RES-20260418-00049',NULL),
+(6,12,'2026-04-22','2026-04-25',2,'checked_out',75000.00,'RES-20260422-00050',NULL),
+(7,14,'2026-04-25','2026-04-28',2,'checked_out',66000.00,'RES-20260425-00051',NULL),
+(13,18,'2026-04-10','2026-04-13',2,'cancelled',135000.00,'RES-20260410-00052','Duplicate booking by agent'),
+(23,2,'2026-05-01','2026-05-03',1,'checked_out',26000.00,'RES-20260501-00053',NULL),
+(24,1,'2026-05-04','2026-05-05',1,'checked_out',12000.00,'RES-20260504-00054',NULL),
+(25,4,'2026-05-07','2026-05-09',1,'checked_out',24000.00,'RES-20260507-00055',NULL),
+(26,5,'2026-05-12','2026-05-14',1,'checked_out',30000.00,'RES-20260512-00056',NULL),
+(27,2,'2026-05-16','2026-05-18',1,'checked_out',26000.00,'RES-20260516-00057',NULL),
+(14,1,'2026-05-20','2026-05-22',1,'checked_out',24000.00,'RES-20260520-00058',NULL),
+(16,4,'2026-05-24','2026-05-26',1,'checked_out',24000.00,'RES-20260524-00059',NULL),
+(19,5,'2026-05-28','2026-05-30',1,'checked_out',30000.00,'RES-20260528-00060',NULL),
+(24,3,'2026-05-10','2026-05-12',1,'cancelled',28000.00,'RES-20260510-00061','Visa not approved'),
+(25,3,'2026-05-22','2026-05-25',1,'cancelled',42000.00,'RES-20260522-00062','Personal reasons, may rebook'),
+(11,9,'2026-06-20','2026-06-23',3,'checked_in',63000.00,'RES-20260620-00063',NULL),
+(4,6,'2026-06-24','2026-06-28',1,'checked_in',72000.00,'RES-20260624-00064',NULL),
+(2,22,'2026-06-23','2026-06-27',2,'checked_in',112000.00,'RES-20260623-00065',NULL),
+(8,13,'2026-06-25','2026-06-29',2,'checked_in',100000.00,'RES-20260625-00066',NULL),
+(10,20,'2026-06-26','2026-06-30',2,'checked_in',220000.00,'RES-20260626-00067',NULL),
+(5,18,'2026-06-08','2026-06-12',3,'checked_out',180000.00,'RES-20260608-00068',NULL),
+(7,8,'2026-06-12','2026-06-15',2,'checked_out',60000.00,'RES-20260612-00069',NULL),
+(9,9,'2026-06-15','2026-06-17',2,'checked_out',42000.00,'RES-20260615-00070',NULL),
+(12,15,'2026-06-29','2026-07-02',3,'confirmed',105000.00,'RES-20260629-00071','Prefer top floor'),
+(15,17,'2026-06-30','2026-07-03',2,'confirmed',120000.00,'RES-20260630-00072','Honeymoon couple - anniversary package'),
+(17,12,'2026-07-05','2026-07-08',3,'pending',75000.00,'RES-20260705-00073','Requesting early check-in'),
+(19,10,'2026-07-08','2026-07-11',1,'pending',66000.00,'RES-20260708-00074','Prefers quiet room'),
+(22,15,'2026-06-12','2026-06-14',2,'cancelled',70000.00,'RES-20260612-00075','Booking conflict with other hotel'),
+(26,6,'2026-06-18','2026-06-20',1,'cancelled',36000.00,'RES-20260618-00076','Family emergency - full refund requested'),
+(3,11,'2026-06-06','2026-06-08',2,'checked_out',48000.00,'RES-20260606-00077',NULL);
 
-INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, number_of_guests, status, total_amount, display_id) VALUES
--- 1: Checked out (June 10-12, Room 106 - Single)
-(1, 6, '2026-06-10', '2026-06-12', 1, 'checked_out', 260.00, 'RES-20260610-00001'),
--- 2: Checked out (June 12-15, Room 202 - Double)
-(2, 7, '2026-06-12', '2026-06-15', 2, 'checked_out', 510.00, 'RES-20260612-00002'),
--- 3: Checked out (June 14-16, Room 302 - Suite)
-(3, 16, '2026-06-14', '2026-06-16', 2, 'checked_out', 700.00, 'RES-20260614-00003'),
--- 4: Checked in (June 15-18, Room 204 - Double)
-(4, 9, '2026-06-15', '2026-06-18', 2, 'checked_in', 540.00, 'RES-20260615-00004'),
--- 5: Checked in (June 16-19, Room 304 - Suite)
-(5, 18, '2026-06-16', '2026-06-19', 3, 'checked_in', 1200.00, 'RES-20260616-00005'),
--- 6: Checked in (June 16-20, Room 401 - Deluxe)
-(1, 21, '2026-06-16', '2026-06-20', 2, 'checked_in', 880.00, 'RES-20260616-00006'),
--- 7: Confirmed (June 20-23, Room 205 - Double)
-(2, 10, '2026-06-20', '2026-06-23', 2, 'confirmed', 570.00, 'RES-20260620-00007'),
--- 8: Confirmed (June 22-26, Room 305 - Suite)
-(6, 19, '2026-06-22', '2026-06-26', 3, 'confirmed', 1680.00, 'RES-20260622-00008'),
--- 9: Pending (July 01-03, Room 502 - Deluxe)
-(7, 24, '2026-07-01', '2026-07-03', 2, 'pending', 600.00, 'RES-20260701-00009'),
--- 10: Cancelled (was June 05-07, Room 208 - Double)
-(8, 15, '2026-06-05', '2026-06-07', 1, 'cancelled', 390.00, 'RES-20260605-00010');
+-- 6. billing (61)
+INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, discount_amount, late_charge, tax_amount, total_bill, payment_status, amount_paid, payment_method, transaction_id, payment_notes, payment_date, notes) VALUES
+(1,152000.00,24000.00,0.00,0.00,0.00,17600.00,193600.00,'paid',193600.00,'Credit Card','TXN1000','Full payment at checkout','2026-01-06 12:15:00','4 night(s) in Room 302, Services: 24000.00'),
+(2,56000.00,10500.00,0.00,0.00,0.00,6650.00,73150.00,'paid',73150.00,'Credit Card','TXN1000','Full payment at checkout','2026-03-17 18:47:00','2 night(s) in Room 402, Services: 10500.00'),
+(3,152000.00,23000.00,0.00,0.00,0.00,17500.00,192500.00,'paid',192500.00,'Credit Card','TXN1000','Full payment at checkout','2026-06-05 14:02:00','4 night(s) in Room 302, Services: 23000.00'),
+(4,54000.00,12500.00,500.00,0.00,5000.00,7200.00,79200.00,'paid',79200.00,'Credit Card','TXN1000','Full payment at checkout','2026-01-08 16:38:00','3 night(s) in Room 201, Services: 12500.00, Late charge: 5000.00'),
+(5,66000.00,12500.00,500.00,0.00,5000.00,8400.00,92400.00,'paid',92400.00,'Credit Card','TXN1000','Full payment at checkout','2026-04-04 18:44:00','3 night(s) in Room 208, Services: 12500.00, Late charge: 5000.00'),
+(6,50000.00,12000.00,0.00,0.00,0.00,6200.00,68200.00,'paid',68200.00,'Cash','TXN1000','Full payment at checkout','2026-06-08 17:17:00','2 night(s) in Room 206, Services: 12000.00'),
+(7,100000.00,43000.00,0.00,0.00,0.00,14300.00,157300.00,'paid',157300.00,'Cash','TXN1000','Full payment at checkout','2026-01-12 10:44:00','4 night(s) in Room 401, Services: 43000.00'),
+(8,54000.00,8000.00,0.00,0.00,0.00,6200.00,68200.00,'paid',68200.00,'Cash','TXN1000','Full payment at checkout','2026-01-19 11:48:00','3 night(s) in Room 106, Services: 8000.00'),
+(9,180000.00,17800.00,0.00,0.00,0.00,19780.00,217580.00,'paid',217580.00,'Cash','TXN1000','Full payment at checkout','2026-01-26 09:22:00','4 night(s) in Room 304, Services: 17800.00'),
+(10,66000.00,52500.00,0.00,6600.00,0.00,11190.00,123090.00,'paid',123090.00,'Cash','TXN1000','Full payment at checkout','2026-01-21 08:46:00','3 night(s) in Room 204, Services: 52500.00, Corp discount 10%'),
+(11,60000.00,28500.00,0.00,6000.00,0.00,8250.00,90750.00,'paid',90750.00,'Cash','TXN1000','Full payment at checkout','2026-01-13 14:05:00','3 night(s) in Room 202, Services: 28500.00, Corp discount 10%'),
+(12,75000.00,8000.00,0.00,7500.00,0.00,7550.00,83050.00,'partial',45462.23,'Bank Transfer','TXN1000','Partial payment of 45462.23 received','2026-01-15 13:36:00','3 night(s) in Room 207, Services: 8000.00, Corp discount 10%'),
+(13,90000.00,25000.00,0.00,9000.00,0.00,10600.00,116600.00,'paid',116600.00,'Bank Transfer','TXN1000','Full payment at checkout','2026-01-16 18:14:00','2 night(s) in Room 304, Services: 25000.00, Corp discount 10%'),
+(14,192000.00,0.00,0.00,19200.00,0.00,17280.00,190080.00,'pending',0.00,'Bank Transfer','TXN1000','Payment pending',NULL,'4 night(s) in Room 305, Corp discount 10%'),
+(15,88000.00,7600.00,0.00,0.00,0.00,9560.00,105160.00,'partial',47537.63,'Bank Transfer','TXN1000','Partial payment of 47537.63 received','2026-01-24 15:40:00','4 night(s) in Room 208, Services: 7600.00'),
+(18,54000.00,4500.00,0.00,0.00,0.00,5850.00,64350.00,'paid',64350.00,'Mobile Payment','TXN1000','Full payment at checkout','2026-02-04 13:13:00','3 night(s) in Room 106, Services: 4500.00'),
+(19,160000.00,8300.00,0.00,0.00,0.00,16830.00,185130.00,'paid',185130.00,'Credit Card','TXN1000','Full payment at checkout','2026-02-07 18:41:00','4 night(s) in Room 303, Services: 8300.00'),
+(20,54000.00,3000.00,500.00,0.00,5000.00,6250.00,68750.00,'paid',68750.00,'Credit Card','TXN1000','Full payment at checkout','2026-02-08 16:46:00','3 night(s) in Room 201, Services: 3000.00, Late charge: 5000.00'),
+(21,220000.00,7600.00,0.00,0.00,0.00,22760.00,250360.00,'paid',250360.00,'Credit Card','TXN1000','Full payment at checkout','2026-02-12 12:59:00','4 night(s) in Room 306, Services: 7600.00'),
+(22,84000.00,12000.00,0.00,0.00,0.00,9600.00,105600.00,'paid',105600.00,'Credit Card','TXN1000','Full payment at checkout','2026-02-15 18:20:00','3 night(s) in Room 402, Services: 12000.00'),
+(23,40000.00,2500.00,0.00,0.00,0.00,4250.00,46750.00,'paid',46750.00,'Credit Card','TXN1000','Full payment at checkout','2026-02-16 11:52:00','2 night(s) in Room 202, Services: 2500.00'),
+(24,75000.00,3500.00,500.00,0.00,5000.00,8400.00,92400.00,'paid',92400.00,'Cash','TXN1000','Full payment at checkout','2026-02-21 12:04:00','3 night(s) in Room 207, Services: 3500.00, Late charge: 5000.00'),
+(25,120000.00,11000.00,0.00,0.00,0.00,13100.00,144100.00,'partial',93743.83,'Cash','TXN1000','Partial payment of 93743.83 received','2026-02-24 13:13:00','4 night(s) in Room 501, Services: 11000.00'),
+(26,75000.00,0.00,0.00,0.00,0.00,7500.00,82500.00,'paid',82500.00,'Cash','TXN1000','Full payment at checkout','2026-02-25 18:29:00','3 night(s) in Room 206'),
+(27,63000.00,27500.00,500.00,6300.00,5000.00,8970.00,98670.00,'paid',98670.00,'Cash','TXN1000','Full payment at checkout','2026-02-28 16:34:00','3 night(s) in Room 203, Services: 27500.00, Corp discount 10%, Late charge: 5000.00'),
+(29,24000.00,0.00,0.00,0.00,0.00,2400.00,26400.00,'paid',26400.00,'Cash','TXN1000','Full payment at checkout','2026-03-03 17:25:00','2 night(s) in Room 101'),
+(30,26000.00,0.00,0.00,0.00,0.00,2600.00,28600.00,'pending',0.00,'Cash','TXN1000','Payment pending',NULL,'2 night(s) in Room 102'),
+(31,28000.00,0.00,500.00,0.00,5000.00,3350.00,36850.00,'paid',36850.00,'Bank Transfer','TXN1000','Full payment at checkout','2026-03-09 08:55:00','2 night(s) in Room 103, Late charge: 5000.00'),
+(32,30000.00,0.00,500.00,0.00,5000.00,3550.00,39050.00,'paid',39050.00,'Bank Transfer','TXN1000','Full payment at checkout','2026-03-12 18:27:00','2 night(s) in Room 105, Late charge: 5000.00'),
+(33,84000.00,35500.00,0.00,8400.00,0.00,11110.00,122210.00,'paid',122210.00,'Bank Transfer','TXN1000','Full payment at checkout','2026-03-09 17:29:00','4 night(s) in Room 203, Services: 35500.00, Corp discount 10%'),
+(34,140000.00,26500.00,0.00,0.00,0.00,16650.00,183150.00,'pending',0.00,'Bank Transfer','TXN1000','Payment pending',NULL,'4 night(s) in Room 301, Services: 26500.00'),
+(35,192000.00,19500.00,0.00,0.00,0.00,21150.00,232650.00,'paid',232650.00,'Mobile Payment','TXN1000','Full payment at checkout','2026-03-22 09:43:00','4 night(s) in Room 305, Services: 19500.00'),
+(36,60000.00,4500.00,0.00,6000.00,0.00,5850.00,64350.00,'paid',64350.00,'Credit Card','TXN1000','Full payment at checkout','2026-03-23 18:21:00','3 night(s) in Room 202, Services: 4500.00, Corp discount 10%'),
+(37,66000.00,0.00,500.00,6600.00,5000.00,6490.00,71390.00,'paid',71390.00,'Credit Card','TXN1000','Full payment at checkout','2026-03-25 15:00:00','3 night(s) in Room 204, Corp discount 10%, Late charge: 5000.00'),
+(38,36000.00,0.00,0.00,0.00,0.00,3600.00,39600.00,'partial',16052.08,'Credit Card','TXN1000','Partial payment of 16052.08 received','2026-03-28 16:48:00','3 night(s) in Room 104'),
+(39,50000.00,0.00,0.00,0.00,0.00,5000.00,55000.00,'partial',35651.41,'Credit Card','TXN1000','Partial payment of 35651.41 received','2026-03-30 12:53:00','2 night(s) in Room 207'),
+(42,36000.00,0.00,0.00,3600.00,0.00,3240.00,35640.00,'paid',35640.00,'Credit Card','TXN1000','Full payment at checkout','2026-05-12 10:23:00','2 night(s) in Room 201, Corp discount 10%'),
+(43,105000.00,8600.00,0.00,0.00,0.00,11360.00,124960.00,'paid',124960.00,'Cash','TXN1000','Full payment at checkout','2026-04-23 16:58:00','3 night(s) in Room 301, Services: 8600.00'),
+(44,114000.00,7000.00,500.00,0.00,5000.00,12650.00,139150.00,'paid',139150.00,'Cash','TXN1000','Full payment at checkout','2026-04-05 08:07:00','3 night(s) in Room 302, Services: 7000.00, Late charge: 5000.00'),
+(45,180000.00,8500.00,0.00,0.00,0.00,18850.00,207350.00,'partial',131183.34,'Cash','TXN1000','Partial payment of 131183.34 received','2026-04-09 12:15:00','4 night(s) in Room 304, Services: 8500.00'),
+(46,100000.00,12600.00,500.00,0.00,5000.00,11810.00,129910.00,'partial',88180.28,'Cash','TXN1000','Partial payment of 88180.28 received','2026-04-12 09:46:00','4 night(s) in Room 401, Services: 12600.00, Late charge: 5000.00'),
+(47,63000.00,0.00,0.00,0.00,0.00,6300.00,69300.00,'paid',69300.00,'Cash','TXN1000','Full payment at checkout','2026-04-15 16:49:00','3 night(s) in Room 203'),
+(48,105000.00,19500.00,500.00,0.00,5000.00,13000.00,143000.00,'paid',143000.00,'Cash','TXN1000','Full payment at checkout','2026-04-18 16:10:00','3 night(s) in Room 502, Services: 19500.00, Late charge: 5000.00'),
+(49,36000.00,0.00,0.00,0.00,0.00,3600.00,39600.00,'partial',18582.50,'Bank Transfer','TXN1000','Partial payment of 18582.50 received','2026-04-20 11:59:00','2 night(s) in Room 201'),
+(50,75000.00,5000.00,0.00,7500.00,0.00,7250.00,79750.00,'paid',79750.00,'Bank Transfer','TXN1000','Full payment at checkout','2026-04-25 11:45:00','3 night(s) in Room 206, Services: 5000.00, Corp discount 10%'),
+(51,66000.00,0.00,0.00,6600.00,0.00,5940.00,65340.00,'pending',0.00,'Bank Transfer','TXN1000','Payment pending',NULL,'3 night(s) in Room 208, Corp discount 10%'),
+(53,26000.00,0.00,0.00,0.00,0.00,2600.00,28600.00,'paid',28600.00,'Bank Transfer','TXN1000','Full payment at checkout','2026-05-03 16:28:00','2 night(s) in Room 102'),
+(54,12000.00,0.00,500.00,0.00,5000.00,1750.00,19250.00,'paid',19250.00,'Mobile Payment','TXN1000','Full payment at checkout','2026-05-05 13:01:00','1 night(s) in Room 101, Late charge: 5000.00'),
+(55,24000.00,0.00,0.00,0.00,0.00,2400.00,26400.00,'paid',26400.00,'Credit Card','TXN1000','Full payment at checkout','2026-05-09 11:00:00','2 night(s) in Room 104'),
+(56,30000.00,0.00,500.00,0.00,5000.00,3550.00,39050.00,'paid',39050.00,'Credit Card','TXN1000','Full payment at checkout','2026-05-14 11:04:00','2 night(s) in Room 105, Late charge: 5000.00'),
+(57,26000.00,0.00,0.00,0.00,0.00,2600.00,28600.00,'partial',9390.61,'Credit Card','TXN1000','Partial payment of 9390.61 received','2026-05-18 11:17:00','2 night(s) in Room 102'),
+(58,24000.00,0.00,0.00,0.00,0.00,2400.00,26400.00,'paid',26400.00,'Credit Card','TXN1000','Full payment at checkout','2026-05-22 10:46:00','2 night(s) in Room 101'),
+(59,24000.00,0.00,0.00,0.00,0.00,2400.00,26400.00,'paid',26400.00,'Credit Card','TXN1000','Full payment at checkout','2026-05-26 15:15:00','2 night(s) in Room 104'),
+(60,30000.00,0.00,0.00,0.00,0.00,3000.00,33000.00,'partial',12413.41,'Cash','TXN1000','Partial payment of 12413.41 received','2026-05-30 09:42:00','2 night(s) in Room 105'),
+(68,180000.00,16000.00,0.00,0.00,0.00,19600.00,215600.00,'paid',215600.00,'Cash','TXN1000','Full payment at checkout','2026-06-12 15:55:00','4 night(s) in Room 304, Services: 16000.00'),
+(69,60000.00,2500.00,0.00,6000.00,0.00,5650.00,62150.00,'paid',62150.00,'Cash','TXN1000','Full payment at checkout','2026-06-15 18:06:00','3 night(s) in Room 202, Services: 2500.00, Corp discount 10%'),
+(70,42000.00,0.00,500.00,4200.00,5000.00,4330.00,47630.00,'paid',47630.00,'Cash','TXN1000','Full payment at checkout','2026-06-17 09:15:00','2 night(s) in Room 203, Corp discount 10%, Late charge: 5000.00'),
+(77,48000.00,0.00,0.00,0.00,0.00,4800.00,52800.00,'paid',52800.00,'Cash','TXN1000','Full payment at checkout','2026-06-08 10:27:00','2 night(s) in Room 205'),
+(16,120000.00,0.00,0.00,0.00,0.00,12000.00,132000.00,'refunded',132000.00,'Credit Card','TXN9000','Full refund processed after cancellation','2026-01-27 10:00:00','Cancelled - refund issued for Room 303'),
+(17,75000.00,0.00,0.00,0.00,0.00,7500.00,82500.00,'refunded',82500.00,'Credit Card','TXN9001','Full refund processed after cancellation','2026-01-18 10:00:00','Cancelled - refund issued for Room 206'),
+(28,24000.00,0.00,0.00,0.00,0.00,2400.00,26400.00,'refunded',26400.00,'Credit Card','TXN9002','Full refund processed after cancellation','2026-02-16 10:00:00','Cancelled - refund issued for Room 104');
 
--- ============================================
--- 6. billing (3) — only for checked_out reservations
--- ============================================
--- Res 1: John Smith — 2 nights Single (Room 106, $130/night)
---   Room: 130 * 2 = 260.00
---   Services: none
---   Tax: 260 * 0.10 = 26.00
---   Total: 260.00 + 26.00 = 286.00
-INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, payment_date, notes)
-VALUES (1, 260.00, 0.00, 0.00, 26.00, 286.00, 'paid', '2026-06-12 10:30:00', 'Paid via credit card');
+-- 7. service_bookings (80)
+INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status) VALUES
+(1,6,1,7500.00,'completed'),
+(1,7,1,4500.00,'completed'),
+(1,3,2,7000.00,'completed'),
+(1,9,1,5000.00,'completed'),
+(2,6,1,7500.00,'completed'),
+(2,1,2,3000.00,'completed'),
+(3,6,1,7500.00,'completed'),
+(3,3,3,10500.00,'completed'),
+(3,9,1,5000.00,'completed'),
+(4,7,2,9000.00,'completed'),
+(4,3,1,3500.00,'completed'),
+(5,6,1,7500.00,'completed'),
+(5,2,2,5000.00,'completed'),
+(6,6,1,7500.00,'completed'),
+(6,7,1,4500.00,'completed'),
+(7,6,2,15000.00,'completed'),
+(7,7,2,9000.00,'completed'),
+(7,3,4,14000.00,'completed'),
+(7,9,1,5000.00,'completed'),
+(8,7,1,4500.00,'completed'),
+(8,3,1,3500.00,'completed'),
+(9,6,1,7500.00,'completed'),
+(9,3,2,7000.00,'completed'),
+(9,4,1,800.00,'completed'),
+(9,10,1,2500.00,'completed'),
+(10,2,1,2500.00,'completed'),
+(10,8,2,50000.00,'completed'),
+(11,3,1,3500.00,'completed'),
+(11,8,1,25000.00,'completed'),
+(12,1,3,4500.00,'completed'),
+(12,3,1,3500.00,'completed'),
+(13,8,1,25000.00,'completed'),
+(15,1,4,6000.00,'completed'),
+(15,4,2,1600.00,'completed'),
+(18,1,3,4500.00,'completed'),
+(19,1,5,7500.00,'completed'),
+(19,4,1,800.00,'completed'),
+(20,1,2,3000.00,'completed'),
+(21,1,4,6000.00,'completed'),
+(21,4,2,1600.00,'completed'),
+(22,3,3,10500.00,'completed'),
+(22,5,1,1500.00,'completed'),
+(23,10,1,2500.00,'completed'),
+(24,3,1,3500.00,'completed'),
+(25,1,4,6000.00,'completed'),
+(25,10,2,5000.00,'completed'),
+(27,2,1,2500.00,'completed'),
+(27,8,1,25000.00,'completed'),
+(33,3,3,10500.00,'completed'),
+(33,8,1,25000.00,'completed'),
+(34,6,1,7500.00,'completed'),
+(34,3,4,14000.00,'completed'),
+(34,9,1,5000.00,'completed'),
+(35,6,1,7500.00,'completed'),
+(35,7,1,4500.00,'completed'),
+(35,2,2,5000.00,'completed'),
+(35,10,1,2500.00,'completed'),
+(36,1,3,4500.00,'completed'),
+(43,1,3,4500.00,'completed'),
+(43,4,2,1600.00,'completed'),
+(43,10,1,2500.00,'completed'),
+(44,1,3,4500.00,'completed'),
+(44,10,1,2500.00,'completed'),
+(45,3,2,7000.00,'completed'),
+(45,5,1,1500.00,'completed'),
+(46,1,4,6000.00,'completed'),
+(46,4,2,1600.00,'completed'),
+(46,10,2,5000.00,'completed'),
+(48,3,3,10500.00,'completed'),
+(48,7,2,9000.00,'completed'),
+(50,2,2,5000.00,'completed'),
+(65,6,1,7500.00,'completed'),
+(65,3,2,7000.00,'completed'),
+(65,9,1,5000.00,'completed'),
+(67,3,2,7000.00,'completed'),
+(67,8,1,25000.00,'completed'),
+(68,6,1,7500.00,'completed'),
+(68,3,2,7000.00,'completed'),
+(68,5,1,1500.00,'completed'),
+(69,2,1,2500.00,'completed');
 
--- Res 2: Sarah Johnson — 3 nights Double (Room 202, $170/night)
---   Room: 170 * 3 = 510.00
---   Services: Breakfast * 3 = 45.00
---   Tax: (510 + 45) * 0.10 = 55.50
---   Total: 510.00 + 45.00 + 55.50 = 610.50
-INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, payment_date, notes)
-VALUES (2, 510.00, 45.00, 0.00, 55.50, 610.50, 'paid', '2026-06-15 09:15:00', 'Paid via bank transfer');
+-- 8. room_assignments (70)
+INSERT INTO room_assignments (room_id, staff_id, assignment_date, assignment_type, status, notes) VALUES
+(16,4,'2026-01-06','Cleaning','completed','Post-stay cleaning'),
+(22,4,'2026-03-17','Cleaning','completed','Post-stay cleaning'),
+(16,5,'2026-06-05','Cleaning','completed','Post-stay cleaning'),
+(7,4,'2026-01-08','Cleaning','completed','Post-stay cleaning'),
+(14,5,'2026-04-04','Cleaning','completed','Post-stay cleaning'),
+(12,5,'2026-06-08','Cleaning','completed','Post-stay cleaning'),
+(21,4,'2026-01-12','Cleaning','completed','Post-stay cleaning'),
+(6,5,'2026-01-19','Cleaning','completed','Post-stay cleaning'),
+(18,4,'2026-01-26','Cleaning','completed','Post-stay cleaning'),
+(10,4,'2026-01-21','Cleaning','completed','Post-stay cleaning'),
+(8,4,'2026-01-13','Cleaning','completed','Post-stay cleaning'),
+(13,5,'2026-01-15','Cleaning','completed','Post-stay cleaning'),
+(18,4,'2026-01-16','Cleaning','completed','Post-stay cleaning'),
+(19,4,'2026-01-10','Cleaning','completed','Post-stay cleaning'),
+(14,4,'2026-01-24','Cleaning','completed','Post-stay cleaning'),
+(6,5,'2026-02-04','Cleaning','completed','Post-stay cleaning'),
+(17,5,'2026-02-07','Cleaning','completed','Post-stay cleaning'),
+(7,4,'2026-02-08','Cleaning','completed','Post-stay cleaning'),
+(20,4,'2026-02-12','Cleaning','completed','Post-stay cleaning'),
+(22,4,'2026-02-15','Cleaning','completed','Post-stay cleaning'),
+(8,5,'2026-02-16','Cleaning','completed','Post-stay cleaning'),
+(13,5,'2026-02-21','Cleaning','completed','Post-stay cleaning'),
+(23,4,'2026-02-24','Cleaning','completed','Post-stay cleaning'),
+(12,5,'2026-02-25','Cleaning','completed','Post-stay cleaning'),
+(9,5,'2026-02-28','Cleaning','completed','Post-stay cleaning'),
+(1,5,'2026-03-03','Cleaning','completed','Post-stay cleaning'),
+(2,5,'2026-03-06','Cleaning','completed','Post-stay cleaning'),
+(3,4,'2026-03-09','Cleaning','completed','Post-stay cleaning'),
+(5,4,'2026-03-12','Cleaning','completed','Post-stay cleaning'),
+(9,4,'2026-03-09','Cleaning','completed','Post-stay cleaning'),
+(15,4,'2026-03-16','Cleaning','completed','Post-stay cleaning'),
+(19,5,'2026-03-22','Cleaning','completed','Post-stay cleaning'),
+(8,4,'2026-03-23','Cleaning','completed','Post-stay cleaning'),
+(10,4,'2026-03-25','Cleaning','completed','Post-stay cleaning'),
+(4,4,'2026-03-28','Cleaning','completed','Post-stay cleaning'),
+(13,4,'2026-03-30','Cleaning','completed','Post-stay cleaning'),
+(7,5,'2026-05-12','Cleaning','completed','Post-stay cleaning'),
+(15,4,'2026-04-23','Cleaning','completed','Post-stay cleaning'),
+(16,4,'2026-04-05','Cleaning','completed','Post-stay cleaning'),
+(18,4,'2026-04-09','Cleaning','completed','Post-stay cleaning'),
+(21,5,'2026-04-12','Cleaning','completed','Post-stay cleaning'),
+(9,4,'2026-04-15','Cleaning','completed','Post-stay cleaning'),
+(24,4,'2026-04-18','Cleaning','completed','Post-stay cleaning'),
+(7,5,'2026-04-20','Cleaning','completed','Post-stay cleaning'),
+(12,4,'2026-04-25','Cleaning','completed','Post-stay cleaning'),
+(14,5,'2026-04-28','Cleaning','completed','Post-stay cleaning'),
+(2,4,'2026-05-03','Cleaning','completed','Post-stay cleaning'),
+(1,4,'2026-05-05','Cleaning','completed','Post-stay cleaning'),
+(4,4,'2026-05-09','Cleaning','completed','Post-stay cleaning'),
+(5,4,'2026-05-14','Cleaning','completed','Post-stay cleaning'),
+(2,5,'2026-05-18','Cleaning','completed','Post-stay cleaning'),
+(1,4,'2026-05-22','Cleaning','completed','Post-stay cleaning'),
+(4,4,'2026-05-26','Cleaning','completed','Post-stay cleaning'),
+(5,4,'2026-05-30','Cleaning','completed','Post-stay cleaning'),
+(18,5,'2026-06-12','Cleaning','completed','Post-stay cleaning'),
+(8,4,'2026-06-15','Cleaning','completed','Post-stay cleaning'),
+(9,4,'2026-06-17','Cleaning','completed','Post-stay cleaning'),
+(11,4,'2026-06-08','Cleaning','completed','Post-stay cleaning'),
+(3,6,'2026-01-10','Maintenance','completed','AC servicing & plumbing'),
+(7,6,'2026-02-15','Maintenance','completed','AC servicing & plumbing'),
+(11,6,'2026-03-20','Maintenance','completed','AC servicing & plumbing'),
+(15,6,'2026-04-10','Maintenance','completed','AC servicing & plumbing'),
+(20,6,'2026-05-15','Maintenance','completed','AC servicing & plumbing'),
+(24,6,'2026-06-10','Maintenance','completed','AC servicing & plumbing'),
+(1,8,'2026-01-15','Inspection','completed','Monthly quality inspection'),
+(6,8,'2026-02-20','Inspection','completed','Monthly quality inspection'),
+(10,8,'2026-03-25','Inspection','completed','Monthly quality inspection'),
+(15,8,'2026-04-15','Inspection','completed','Monthly quality inspection'),
+(20,8,'2026-05-20','Inspection','completed','Monthly quality inspection'),
+(24,8,'2026-06-15','Inspection','completed','Monthly quality inspection');
 
--- Res 3: Michael Chen — 2 nights Suite (Room 302, $350/night)
---   Room: 350 * 2 = 700.00
---   Services: Dinner * 2 = 80.00
---   Other: Late checkout charge = 50.00
---   Tax: (700 + 80 + 50) * 0.10 = 83.00
---   Total: 700.00 + 80.00 + 50.00 + 83.00 = 913.00
-INSERT INTO billing (reservation_id, room_charge, service_charge, other_charges, tax_amount, total_bill, payment_status, payment_date, notes)
-VALUES (3, 700.00, 80.00, 50.00, 83.00, 913.00, 'partial', '2026-06-16 11:45:00', 'Partial payment of 500.00 received, balance pending');
-
--- ============================================
--- 7. service_bookings (5)
--- ============================================
--- Res 2 (Sarah Johnson, checked_out) — Breakfast x3
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (2, 1, 3, 45.00, 'completed');
-
--- Res 3 (Michael Chen, checked_out) — Dinner x2
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (3, 3, 2, 80.00, 'completed');
-
--- Res 4 (Emily Davis, checked_in) — Breakfast x3, Laundry x1, Spa Massage x1
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (4, 1, 3, 45.00, 'pending'),
-       (4, 4, 1, 10.00, 'pending'),
-       (4, 6, 1, 80.00, 'pending');
-
--- Res 5 (James Wilson, checked_in) — Dinner x2
-INSERT INTO service_bookings (reservation_id, service_id, quantity, total_price, status)
-VALUES (5, 3, 2, 80.00, 'pending');
-
--- ============================================
--- 8. room_assignments (4)
--- ============================================
--- Daniel Brown — Room 103 maintenance cleaning, Room 101 regular cleaning
-INSERT INTO room_assignments (room_id, staff_id, assignment_date, assignment_type, status, notes)
-VALUES (3, 4, '2026-06-16', 'Cleaning', 'in_progress', 'Post-maintenance deep clean required'),
-       (1, 4, '2026-06-15', 'Cleaning', 'completed', 'Daily cleaning completed');
-
--- Frank Wilson — Room 302 AC maintenance, Room 103 general maintenance
-INSERT INTO room_assignments (room_id, staff_id, assignment_date, assignment_type, status, notes)
-VALUES (16, 6, '2026-06-16', 'Maintenance', 'in_progress', 'AC unit needs servicing'),
-       (3, 6, '2026-06-14', 'Maintenance', 'completed', 'Light bulb replacement and plumbing check');
+-- ================================================
+-- END OF SEED DATA
+-- ================================================

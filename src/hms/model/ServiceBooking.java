@@ -12,8 +12,9 @@ public final class ServiceBooking {
     private final Service service;
     private final LocalDateTime bookingDate;
     private final int quantity;
-    private final Double totalPrice;
+    private final double totalPrice;
     private final String status;
+    private final String notes;
 
     /**
      * Creates a new service booking without an ID (for new records).
@@ -23,9 +24,11 @@ public final class ServiceBooking {
      * @param quantity    The quantity ordered
      * @param totalPrice  The total price for this service booking
      * @param status      The booking status (e.g., "pending", "completed")
+     * @param notes       Additional notes for this service booking
      */
     public ServiceBooking(Reservation reservation, Service service,
-                          int quantity, Double totalPrice, String status) {
+                          int quantity, double totalPrice, String status,
+                          String notes) {
         this.serviceBookingId = 0;
         this.reservation = reservation;
         this.service = service;
@@ -33,6 +36,7 @@ public final class ServiceBooking {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.notes = notes;
     }
 
     /**
@@ -45,10 +49,12 @@ public final class ServiceBooking {
      * @param quantity         The quantity ordered
      * @param totalPrice       The total price for this service booking
      * @param status           The booking status
+     * @param notes            Additional notes for this service booking
      */
     public ServiceBooking(int serviceBookingId, Reservation reservation,
                           Service service, LocalDateTime bookingDate,
-                          int quantity, Double totalPrice, String status) {
+                          int quantity, double totalPrice, String status,
+                          String notes) {
         this.serviceBookingId = serviceBookingId;
         this.reservation = reservation;
         this.service = service;
@@ -56,6 +62,7 @@ public final class ServiceBooking {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.notes = notes;
     }
 
     /** Returns the service booking's unique ID. */
@@ -84,13 +91,18 @@ public final class ServiceBooking {
     }
 
     /** Returns the total price for this service booking. */
-    public Double getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
     /** Returns the booking status. */
     public String getStatus() {
         return status;
+    }
+
+    /** Returns additional notes for this service booking. */
+    public String getNotes() {
+        return notes;
     }
 
     /** Returns the associated reservation's ID. */

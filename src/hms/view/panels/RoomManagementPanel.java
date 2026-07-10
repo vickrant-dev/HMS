@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import hms.view.dialogs.AddNewRoomDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -34,6 +35,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         initComponents();
         setupTable();
         setupPaginationListeners();
+        setupIcons();
         loadRooms();
     }
 
@@ -140,7 +142,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         applyFiltersBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         roomManagementTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JPanel();
+        bottomBar = new hms.theme.RoundedPanel(20);
         editRoomBtn = new javax.swing.JButton();
         deleteRoomBtn = new javax.swing.JButton();
         markMaintBtn = new javax.swing.JButton();
@@ -185,7 +187,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
 
         priceRangeTo.setToolTipText("Max");
 
-        capacityCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "1", "2", "3", "4", " " }));
+        capacityCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "1", "2", "3", "4" }));
 
         jLabel4.setText("Capacity");
 
@@ -313,12 +315,7 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                 .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addComponent(room_seperator_1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roomManagementPanelGroupLayout.createSequentialGroup()
-                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(heading)
-                            .addComponent(description))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bottomBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
                         .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -349,7 +346,12 @@ public class RoomManagementPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applyFiltersBtn)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(bottomBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(roomManagementPanelGroupLayout.createSequentialGroup()
+                        .addGroup(roomManagementPanelGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(heading)
+                            .addComponent(description))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addRoomBtn)))
                 .addContainerGap())
         );
         roomManagementPanelGroupLayout.setVerticalGroup(
@@ -447,20 +449,29 @@ public class RoomManagementPanel extends javax.swing.JPanel {
 
     private void applyFiltersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyFiltersBtnActionPerformed
         try {
-            List<Room> all = roomController.getAllRooms();
             String status = (String) statusCmb.getSelectedItem();
             String capacity = (String) capacityCmb.getSelectedItem();
             String priceFrom = priceRangeFrom.getText().trim();
             String priceTo = priceRangeTo.getText().trim();
 
-            filteredRooms = all.stream()
-                .filter(r -> status == null || status.equals("All Types") || r.getRoomType().equals(status))
-                .filter(r -> capacity == null || capacity.equals("Any") || capacity.isEmpty()
-                    || r.getCapacity() == Integer.parseInt(capacity))
+            boolean typeActive = status != null && !status.equals("All Types");
+
+            List<Room> filtered;
+            if (typeActive) {
+                filtered = roomController.filterByType(status);
+            } else {
+                filtered = roomController.getAllRooms();
+            }
+
+            String cap = capacity;
+            filtered = filtered.stream()
+                .filter(r -> cap == null || cap.equals("Any") || cap.isEmpty()
+                    || r.getCapacity() == Integer.parseInt(cap))
                 .filter(r -> priceFrom.isEmpty() || r.getBasePrice() >= Double.parseDouble(priceFrom))
                 .filter(r -> priceTo.isEmpty() || r.getBasePrice() <= Double.parseDouble(priceTo))
                 .collect(Collectors.toList());
 
+            filteredRooms = filtered;
             currentPage = 0;
             applyPagination();
         } catch (Exception e) {
@@ -510,6 +521,16 @@ public class RoomManagementPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_markAvailBtnActionPerformed
 
+
+    private void setupIcons() {
+        addRoomBtn.setIcon(IconUtil.getAddIcon());
+        editRoomBtn.setIcon(IconUtil.getEditIcon());
+        deleteRoomBtn.setIcon(IconUtil.getDeleteIcon());
+        markMaintBtn.setIcon(IconUtil.getWrenchIcon());
+        markAvailBtn.setIcon(IconUtil.getCheckIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addRoomBtn;

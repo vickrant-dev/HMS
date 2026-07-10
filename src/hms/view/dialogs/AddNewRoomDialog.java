@@ -4,6 +4,7 @@
  */
 package hms.view.dialogs;
 
+import hms.config.Constants;
 import hms.controller.RoomController;
 import hms.exception.DatabaseException;
 import hms.exception.ValidationException;
@@ -28,6 +29,8 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+        setupRoomTypeCombo();
     }
 
     /**
@@ -36,6 +39,8 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
     public AddNewRoomDialog(java.awt.Frame parent, boolean modal, Room room) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+        setupRoomTypeCombo();
         this.editingRoom = room;
         setTitle("Edit Room: " + room.getRoomNumber());
         roomNumber.setText(room.getRoomNumber());
@@ -43,6 +48,14 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
         floor.setText(String.valueOf(room.getFloor()));
         basePrice.setText(String.valueOf(room.getBasePrice()));
         capacity.setText(String.valueOf(room.getCapacity()));
+    }
+
+    private void setupRoomTypeCombo() {
+        roomTypeCmb.removeAllItems();
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_SINGLE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_DOUBLE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_SUITE);
+        roomTypeCmb.addItem(Constants.ROOM_TYPE_DELUXE);
     }
 
     /**
@@ -263,14 +276,16 @@ public class AddNewRoomDialog extends javax.swing.JDialog {
             return;
         }
 
+        String roomDesc = description.getText().trim();
+
         try {
             if (editingRoom != null) {
                 Room updated = new Room(editingRoom.getRoomId(), roomNum, roomType,
-                    cap, price, editingRoom.getStatus(), floorVal, editingRoom.getCreatedAt());
+                    cap, price, roomDesc, editingRoom.getStatus(), floorVal, editingRoom.getCreatedAt());
                 roomController.updateRoom(updated);
                 JOptionPane.showMessageDialog(this, "Room updated successfully.");
             } else {
-                Room room = new Room(roomNum, roomType, cap, price, "available", floorVal);
+                Room room = new Room(roomNum, roomType, cap, price, roomDesc, "available", floorVal);
                 roomController.createRoom(room);
                 JOptionPane.showMessageDialog(this, "Room created successfully.");
             }

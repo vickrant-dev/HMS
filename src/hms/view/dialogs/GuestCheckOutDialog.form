@@ -582,7 +582,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="changeDueAmount">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="LKR 3,000.23"/>
+                    <Property name="text" type="java.lang.String" value="LKR 0.00"/>
                   </Properties>
                 </Component>
               </SubComponents>

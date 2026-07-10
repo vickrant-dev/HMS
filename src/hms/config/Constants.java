@@ -22,6 +22,7 @@ public final class Constants {
     public static final int WINDOW_WIDTH = 1400;
     public static final int WINDOW_HEIGHT = 900;
     public static final String APP_TITLE = "Hotel Management System";
+    public static final String THEME = "dark"; // "dark" or "light"
 
     // Room Types
     public static final String ROOM_TYPE_SINGLE = "Single";
@@ -75,13 +76,15 @@ public final class Constants {
 
     // Tax & Pricing
     public static final double DEFAULT_TAX_RATE = 0.10;
-    public static final double LATE_CHECKOUT_CHARGE = 50.0;
+    public static final double LATE_CHECKOUT_CHARGE = 5000.0;
 
     // Service Types
     public static final String SERVICE_TYPE_FOOD = "Food";
     public static final String SERVICE_TYPE_LAUNDRY = "Laundry";
     public static final String SERVICE_TYPE_SPA = "Spa";
     public static final String SERVICE_TYPE_CONFERENCE = "Conference";
+    public static final String SERVICE_TYPE_TRANSPORT = "Transport";
+    public static final String SERVICE_TYPE_BEVERAGE = "Beverage";
 
     // Assignment Types
     public static final String ASSIGN_TYPE_CLEANING = "Cleaning";
@@ -90,6 +93,7 @@ public final class Constants {
 
     // Report Paths
     public static final String JASPER_REPORT_PATH = "/hms/reports/";
+    public static final String REPORT_OUTPUT_DIR = "reports/";
 
     // Error Messages
     public static final String ERROR_DB_CONNECTION = "Failed to connect to database. Please ensure XAMPP is running.";

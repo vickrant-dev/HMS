@@ -32,6 +32,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     public ServiceBookingDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -40,6 +41,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     public ServiceBookingDialog(java.awt.Frame parent, boolean modal, Service service) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.service = service;
         if (service != null) {
             setTitle("Book Service: " + service.getServiceName());
@@ -109,8 +111,8 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         quantity = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        notes = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        notes_scroll_pane = new javax.swing.JScrollPane();
+        notes = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         subtotalAmount = new javax.swing.JLabel();
@@ -219,9 +221,9 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setText("NOTES (optional)");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        notes.setViewportView(jTextArea1);
+        notes.setColumns(20);
+        notes.setRows(5);
+        notes_scroll_pane.setViewportView(notes);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(76, 76, 76)));
 
@@ -276,7 +278,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(notes, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(notes_scroll_pane, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -325,7 +327,7 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(notes_scroll_pane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -376,8 +378,10 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
             return;
         }
 
+        String bookingNotes = notes.getText().trim();
+
         try {
-            serviceController.createServiceBooking(foundReservation, service, qty);
+            serviceController.createServiceBooking(foundReservation, service, qty, bookingNotes);
             JOptionPane.showMessageDialog(this, "Service booked successfully.");
             dispose();
         } catch (ValidationException e) {
@@ -448,8 +452,8 @@ public class ServiceBookingDialog extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JScrollPane notes;
+    private javax.swing.JTextArea notes;
+    private javax.swing.JScrollPane notes_scroll_pane;
     private javax.swing.JTextField quantity;
     private javax.swing.JTextField searchBox;
     private javax.swing.JComboBox<String> serviceCategoryCmb;

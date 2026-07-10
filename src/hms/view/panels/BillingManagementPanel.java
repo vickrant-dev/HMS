@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import hms.view.dialogs.AdjustmentDialog;
 import hms.view.dialogs.PaymentDialog;
+import hms.util.IconUtil;
 
 /**
  *
@@ -32,7 +32,12 @@ public class BillingManagementPanel extends javax.swing.JPanel {
      */
     public BillingManagementPanel() {
         initComponents();
+        exportCmb.removeAllItems();
+        exportCmb.addItem("CSV");
+        exportCmb.addItem("PDF");
+        exportCmb.addItem("Excel");
         setupTable();
+        setupIcons();
         loadBills();
     }
 
@@ -65,8 +70,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
             data[i][2] = String.valueOf(b.getReservationId());
             data[i][3] = b.getReservation().getGuest().getFirstName() + " " + b.getReservation().getGuest().getLastName();
             data[i][4] = String.format("%.2f", b.getTotalBill());
-            data[i][5] = b.getPaymentStatus().equalsIgnoreCase("paid") || b.getPaymentStatus().equalsIgnoreCase("partial")
-                ? String.format("%.2f", b.getTotalBill()) : "0.00";
+            data[i][5] = String.format("%.2f", b.getAmountPaid());
             data[i][6] = b.getPaymentStatus();
             data[i][7] = b.getPaymentDate() != null ? b.getPaymentDate().toLocalDate().toString() : "-";
         }
@@ -93,11 +97,10 @@ public class BillingManagementPanel extends javax.swing.JPanel {
             boolean hasSelection = billingManagementTable.getSelectedRow() != -1;
             viewDetailsBtn.setEnabled(hasSelection);
             recordPaymentBtn.setEnabled(hasSelection);
-            adjustBillBtn.setEnabled(hasSelection);
-        });
+    });
         viewDetailsBtn.setEnabled(false);
         recordPaymentBtn.setEnabled(false);
-        adjustBillBtn.setEnabled(false);
+        adjustBillBtn.setVisible(false);
     }
 
     /**
@@ -125,7 +128,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         billingManagementTable = new javax.swing.JTable();
         exportCmb = new javax.swing.JComboBox<>();
-        bottomBar3 = new javax.swing.JPanel();
+        bottomBar3 = new hms.theme.RoundedPanel(20);
         viewDetailsBtn = new javax.swing.JButton();
         recordPaymentBtn = new javax.swing.JButton();
         adjustBillBtn = new javax.swing.JButton();
@@ -300,8 +303,18 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addComponent(guest_seperator_1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(heading)
+                            .addComponent(description))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(newInvoiceBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(exportCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exportBtn))
+                    .addComponent(bottomBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
@@ -324,18 +337,8 @@ public class BillingManagementPanel extends javax.swing.JPanel {
                                 .addGap(28, 28, 28)
                                 .addComponent(clearBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(applyFiltersBtn))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(heading)
-                            .addComponent(description))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newInvoiceBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(exportCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exportBtn))
-                    .addComponent(bottomBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(applyFiltersBtn)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -402,12 +405,7 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_recordPaymentBtnActionPerformed
 
     private void adjustBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustBillBtnActionPerformed
-        Billing selected = getSelectedBill();
-        if (selected == null) return;
-        AdjustmentDialog d = new AdjustmentDialog((Frame) SwingUtilities.getWindowAncestor(this), true, selected);
-        d.setTitle("Adjust Bill #" + selected.getBillingId());
-        d.setVisible(true);
-        loadBills();
+        // Removed per user request - functionality removed due to complexity
     }//GEN-LAST:event_adjustBillBtnActionPerformed
 
     private void billingPaginationLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billingPaginationLeftActionPerformed
@@ -479,6 +477,15 @@ public class BillingManagementPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_applyFiltersBtnActionPerformed
 
 
+
+    private void setupIcons() {
+        newInvoiceBtn.setIcon(IconUtil.getInvoiceIcon());
+        recordPaymentBtn.setIcon(IconUtil.getSaveIcon());
+        viewDetailsBtn.setIcon(IconUtil.getEyeIcon());
+        exportBtn.setIcon(IconUtil.getPrintIcon());
+        searchBtn.setIcon(IconUtil.getSearchIcon());
+        clearBtn.setIcon(IconUtil.getRefreshIcon());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adjustBillBtn;

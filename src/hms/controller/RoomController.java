@@ -37,7 +37,7 @@ public class RoomController {
     }
 
     public void updateRoom(Room room) throws ValidationException, DatabaseException {
-        if (room.getRoomId() <= 0) {
+        if (room == null || room.getRoomId() <= 0) {
             throw new ValidationException("Invalid room ID");
         }
 
@@ -97,6 +97,7 @@ public class RoomController {
                 existing.getRoomType(),
                 existing.getCapacity(),
                 existing.getBasePrice(),
+                existing.getDescription(),
                 newStatus,
                 existing.getFloor(),
                 existing.getCreatedAt()
@@ -135,8 +136,20 @@ public class RoomController {
             throw new ValidationException("Status is required");
         }
 
-        if (!ValidationUtil.isPositive(room.getFloor())) {
-            throw new ValidationException("Floor must be positive");
+        if (room.getFloor() < 0) {
+            throw new ValidationException("Floor must be zero or positive");
+        }
+
+        if (!ValidationUtil.isValidLength(room.getRoomNumber(), 10)) {
+            throw new ValidationException("Room number must not exceed 10 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(room.getRoomType(), 20)) {
+            throw new ValidationException("Room type must not exceed 20 characters");
+        }
+
+        if (!ValidationUtil.isValidLength(room.getDescription(), 500)) {
+            throw new ValidationException("Description must not exceed 500 characters");
         }
     }
 }
