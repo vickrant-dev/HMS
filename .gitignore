@@ -17,7 +17,7 @@ dist/
 *.ear
 *.zip
 *.tar.gz
-*.rar
+# *.rar
 
 # Track library JARs
 !lib/*.jar
